@@ -1,4 +1,4 @@
-package com.example.hwh_community.account;
+package com.example.hwh_community.signup;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
