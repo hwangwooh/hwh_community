@@ -54,5 +54,8 @@ public class Account {
     private List<Comment> commentList = new ArrayList<>();
 
 
-
+    public void generateEmailCheckToken() {
+        this.emailCheckToken = UUID.randomUUID().toString();
+        this.emailCheckTokenGeneratedAt = LocalDateTime.now();
+    }
 }

@@ -3,6 +3,9 @@ package com.example.hwh_community.account;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.signup.SignUpForm;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -20,9 +23,10 @@ public class AccountService {
 
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final JavaMailSender javaMailSender;
+    private final ModelMapper modelMapper;
 
-    public Account processNewAccount(SignUpForm signUpForm) {
-
+    private Account saveNewAccount(SignUpForm signUpForm) {
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
@@ -30,7 +34,23 @@ public class AccountService {
                 .build();
         Account newAccount = accountRepository.save(account);
         return newAccount;
+    }
 
+    public void sendSignUpConfirmEmail(Account newAccount) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(newAccount.getEmail());
+        mailMessage.setSubject("스터디올래, 회원 가입 인증");
+        mailMessage.setText("/check-email-token?token=" + newAccount.getEmailCheckToken() +
+                "&email=" + newAccount.getEmail());
+        javaMailSender.send(mailMessage);
+    }
+
+    public Account processNewAccount(SignUpForm signUpForm) {
+
+        Account newAccount = saveNewAccount(signUpForm);
+        newAccount.generateEmailCheckToken();
+        sendSignUpConfirmEmail(newAccount);
+        return newAccount;
     }
 
     public void login(Account account) {
