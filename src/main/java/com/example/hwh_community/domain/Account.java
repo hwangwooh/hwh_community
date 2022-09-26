@@ -32,11 +32,8 @@ public class Account {
 
     private boolean emailVerified;
 
-    private String emailCheckToken;
 
     private LocalDateTime joinedAt;
-
-    private LocalDateTime emailCheckTokenGeneratedAt;
 
     private String bio;
 
@@ -49,13 +46,5 @@ public class Account {
     @Lob @Basic(fetch =  FetchType.EAGER)
     private String profileImage;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE) // cascade = CascadeType.REMOVE 연관 관계 코멘트도 같이 삭제할수 있음
-    private List<Comment> commentList = new ArrayList<>();
 
-
-    public void generateEmailCheckToken() {
-        this.emailCheckToken = UUID.randomUUID().toString();
-        this.emailCheckTokenGeneratedAt = LocalDateTime.now();
-    }
 }

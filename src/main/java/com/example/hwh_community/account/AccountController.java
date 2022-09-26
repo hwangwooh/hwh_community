@@ -39,11 +39,8 @@ public class AccountController {
         if (errors.hasErrors()) {
             return "account/sign-up";
         }
-
-        Account account = accountService.processNewAccount(signUpForm);
-        accountService.login(account);
-
-
+        accountService.saveNewAccount(signUpForm);
+        accountService.login(signUpForm);
         return "redirect:/";
     }
 
