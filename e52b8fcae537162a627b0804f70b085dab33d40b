@@ -1,0 +1,29 @@
+[33mcommit e52b8fcae537162a627b0804f70b085dab33d40b[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: hwh <zaq8077@gmail.com>
+Date:   Mon Sep 26 19:28:43 2022 +0900
+
+    메일인증 삭제 글쓰기 구현 :
+
+[33mcommit c7486a56929d00a546ce87bcbeda17817231eb31[m
+Author: hwh <zaq8077@gmail.com>
+Date:   Sun Sep 25 15:33:58 2022 +0900
+
+    메일 기능 약속때문에 확인 못함
+
+[33mcommit 0b17226011af3ee2bd011eed6f07ee4c9119e6f7[m
+Author: hwh <zaq8077@gmail.com>
+Date:   Sun Sep 25 00:40:47 2022 +0900
+
+    홈 화면 및 로그인 구연중
+
+[33mcommit 9e12de8f0212d396982fbeb7f3db6cfbdcade71e[m
+Author: hwh <zaq8077@gmail.com>
+Date:   Fri Sep 23 18:22:14 2022 +0900
+
+    first commit2
+
+[33mcommit 024fdbed2ac5d1fcfa19ff1b401852973f64cd77[m
+Author: hwh <zaq8077@gmail.com>
+Date:   Fri Sep 23 18:21:21 2022 +0900
+
+    first commit

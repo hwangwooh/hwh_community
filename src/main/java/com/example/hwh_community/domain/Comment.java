@@ -11,7 +11,6 @@ import javax.persistence.*;
 @EqualsAndHashCode( of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Comment {
 
     @Id
