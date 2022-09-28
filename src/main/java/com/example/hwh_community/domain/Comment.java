@@ -26,4 +26,8 @@ public class Comment {
     @Lob
     private String comment;
 
+    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Account account;
+
 }

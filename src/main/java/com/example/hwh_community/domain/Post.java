@@ -39,4 +39,5 @@ public class Post {
     @JoinColumn(name = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
+
 }

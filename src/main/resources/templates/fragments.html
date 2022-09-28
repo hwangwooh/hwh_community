@@ -38,8 +38,11 @@
             <li class="nav-item" sec:authorize="!isAuthenticated()">
                 <a class="nav-link" th:href="@{/sign-up}">가입</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{getList}">게시물</a>
+            </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link btn btn-outline-primary" th:href="@{/write-view}">
+                <a class="nav-link btn btn-outline-primary" th:href="@{/write}">
                      글 쓰기
                 </a>
             </li>

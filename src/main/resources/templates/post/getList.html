@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body>
+<div th:replace="fragments.html :: main-nav"></div>
+
+<div class="container">
+    <table class="table table-hover">
+        <h3>게시판</h3>
+<!--        <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/getLis?page=0&size=10}" th:value="${param.searchText}">-->
+<!--            <div class="form-group mx-sm-3 mb-2 pull-right">-->
+<!--                <label for="searchText" class="sr-only">검색</label>-->
+<!--                <input type="text" class="form-control" id="searchText" name="searchText">-->
+<!--                <button type="submit" class="btn btn-primary mb-2">검색 </button>-->
+<!--            </div>-->
+<!--        </form>-->
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일</th>
+            <th>작성자</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${boards}">
+            <td th:text="${post.id}"></td>
+            <td><a th:href="@{'postContent/' + ${post.id}}"><span th:text="${post.title}"></span></a></td>
+            <td th:text="${post.dateTime}"></td>
+            <td th:text="${post.account.nickname}"></td>-->
+<!--            <td th:text="${post.countVisit}"></td>-->
+        </tr>
+        </tbody>
+    </table>
+
+    <hr/>
+    <button type="button" class="btn btn-default pull-right" onclick="location.href='/post/write-view'">글쓰기</button>
+
+    <div class="center text-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justifiy-content-center" th:if="${totalPage != 0}">
+                <!--            /board/-->
+                <li class="page-item"><a class="page-link" th:href="@{boardList(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">이전</a></li>
+                <li class="" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <!--                /board/-->
+                    <a th:href="@{boardList(page=${page - 1}, searchText=${param.searchText})}" th:text="${page}"></a>
+                </li>
+                <!--            /board/-->
+                <li class="page-item"><a class="page-link" th:href="@{boardList(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}">다음</a></li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+
+
+</body>
+</html>

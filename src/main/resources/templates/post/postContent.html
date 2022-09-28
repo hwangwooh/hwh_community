@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<body>
+
+<!--<div class="jumbotron text-center" style="margin-bottom:0">-->
+<!--    <h1>게시판</h1>-->
+<!--</div>-->
+<div th:replace="fragments.html :: main-nav"></div>
+
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+                <div class="form-group">
+                    <h5 th:text="'제목 : ' + ${post.title}"></h5>
+                </div>
+                <div>
+                    <td th:text="'작성자 : ' + ${post.account.nickname}"></td>
+                    <br><br>
+                </div>
+            <h5> 내용 </h5>
+                <div style="border:1px solid; padding:10px;">
+                    <dl>
+                        <dd th:text="${post.content}"></dd>
+                    </dl>
+                </div>
+        </div>
+    </div>
+</div>
+<!--<form action="postContent.html" th:action method="post">-->
+<!--<div class="comment-form" style="text-align: center;">-->
+<!--    <div class="comment-form2" style="width:300px;height: 200px;display: inline-block">-->
+<!--    <label for="content">댓글 달기</label>-->
+<!--    <textarea class="form-control" id="content" name="content" rows="3"></textarea>-->
+<!--        <button type="submit" class="btn btn-primary" onclick="window.location.reload()">작성</button>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</form>-->
+<!--<div class="container">-->
+<!--    <table class="table table-hover">-->
+<!--    <tr>-->
+<!--        <th>번호</th>-->
+<!--        <th>작성자</th>-->
+<!--        <th>내용</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="comment : ${comments}">-->
+<!--        <td th:text="${comment.id}"></td>-->
+<!--        <td th:text="${comment.account.nickname}"></td>-->
+<!--        <td th:text="${comment.comment}"></td>-->
+
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+</body>
+</html>

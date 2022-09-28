@@ -1,13 +1,13 @@
 package com.example.hwh_community.post;
 
 import com.example.hwh_community.domain.Post;
+import com.example.hwh_community.signup.WriteUpForm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class PostServiceTest {
 
@@ -20,12 +20,12 @@ class PostServiceTest {
     public void test1() throws Exception {
         // given
 
-        PostUpForm postUpForm = new PostUpForm();
+        WriteUpForm postUpForm = new WriteUpForm();
         postUpForm.setTitle("test-t");
         postUpForm.setContent("test-c");
 
         // when
-        postService.write(postUpForm);
+        postService.write(postUpForm,"test");
         // then
         Assertions.assertEquals(1L,postRepository.count());
         Post post = postRepository.findAll().get(0);
