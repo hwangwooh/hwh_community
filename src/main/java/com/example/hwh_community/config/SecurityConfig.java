@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final DataSource dataSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().mvcMatchers("/", "/login", "/sign-up"
+        http.authorizeRequests().mvcMatchers("/", "/login", "/sign-up","/logout"
                         , "/check-email-token", "/email-login", "/login-by-email","/getList")
                 .permitAll().mvcMatchers(HttpMethod.GET, "/profile/*")
                 .permitAll().mvcMatchers(HttpMethod.GET, "/getList")

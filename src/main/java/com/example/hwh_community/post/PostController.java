@@ -1,10 +1,13 @@
 package com.example.hwh_community.post;
 
+import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.comment.CommentService;
+import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.signup.WriteUpForm;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostController {
 
+    private final AccountRepository accountRepository;
 
     private final PostService postService;
 
@@ -52,17 +57,8 @@ public class PostController {
         }
         postService.write(writeUpForm,username);
 
-        return "redirect:/";
+        return "redirect:/getList";
     }
-
-//    public String getListUpForm(@ModelAttribute PostSearch postSearch,Model model) {
-//        List<PostDto> postDtos = postService.getList(postSearch);
-//        model.addAttribute("postDtos",postDtos);//"WriteUpForm" 생약 가능
-//        return "post/getList";
-//    }
-//
-
-
 
     @GetMapping("/getList")
     public String getListUpForm(Model model, @PageableDefault(size = 10) Pageable pageable,
@@ -86,13 +82,30 @@ public class PostController {
 
         Post post = postRepository.findById(id).get();
 
-
         List<Comment> comments = commentRepository.findCommentsBoardId(id);
 
         model.addAttribute(post);
         model.addAttribute("comments", comments);
 
         return "/post/postContent";
+    }
+
+    @PostMapping("/postContent/{id}")
+    public String addComment(@PathVariable("id") Long id, @Valid CommentDto commentDto, Model model) {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String username = userDetails.getUsername();
+
+        Post post = postRepository.findById(id).get();
+        Account account = accountRepository.findByNickname(username);
+
+        commentService.commentsvae(commentDto, post, account);
+        List<Comment> comments = commentRepository.findCommentsBoardId(id);
+
+        model.addAttribute("comments", comments);
+        model.addAttribute(post);
+        return "redirect:"+id;
     }
 
 
