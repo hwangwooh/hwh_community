@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -38,9 +41,8 @@ class PostControllerTest {
                 .content("내용입니당" + i)
                 .build()).collect(Collectors.toList());
         postRepository.saveAll(postList);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/posts?page=0&size=10")
-                        .contentType(MediaType.APPLICATION_JSON))
+        Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC);
+        mockMvc.perform(MockMvcRequestBuilders.get("/getList"))
                 .andExpect(status().isOk())
                 .andDo(print());
 

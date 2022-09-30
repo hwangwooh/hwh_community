@@ -1,11 +1,10 @@
 package com.example.hwh_community.account;
 
 import com.example.hwh_community.domain.Account;
+import com.example.hwh_community.settings.Profile;
 import com.example.hwh_community.signup.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,17 +27,18 @@ public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final ModelMapper modelMapper;
 
-    public void saveNewAccount(SignUpForm signUpForm) {
+    public Account saveNewAccount(SignUpForm signUpForm) {
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
                 .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .build();
-     accountRepository.save(account);
+        Account save = accountRepository.save(account);
+        return save;
 
     }
-    public void login(SignUpForm SignUpForm) {
-        Account account = accountRepository.findByEmail(SignUpForm.getEmail());
+    public void login(Account Account) {
+        Account account = accountRepository.findByEmail(Account.getEmail());
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 new UserAccount(account),
@@ -62,4 +62,25 @@ public class AccountService implements UserDetailsService {
         }
         return new UserAccount(account);
     }
+
+    public void updateProfile(Account account, Profile profile) {
+        modelMapper.map(profile,account);
+        accountRepository.save(account);
+    }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+    }
+
+
+
+    public void updateNickname(Account account, String nickname) {
+        account.setNickname(nickname);
+        accountRepository.save(account);
+        login(account);// 업데이트 용
+
+    }
+
+
 }

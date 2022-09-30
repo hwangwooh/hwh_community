@@ -3,10 +3,12 @@ package com.example.hwh_community.config;
 
 import com.example.hwh_community.account.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,6 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
 
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().mvcMatchers("/node_modules/**")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
 }
