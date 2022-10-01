@@ -5,6 +5,8 @@ import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.signup.WriteUpForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,16 +35,49 @@ public class PostService {
     }
 
 
-    public List<PostDto> getList(PostSearch postSearch) {
+    public Page<Post> getList(String searchText, Pageable pageable)
+    {
+        Page<Post> posts = postRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+        return posts;
+    }
 
-        List<PostDto> postDtos = postRepository.getList(postSearch).stream().map(post -> PostDto.builder()
-                        .id(post.getId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .dateTime(post.getDateTime())
-                        .build())
-                .collect(Collectors.toList());
-        return postDtos;
+    public PostDto get(Long postid) {
+
+        Post post = postRepository.findById(postid).get();
+        PostDto postDto = PostDto.builder().title(post.getTitle())
+                .content(post.getContent())
+                .dateTime(post.getDateTime())
+                .id(post.getId())
+                .nickname(post.getAccount().getNickname()).
+                build();
+
+
+        return postDto;
+
+    }
+
+
+    public PostDto edit(Long id, PostEdit postEdit) {
+        Post post = postRepository.findById(id).orElseThrow();
+
+        PostEdit.PostEditBuilder postEditorBuilder = post.toEditor();
+
+        PostEdit build = postEditorBuilder.title(postEdit.getTitle()).content(postEdit.getContent()).build();
+        post.edit(build);
+
+        PostDto postDto = new PostDto(post);;
+        return postDto;
+
+    }
+
+
+    public void delete(Long id) {
+
+
+        Post post = postRepository.findById(id).orElseThrow();
+        postRepository.deleteById(post.getId());
+        //jpaQueryFactory.delete(comment).where(comment.post.id.eq(id)).execute();// c
+
 
     }
 }

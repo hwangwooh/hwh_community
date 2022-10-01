@@ -1,4 +1,4 @@
-package com.example.hwh_community.post;
+package com.example.hwh_community.comment;
 
 import lombok.Builder;
 import lombok.Getter;

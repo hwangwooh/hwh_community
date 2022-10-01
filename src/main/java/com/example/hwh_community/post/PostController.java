@@ -1,13 +1,13 @@
 package com.example.hwh_community.post;
 
 import com.example.hwh_community.account.AccountRepository;
+import com.example.hwh_community.comment.CommentDto;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.comment.CommentService;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.signup.WriteUpForm;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -19,11 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -64,7 +63,8 @@ public class PostController {
     public String getListUpForm(Model model, @PageableDefault(size = 10) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "") String searchText) {
 
-        Page<Post> boards = postRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+
+        Page<Post> boards = postService.getList(searchText, pageable);
 
 
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 1);
@@ -81,12 +81,10 @@ public class PostController {
 
 
         Post post = postRepository.findById(id).get();
-
         List<Comment> comments = commentRepository.findCommentsBoardId(id);
 
         model.addAttribute(post);
         model.addAttribute("comments", comments);
-
         return "/post/postContent";
     }
 
@@ -107,6 +105,63 @@ public class PostController {
         model.addAttribute(post);
         return "redirect:"+id;
     }
+
+    @GetMapping("/postContentedit/{id}")
+    public String getedit(@PathVariable("id") Long id, Model model) {
+
+
+        Post post = postRepository.findById(id).get();// dto
+
+
+        model.addAttribute(post);
+        return "/post/postContent";
+    }
+
+    @PostMapping("/postContentedit/{id}")
+    public String postedit(@PathVariable("id") Long id,@Valid PostEdit postEdit, Model model, RedirectAttributes attributes) {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String username = userDetails.getUsername();
+
+
+
+        Post post = postRepository.findById(id).get();
+        Account account = accountRepository.findByNickname(username);
+        if(post.getAccount().getNickname() != username){
+
+            attributes.addFlashAttribute("message", "작성자만 수정 가능합니다.");
+            return "redirect:";
+
+        }
+        PostDto edit = postService.edit(id, postEdit);
+        model.addAttribute("postDto", edit);
+        return "redirect:"+id;
+    }
+
+    @PostMapping("/postdelete/{id}")
+    public String postedit(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String username = userDetails.getUsername();
+
+
+
+        Post post = postRepository.findById(id).get();
+        Account account = accountRepository.findByNickname(username);
+        if(post.getAccount().getNickname() != username){
+
+            attributes.addFlashAttribute("message", "작성자만 삭제 가능합니다.");
+            return "redirect:";
+
+        }
+        postService.delete(id);
+        return "redirect:/getList";
+    }
+
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.hwh_community.domain;
 
+import com.example.hwh_community.post.PostEdit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -40,4 +41,13 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
+    public PostEdit.PostEditBuilder toEditor(){
+        PostEdit.PostEditBuilder builder = PostEdit.builder().title(title).content(content);
+        return builder;
+    }
+
+    public void edit(PostEdit build) {
+        this.title = build.getTitle();
+        this.content = build.getContent();
+    }
 }
