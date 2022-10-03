@@ -106,41 +106,33 @@ public class PostController {
         return "redirect:"+id;
     }
 
-    @GetMapping("/postContentedit/{id}")
+    @GetMapping("/edit/{id}")
     public String getedit(@PathVariable("id") Long id, Model model) {
 
+        Post post = postRepository.findById(id).get();
+        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent(),post.getDateTime(),post.getAccount().getNickname());
 
-        Post post = postRepository.findById(id).get();// dto
+        model.addAttribute(postDto);
 
-
-        model.addAttribute(post);
-        return "/post/postContent";
+        return "/post/edit";
     }
 
-    @PostMapping("/postContentedit/{id}")
-    public String postedit(@PathVariable("id") Long id,@Valid PostEdit postEdit, Model model, RedirectAttributes attributes) {
+    @PostMapping("/edit/{id}")
+    public String postedit(@PathVariable("id") Long id,@Valid PostDto postDto,Errors errors) {
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails) principal;
-        String username = userDetails.getUsername();
-
-
-
-        Post post = postRepository.findById(id).get();
-        Account account = accountRepository.findByNickname(username);
-        if(post.getAccount().getNickname() != username){
-
-            attributes.addFlashAttribute("message", "작성자만 수정 가능합니다.");
+        if (errors.hasErrors()) {
             return "redirect:";
-
         }
-        PostDto edit = postService.edit(id, postEdit);
-        model.addAttribute("postDto", edit);
-        return "redirect:"+id;
+
+
+        postService.edit(id, postDto);
+
+
+        return "/index";
     }
 
     @PostMapping("/postdelete/{id}")
-    public String postedit(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+    public String postdelete(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails) principal;

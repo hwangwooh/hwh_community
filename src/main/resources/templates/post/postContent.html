@@ -26,8 +26,12 @@
                     </dl>
                 </div>
         </div>
+        <div style="float:right;" th:with="username=${#authentication.name}">
+            <a type="button" class="btn btn-primary" th:href="@{/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}">수정</a>
+        </div>
     </div>
 </div>
+
 <form action="postContent.html" th:action method="post">
 <div class="comment-form" style="text-align: center;">
     <div class="comment-form2" style="width:300px;height: 200px;display: inline-block">

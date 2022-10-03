@@ -41,32 +41,14 @@ public class PostService {
         return posts;
     }
 
-    public PostDto get(Long postid) {
-
-        Post post = postRepository.findById(postid).get();
-        PostDto postDto = PostDto.builder().title(post.getTitle())
-                .content(post.getContent())
-                .dateTime(post.getDateTime())
-                .id(post.getId())
-                .nickname(post.getAccount().getNickname()).
-                build();
 
 
-        return postDto;
-
-    }
-
-
-    public PostDto edit(Long id, PostEdit postEdit) {
+    public void edit(Long id, PostDto postDto) {
         Post post = postRepository.findById(id).orElseThrow();
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        postRepository.save(post);
 
-        PostEdit.PostEditBuilder postEditorBuilder = post.toEditor();
-
-        PostEdit build = postEditorBuilder.title(postEdit.getTitle()).content(postEdit.getContent()).build();
-        post.edit(build);
-
-        PostDto postDto = new PostDto(post);;
-        return postDto;
 
     }
 
