@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-sm-12">
       <h2>글쓰기</h2>
-      <form th:action="@{write}" th:object="${writeUpForm}" method="post" novalidate>
+      <form th:action="@{/post/write}" th:object="${writeUpForm}" method="post" novalidate>
         <div class="form-group">
           <input id="title" type="text" th:field="*{title}" class="form-control"  name = "title">
         </div>

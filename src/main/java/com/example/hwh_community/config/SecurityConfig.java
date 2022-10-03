@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().mvcMatchers("/", "/login", "/sign-up","/logout"
                         , "/check-email-token", "/email-login", "/login-by-email","/getList")
                 .permitAll().mvcMatchers(HttpMethod.GET, "/profile/*")
+                .permitAll().mvcMatchers(HttpMethod.GET, "/post/*")
                 .permitAll().mvcMatchers(HttpMethod.GET, "/getList")
                 .permitAll().anyRequest().authenticated();
 

@@ -38,13 +38,13 @@ public class PostController {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
 
-    @GetMapping("/write")
+    @GetMapping("post/write")
     public String writeUpForm(Model model) {
         model.addAttribute("writeUpForm", new WriteUpForm());//"WriteUpForm" 생약 가능
         return "post/write";
     }
 
-    @PostMapping("/write")
+    @PostMapping("post/write")
     public String writeSubmit(@Valid WriteUpForm writeUpForm, Errors errors) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -56,10 +56,10 @@ public class PostController {
         }
         postService.write(writeUpForm,username);
 
-        return "redirect:/getList";
+        return "redirect:/post/getList";
     }
 
-    @GetMapping("/getList")
+    @GetMapping("post/getList")
     public String getListUpForm(Model model, @PageableDefault(size = 10) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "") String searchText) {
 
@@ -73,10 +73,10 @@ public class PostController {
         model.addAttribute("boards", boards);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        return "post/getList";
+        return "/post/getList";
     }
 
-    @GetMapping("/postContent/{id}")
+    @GetMapping("post/postContent/{id}")
     public String postContent(@PathVariable("id") Long id, Model model) {
 
 
@@ -88,7 +88,7 @@ public class PostController {
         return "/post/postContent";
     }
 
-    @PostMapping("/postContent/{id}")
+    @PostMapping("post/postContent/{id}")
     public String addComment(@PathVariable("id") Long id, @Valid CommentDto commentDto, Model model) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -106,7 +106,7 @@ public class PostController {
         return "redirect:"+id;
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("post/edit/{id}")
     public String getedit(@PathVariable("id") Long id, Model model) {
 
         Post post = postRepository.findById(id).get();
@@ -117,7 +117,7 @@ public class PostController {
         return "/post/edit";
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping("post/edit/{id}")
     public String postedit(@PathVariable("id") Long id,@Valid PostDto postDto,Errors errors) {
 
         if (errors.hasErrors()) {
@@ -128,10 +128,10 @@ public class PostController {
         postService.edit(id, postDto);
 
 
-        return "/index";
+        return "redirect:/post/getList";
     }
 
-    @PostMapping("/postdelete/{id}")
+    @GetMapping("post/postdelete/{id}")
     public String postdelete(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -145,11 +145,11 @@ public class PostController {
         if(post.getAccount().getNickname() != username){
 
             attributes.addFlashAttribute("message", "작성자만 삭제 가능합니다.");
-            return "redirect:";
+            return "redirect:/post/getList";
 
         }
         postService.delete(id);
-        return "redirect:/getList";
+        return "redirect:/post/getList";
     }
 
 
