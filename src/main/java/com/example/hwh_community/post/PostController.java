@@ -76,6 +76,15 @@ public class PostController {
         return "/post/getList";
     }
 
+//    @GetMapping("post/getList")// 전채 조회
+//    public String getList(@ModelAttribute PostSearch postSearch,Model model) {
+//
+//        List<PostDto> boards = postService.getList2(postSearch);
+//
+//        model.addAttribute("boards", boards);
+//        return "/post/getList";
+//    }
+
     @GetMapping("post/postContent/{id}")
     public String postContent(@PathVariable("id") Long id, Model model) {
 
@@ -134,20 +143,16 @@ public class PostController {
     @GetMapping("post/postdelete/{id}")
     public String postdelete(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails) principal;
-        String username = userDetails.getUsername();
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        UserDetails userDetails = (UserDetails) principal;
+//        String username = userDetails.getUsername();
+//
+//
+//
+//        Post post = postRepository.findById(id).get();
+//        Account account = accountRepository.findByNickname(username);
+//        String nickname = post.getAccount().getNickname();
 
-
-
-        Post post = postRepository.findById(id).get();
-        Account account = accountRepository.findByNickname(username);
-        if(post.getAccount().getNickname() != username){
-
-            attributes.addFlashAttribute("message", "작성자만 삭제 가능합니다.");
-            return "redirect:/post/getList";
-
-        }
         postService.delete(id);
         return "redirect:/post/getList";
     }

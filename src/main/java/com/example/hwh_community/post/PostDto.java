@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class PostDto {
 
     private Long id;

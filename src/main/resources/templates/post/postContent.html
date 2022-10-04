@@ -25,11 +25,12 @@
                         <dd th:text="${post.content}"></dd>
                     </dl>
                 </div>
+            <div style="float:right;" th:with="username=${#authentication.name}">
+                <a type="button" class="btn btn-primary" th:href="@{/post/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}">수정</a>
+                <a type="button" class="btn btn-primary" th:href="@{/post/postdelete/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}">삭제</a>
+            </div>
         </div>
-        <div style="float:right;" th:with="username=${#authentication.name}">
-            <a type="button" class="btn btn-primary" th:href="@{/post/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}">수정</a>
-            <a type="button" class="btn btn-primary" th:href="@{/post/postdelete/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}">삭제</a>
-        </div>
+
     </div>
 </div>
 

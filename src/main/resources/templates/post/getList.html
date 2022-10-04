@@ -36,21 +36,19 @@
     </table>
 
     <hr/>
-    <button type="button" class="btn btn-default pull-right" onclick="location.href='/post/write-view'">글쓰기</button>
-
-    <div class="center text-center">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justifiy-content-center" th:if="${totalPage != 0}">
-                <!--            /board/-->
-                <li class="page-item"><a class="page-link" th:href="@{boardList(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">이전</a></li>
-                <li class="" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                    <!--                /board/-->
-                    <a th:href="@{boardList(page=${page - 1}, searchText=${param.searchText})}" th:text="${page}"></a>
-                </li>
-                <!--            /board/-->
-                <li class="page-item"><a class="page-link" th:href="@{boardList(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}">다음</a></li>
-            </ul>
-        </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p><strong>페이지</strong></p>
+                <ul class="pagination" th:if="${totalPage != 0}">
+                    <li class="page-item"><a class="page-link" th:href="@{/post/getList(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">이전</a></li>
+                    <li class="page-item" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link" th:href="@{/post/getList(page=${page - 1}, searchText=${param.searchText})}" th:text="${page}"> </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" th:href="@{/post/getList(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}">다음</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
 </div>
