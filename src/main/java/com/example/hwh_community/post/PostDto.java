@@ -24,6 +24,7 @@ public class PostDto {
 
     private String nickname;
 
+    private Long countVisit;
 
 
 }

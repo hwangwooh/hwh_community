@@ -5,6 +5,7 @@ import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.signup.WriteUpForm;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class PostService {
                         .getTitle())
                 .content(postUpForm.getContent())
                 .dateTime(LocalDate.now())
+                .countVisit(0L)
                 .account(byNickname)
                 .build();
 
@@ -75,5 +77,11 @@ public class PostService {
         //jpaQueryFactory.delete(comment).where(comment.post.id.eq(id)).execute();// c
 
 
+    }
+
+    public Post Visit(@NotNull Post post) {
+        post.Visitcount();
+        Post save = postRepository.save(post);
+        return save;
     }
 }

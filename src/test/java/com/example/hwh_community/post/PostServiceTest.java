@@ -15,24 +15,7 @@ class PostServiceTest {
     PostService postService;
     @Autowired
     PostRepository postRepository;
-    @Test
-    @DisplayName("글 작성")
-    public void test1() throws Exception {
-        // given
 
-        WriteUpForm postUpForm = new WriteUpForm();
-        postUpForm.setTitle("test-t");
-        postUpForm.setContent("test-c");
-
-        // when
-        postService.write(postUpForm,"test");
-        // then
-        Assertions.assertEquals(1L,postRepository.count());
-        Post post = postRepository.findAll().get(0);
-        Assertions.assertEquals("test-t", post.getTitle());
-        Assertions.assertEquals("test-c", post.getContent());
-
-    }
 
 
 }

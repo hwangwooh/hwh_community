@@ -89,9 +89,9 @@ public class PostController {
     public String postContent(@PathVariable("id") Long id, Model model) {
 
 
-        Post post = postRepository.findById(id).get();
+        Post post2 = postRepository.findById(id).get();
         List<Comment> comments = commentRepository.findCommentsBoardId(id);
-
+        Post post = postService.Visit(post2);
         model.addAttribute(post);
         model.addAttribute("comments", comments);
         return "/post/postContent";
@@ -107,6 +107,7 @@ public class PostController {
         Post post = postRepository.findById(id).get();
         Account account = accountRepository.findByNickname(username);
 
+
         commentService.commentsvae(commentDto, post, account);
         List<Comment> comments = commentRepository.findCommentsBoardId(id);
 
@@ -119,7 +120,7 @@ public class PostController {
     public String getedit(@PathVariable("id") Long id, Model model) {
 
         Post post = postRepository.findById(id).get();
-        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent(),post.getDateTime(),post.getAccount().getNickname());
+        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent(),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());
 
         model.addAttribute(postDto);
 

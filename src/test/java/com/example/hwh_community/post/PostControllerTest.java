@@ -32,20 +32,6 @@ class PostControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Test
-    @DisplayName("글 여러개 조회")
-    public void test5() throws Exception {
-        // given
-        List<Post> postList = IntStream.range(1, 31).mapToObj(i -> Post.builder()
-                .title("글제목당"+ i)
-                .content("내용입니당" + i)
-                .build()).collect(Collectors.toList());
-        postRepository.saveAll(postList);
-        Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC);
-        mockMvc.perform(MockMvcRequestBuilders.get("/getList"))
-                .andExpect(status().isOk())
-                .andDo(print());
 
-    }
 
 }

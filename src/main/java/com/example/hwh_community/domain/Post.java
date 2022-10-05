@@ -31,7 +31,7 @@ public class Post {
 
     private LocalDate dateTime;
 
-
+    private Long countVisit = 0L;
 
     @JsonIgnore
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE) // cascade = CascadeType.REMOVE 연관 관계 코멘트도 같이 삭제할수 있음
@@ -49,5 +49,9 @@ public class Post {
     public void edit(PostEdit build) {
         this.title = build.getTitle();
         this.content = build.getContent();
+    }
+
+    public void Visitcount(){
+        this.countVisit = this.countVisit + 1L;
     }
 }
