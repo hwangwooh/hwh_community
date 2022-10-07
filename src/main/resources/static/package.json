@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@yaireo/tagify": "^4.16.4",
     "font-awesome": "^4.7.0",
     "jdenticon": "^3.2.0"
   }
