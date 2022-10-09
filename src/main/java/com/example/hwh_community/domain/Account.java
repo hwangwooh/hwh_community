@@ -5,9 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -20,6 +18,7 @@ public class Account {
 
     @Id
     @GeneratedValue
+    @Column(name = "account_id")
     private Long id;
 
     @Column(unique = true)
@@ -45,6 +44,7 @@ public class Account {
 
     @Lob @Basic(fetch =  FetchType.EAGER)
     private String profileImage;
+
 
 
 }

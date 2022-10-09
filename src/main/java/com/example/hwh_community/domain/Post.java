@@ -37,7 +37,7 @@ public class Post {
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE) // cascade = CascadeType.REMOVE 연관 관계 코멘트도 같이 삭제할수 있음
     private List<Comment> commentList = new ArrayList<>();
 
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "account_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 

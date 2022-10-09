@@ -4,9 +4,8 @@ package com.example.hwh_community.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +13,15 @@ import java.util.Set;
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class Study {
+public class Raid {
 
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToMany
-    private Set<Account> managers = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @ManyToMany
     private Set<Account> members = new HashSet<>();
@@ -48,6 +49,9 @@ public class Study {
     private boolean closed;
 
     private boolean useBanner;
+
+    private String tags;
+
 
 
 }

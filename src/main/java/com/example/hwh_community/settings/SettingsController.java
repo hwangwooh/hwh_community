@@ -1,20 +1,25 @@
 package com.example.hwh_community.settings;
 
 import com.example.hwh_community.account.AccountService;
+import com.example.hwh_community.account.CurrentAccount;
 import com.example.hwh_community.domain.Account;
+
 import com.example.hwh_community.main.CurrentUser;
+
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,16 +27,9 @@ public class SettingsController {
     public static final String SETTINGS_PROFILE_URL = "settings/profile" ;
     public static final String SETTINGS_PROFILE_VIEW_NAME = "/settings/profile";
 
-    public static final String SETTINGS_PASSWORD_URL = "settings/password" ;
     public static final String SETTINGS_PASSWORD_VIEW_NAME = "/settings/password";
 
-    static final String SETTINGS_NOTIFICATIONS_VIEW_NAME = "settings/notifications";
-    static final String SETTINGS_NOTIFICATIONS_URL = "/settings/notifications";
-
-
     static final String SETTINGS_ACCOUNT_VIEW_NAME = "settings/account";
-
-    static final String SETTINGS_ACCOUNT_URL = "/settings/account";
 
 
     private final AccountService accountService;
@@ -107,4 +105,7 @@ public class SettingsController {
         attributes.addFlashAttribute("message", "닉네임을 수정했습니다.");
         return "redirect:" + "account";
     }
+
+
+
 }

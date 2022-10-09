@@ -1,4 +1,4 @@
-package com.studyolle.account;
+package com.example.hwh_community.account;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

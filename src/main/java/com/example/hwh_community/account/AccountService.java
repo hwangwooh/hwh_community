@@ -1,6 +1,7 @@
 package com.example.hwh_community.account;
 
 import com.example.hwh_community.domain.Account;
+
 import com.example.hwh_community.settings.Profile;
 import com.example.hwh_community.signup.SignUpForm;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -81,6 +84,7 @@ public class AccountService implements UserDetailsService {
         login(account);// 업데이트 용
 
     }
+
 
 
 }
