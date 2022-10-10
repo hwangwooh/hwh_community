@@ -7,7 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RaidRepository extends JpaRepository<Raid,Long> {
 
-
-
-    Page<Raid> findBytags(String keyword, Pageable pageable);
+    Page<Raid> findBytag(String tag, Pageable pageable);
 }

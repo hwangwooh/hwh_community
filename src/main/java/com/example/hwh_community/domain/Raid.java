@@ -1,6 +1,7 @@
 package com.example.hwh_community.domain;
 
 
+import com.example.hwh_community.account.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,7 +51,22 @@ public class Raid {
 
     private boolean useBanner;
 
-    private String tags;
+    private String tag;
+
+    public boolean isJoinable(UserAccount userAccount) {
+
+        Account account = userAccount.getAccount();
+        return this.isPublished() && this.isRecruiting()
+                && !this.members.contains(account) && this.account == account;
+
+    }
+    public boolean isMember(UserAccount userAccount) {
+        return this.members.contains(userAccount.getAccount());
+    }
+
+    public boolean isManager(UserAccount userAccount) {
+        return this.account == account;
+    }
 
 
 
