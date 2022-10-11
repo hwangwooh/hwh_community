@@ -30,7 +30,8 @@
                                     <i class="fa fa-user-circle"></i>
                                     <span th:text="${raid.members.size()}"></span>명
                                 </small>
-                                <small class="text-muted date" th:text="${raid.publishedDateTime}">9 mins</small>
+
+                                <small class="text-muted date"  th:text="${#temporals.format(raid.publishedDateTime, 'yyyy-MM-dd HH:mm:ss')}">9 mins</small>
                             </div>
                         </div>
                     </div>

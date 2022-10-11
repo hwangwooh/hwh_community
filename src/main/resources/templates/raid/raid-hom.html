@@ -14,13 +14,7 @@
                         <h5 th:text="${raid.title}"></h5>
                         <i class="fa fa-tag"></i> <span class="font-weight-light text-monospace badge badge-pill badge-info mr-3" th:text="${raid.tag}">Tag</span>
                     </div>
-                    <div>
-                        <td th:text="'공대장 : ' + ${raid.account.nickname}"></td>
-                        <br><br>
-                    </div>
-
                     <h5> 내용 </h5>
-
                     <div class="form-group">
                         <dl>
                             <dd th:text="${raid.shortDescription}"></dd>
@@ -28,24 +22,40 @@
                     </div>
                     <h5> 참가자 </h5>
 
-                    <div class="row px-3 justify-content-center">
+
+                    <div  class="row px-3 justify-content-center">
                         <ul class="list-unstyled col-10">
-                            <li>
-                                <div class="media-body" th:with="username=${#authentication.name}">
-                                    <svg th:data-jdenticon-value="${raid.account.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
-                                    <h5 class="mt-0 mb-1"><span th:text="${raid.account.nickname}"></span> <span th:if="${#strings.equals(raid.account.nickname, username)}" class="badge badge-primary">공대장</span></h5>
+                            <li class="media mt-3" th:each="member: ${raid.members}">
+
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-1">
+                                        <svg data-jdenticon-value="testuser123" th:data-jdenticon-value="${member.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
+                                        <span th:text="${member.nickname}"></span> <span th:if="${member == raid.account}" class="badge badge-primary">공대장</span>
+                                    </h5>
                                 </div>
                             </li>
-
                         </ul>
                     </div>
+<!--                    <div class="row px-3 justify-content-center">-->
+<!--                        <ul class="list-unstyled col-10">-->
+<!--                            <li>-->
+<!--                                <div class="media-body" th:with="username=${#authentication.name}">-->
+<!--                                    <h5 class="mt-0 mb-1">   <svg th:data-jdenticon-value="${raid.account.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>-->
+<!--                                        <span th:text="${raid.account.nickname}"></span> <span th:if="${#strings.equals(raid.account.nickname, username)}" class="badge badge-primary">공대장</span></h5>-->
+<!--                                </div>-->
+<!--                            </li>-->
 
-                    <div style="float:right;" >
+<!--                        </ul>-->
+<!--                    </div>-->
+
+
+                    <div style="float:right;" th:with="username=${#authentication.name}" >
 <!--                        th:with="username=${#authentication.name}"-->
-                        <a type="button" class="btn btn-primary" >참가</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/list-raid/{id}/add/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">참가</a>
+
 <!--                        th:href="@{/post/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}"-->
-                        <a type="button" class="btn btn-primary" >탈퇴</a>
-                        <a type="button" class="btn btn-primary" >삭제</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/list-raid/{id}/remove/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">탈퇴</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/list-raid/delete/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username)}">삭제</a>
                     </div>
                 </div>
 

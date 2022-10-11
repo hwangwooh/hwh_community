@@ -69,5 +69,13 @@ public class Raid {
     }
 
 
+    public void addMemeber(Account account) {
+        this.members.add(account);
+    }
+
+    public void removeMember(Account account) {
+        this.getMembers().remove(account);
+    }
+
 
 }
