@@ -8,6 +8,7 @@ import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.domain.Raid;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.validation.Valid;
@@ -68,7 +71,7 @@ public class RaidController {
         raid.addMemeber(account);
         raidRepository.save(raid);
 
-        return "redirect:/raid/list-raid";
+        return "redirect:/raid/raid-hom/"+raid.getId();
     }
 
     @GetMapping("raid/list-raid")
@@ -94,20 +97,6 @@ public class RaidController {
         model.addAttribute("raid",raid);
         return "/raid/raid-hom";
     }
-
-//    @PostMapping("raid/list-raid/{id}")
-//    public String postraidhom(@PathVariable("id") Long id, @Valid RaidDto raidDto, Model model) {
-//
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        UserDetails userDetails = (UserDetails) principal;
-//        String username = userDetails.getUsername();
-//
-//        Raid raid = raidRepository.findById(id).get();
-//        Account account = accountRepository.findByNickname(username);
-//
-//        return "redirect:/raid/raid-hom";
-//    }
-
     @GetMapping("raid/list-raid/{id}/add/{member}") // 참가
     public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
 
@@ -137,6 +126,55 @@ public class RaidController {
         raidRepository.delete(raid);
 
         return "redirect:/raid/list-raid";
+    }
+
+//    @GetMapping("raid/membersset/{id}/{account}")
+//    public String getmembersset(@PathVariable("id") Long id, @PathVariable("account") String account, Model model
+//            ,RedirectAttributes attributes) {
+//        Raid raid = raidRepository.findById(id).get();
+//        if(!raid.getAccount().getNickname().equals(account)){
+//            attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
+//            return  "redirect:/raid/raid-hom/"+id;
+//        }
+//
+//
+//        model.addAttribute("raid",raid);
+//
+//        return "redirect:/raid/raid-hom/"+id;
+//    }
+
+
+    @GetMapping("raid/membersset/{id}")
+    public String getmembersset(@PathVariable("id") Long id,@CurrentAccount Account account, Model model
+            ,RedirectAttributes attributes) {
+
+        Raid raid = raidRepository.findById(id).orElseThrow();
+
+        if(!raid.getAccount().getNickname().equals(account.getNickname())){
+            attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
+            return  "redirect:/raid/raid-hom/"+id;
+        }
+
+
+        model.addAttribute("raid",raid);
+
+        return "/raid/raid-members";
+    }
+
+    @GetMapping("raid/raidset/{id}")
+    public String getraidset(@PathVariable("id") Long id,@CurrentAccount Account account, Model model
+            ,RedirectAttributes attributes) {
+
+        Raid raid = raidRepository.findById(id).orElseThrow();
+        if(!raid.getAccount().getNickname().equals(account.getNickname())){
+            attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
+            return  "redirect:/raid/raid-hom/"+id;
+        }
+
+
+        model.addAttribute("raid",raid);
+
+        return "/raid/raid-setting";
     }
 
 

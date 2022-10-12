@@ -46,9 +46,10 @@
                     <li class="page-item" th:classappend="${!raids.hasPrevious()}? disabled">
                         <a th:href="@{'/raid/list-raid?keyword=' + ${keyword} + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
                            class="page-link" tabindex="-1" aria-disabled="true">
-                            Previous
+                            이전
                         </a>
                     </li>
+
                     <li class="page-item" th:classappend="${i == raids.getNumber()}? active"
                         th:each="i: ${#numbers.sequence(0, raids.getTotalPages() - 1)}">
                         <a th:href="@{'/raid/list-raid?keyword=' + ${keyword} + '&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
@@ -57,7 +58,7 @@
                     <li class="page-item" th:classappend="${!raids.hasNext()}? disabled">
                         <a th:href="@{'/raid/list-raid?keyword=' + ${keyword} + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
                            class="page-link">
-                            Next
+                            다음
                         </a>
                     </li>
                 </ul>

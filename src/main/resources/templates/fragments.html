@@ -94,6 +94,11 @@
     </div>
 </footer>
 
+
+
+
+
+
 <script type="application/javascript" th:fragment="form-validation">
     (function () {
         'use strict';
@@ -122,50 +127,13 @@
     <a class="list-group-item list-group-item-action list-group-item-danger" th:classappend="${currentMenu == 'account'}? active" href="#" th:href="@{/settings/account}">계정</a>
 </div>
 
-<div th:fragment="update-tags (baseUrl)">
-    <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
-    <script type="application/javascript" th:inline="javascript">
-        $(function() {
-            function tagRequest(url, tagTitle) {
-                $.ajax({
-                    dataType: "json",
-                    autocomplete: {
-                        enabled: true,
-                        rightKey: true,
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    method: "POST",
-                    url: "[(${baseUrl})]" + url,
-                    data: JSON.stringify({'tagTitle': ]})
-                }).done(function (data, status) {
-                    console.log("${data} and status is ${status}");
-                });
-            }
 
-            function onAdd(e) {
-                tagRequest("/add", e.detail.data.value);
-            }
+<div th:fragment="raid-settings-menu (currentMenu)" class="list-group">
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'home'}? active" href="#" th:href="@{/raid/raid-hom/{id}(id = ${raid.id})}" >홈</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'members'}? active" href="#" th:href="@{/raid/membersset/{id}(id = ${raid.id})}">참가자 설정</a>
+<!--    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'members'}? active" href="#" th:href="@{/raid/membersset/{id}/{account}(id = ${raid.id},account = ${#authentication.name})}">참가자 설정</a>-->
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'set'}? active" href="#" th:href="@{/raid/raidset/{id}(id = ${raid.id})}">설정</a>
 
-            function onRemove(e) {
-                tagRequest("/remove", e.detail.data.value);
-            }
-
-            var tagInput = document.querySelector("#tags");
-            var tagify = new Tagify(tagInput, {
-                pattern: /^.{0,20}$/,
-                whitelist: JSON.parse(document.querySelector("#whitelist").textContent),
-                dropdown : {
-                    enabled: 1, // suggest tags after a single character input
-                } // map tags
-            });
-            tagify.on("add", onAdd);
-            tagify.on("remove", onRemove);
-            // add a class to Tagify's input element
-            tagify.DOM.input.classList.add('form-control');
-            // re-place Tagify's input element outside of the  element (tagify.DOM.scope), just before it
-            tagify.DOM.scope.parentNode.insertBefore(tagify.DOM.input, tagify.DOM.scope);
-        });
-    </script>
 </div>
 
 <script type="application/javascript" th:inline="javascript" th:fragment="ajax-csrf-header">

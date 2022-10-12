@@ -4,7 +4,7 @@ import com.example.hwh_community.account.AccountService;
 import com.example.hwh_community.account.CurrentAccount;
 import com.example.hwh_community.domain.Account;
 
-import com.example.hwh_community.main.CurrentUser;
+
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -45,14 +45,14 @@ public class SettingsController {
 
     }
     @GetMapping("/settings/profile")
-    public String profileUpdateForm(@CurrentUser Account account, Model model) {
+    public String profileUpdateForm(@CurrentAccount Account account, Model model) {
         model.addAttribute(account);
         model.addAttribute(modelMapper.map(account,Profile.class));
         return SETTINGS_PROFILE_URL;
     }
 
     @PostMapping("/settings/profile")
-    public String updateProfile(@CurrentUser Account account, @Valid Profile profile
+    public String updateProfile(@CurrentAccount Account account, @Valid Profile profile
             , Errors errors, Model model, RedirectAttributes attributes) {
         if(errors.hasErrors()){
             model.addAttribute(account);
@@ -66,14 +66,14 @@ public class SettingsController {
     }
 
     @GetMapping("/settings/password")
-    public String updatePasswordForm(@CurrentUser Account account, Model model) {
+    public String updatePasswordForm(@CurrentAccount Account account, Model model) {
         model.addAttribute(account);
         model.addAttribute(new PasswordForm());
         return SETTINGS_PASSWORD_VIEW_NAME;
     }
 
     @PostMapping("/settings/password")
-    public String updatePassword(@CurrentUser Account account, @Valid PasswordForm passwordForm, Errors errors,
+    public String updatePassword(@CurrentAccount Account account, @Valid PasswordForm passwordForm, Errors errors,
                                  Model model, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
             model.addAttribute(account);
@@ -87,14 +87,14 @@ public class SettingsController {
 
 
     @GetMapping("/settings/account")
-    public String updateAccountForm(@CurrentUser Account account, Model model) {
+    public String updateAccountForm(@CurrentAccount Account account, Model model) {
         model.addAttribute(account);
         model.addAttribute(modelMapper.map(account, NicknameForm.class));
         return SETTINGS_ACCOUNT_VIEW_NAME;
     }
 
     @PostMapping("/settings/account")
-    public String updateAccount(@CurrentUser Account account, @Valid NicknameForm nicknameForm, Errors errors,
+    public String updateAccount(@CurrentAccount Account account, @Valid NicknameForm nicknameForm, Errors errors,
                                 Model model, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
             model.addAttribute(account);

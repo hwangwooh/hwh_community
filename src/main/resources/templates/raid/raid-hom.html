@@ -5,32 +5,57 @@
 <body class="bg-light">
 <div th:replace="fragments.html :: main-nav"></div>
 <div class="container">
-    <div class="py-5 text-center">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-2">
+            <div th:replace="fragments.html :: raid-settings-menu(currentMenu='home')"></div>
+        </div>
 
-        <div class="container" style="margin-top:30px">
+        <div class="container col-8" style="margin-top:30px">
+
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${message}">메시지</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="form-group">
+                    <div class="border border-dark p-2 mb-2 border-opacity-50">
                         <h5 th:text="${raid.title}"></h5>
                         <i class="fa fa-tag"></i> <span class="font-weight-light text-monospace badge badge-pill badge-info mr-3" th:text="${raid.tag}">Tag</span>
                     </div>
-                    <h5> 내용 </h5>
-                    <div class="form-group">
+
+                    <div class="border border-dark p-2 mb-2 border-opacity-50">
                         <dl>
+                            <h5> 내용 </h5>
                             <dd th:text="${raid.shortDescription}"></dd>
                         </dl>
                     </div>
-                    <h5> 참가자 </h5>
 
 
-                    <div  class="row px-3 justify-content-center">
-                        <ul class="list-unstyled col-10">
-                            <li class="media mt-3" th:each="member: ${raid.members}">
 
+                    <div class="border border-dark p-2 mb-2 border-opacity-50" th:with="username=${#authentication.name}">
+                        <h5> 참가자 </h5>
+                        <ul>
+
+                           <li class="media mt-3">
                                 <div class="media-body">
-                                    <h5 class="mt-0 mb-1">
+                                     <h5 class="mt-0 mb-1">
+                                         <svg th:data-jdenticon-value="${raid.account.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
+                                         <span th:text="${raid.account.nickname}"></span>
+                                         <span th:text="${raid.account.occupation}"></span>
+                                         <span class="badge badge-primary">공대장</span>
+                                     </h5>
+                                </div>
+                           </li>
+
+                            <li class="media mt-3" th:each="member: ${raid.members}">
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-1" th:if="${not#strings.equals(member.nickname,raid.account.nickname)}"  >
                                         <svg data-jdenticon-value="testuser123" th:data-jdenticon-value="${member.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
-                                        <span th:text="${member.nickname}"></span> <span th:if="${member == raid.account}" class="badge badge-primary">공대장</span>
+                                        <span th:text="${member.nickname}"></span>
+                                        <span th:text="${member.occupation}"></span>
                                     </h5>
                                 </div>
                             </li>
