@@ -18,11 +18,11 @@ public class RaidDto {
 
 
     @NotBlank
-    @Length(max = 50)
+    @Length(min = 2,max = 20)
     private String title;
 
     @NotBlank
-    @Length(max = 100)
+    @Length(min = 2,max = 100)
     private String shortDescription;
 
     private Set<Account> members = new HashSet<>();
@@ -44,4 +44,6 @@ public class RaidDto {
     private boolean useBanner;
 
     private String tag;
+
+    private Long maximum;
 }

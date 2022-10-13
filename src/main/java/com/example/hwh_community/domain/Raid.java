@@ -53,6 +53,8 @@ public class Raid {
 
     private String tag;
 
+    private Long maximum;
+
     public boolean isJoinable(UserAccount userAccount) {
 
         Account account = userAccount.getAccount();

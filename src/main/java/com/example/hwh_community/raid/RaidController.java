@@ -12,6 +12,7 @@ import com.example.hwh_community.domain.Raid;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.data.domain.Page;
@@ -39,6 +40,7 @@ import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class RaidController {
 
     private final ModelMapper modelMapper;
@@ -60,13 +62,16 @@ public class RaidController {
     }
 
     @PostMapping("raid/new-raid")
-    public String postraid(@CurrentAccount Account account, @Valid RaidDto raidDto) {
-
+    public String postraid(@CurrentAccount Account account, @Valid RaidDto raidDto,Errors errors) {
+        if (errors.hasErrors()) {
+            return "raid/new-raid";
+        }
         Raid raid = Raid.builder().account(account)
                 .members(new HashSet<>())
                 .title(raidDto.getTitle())
                 .shortDescription(raidDto.getShortDescription())
                 .publishedDateTime(LocalDateTime.now())
+                .maximum(raidDto.getMaximum())
                 .tag(raidDto.getTag()).build();
         raid.addMemeber(account);
         raidRepository.save(raid);
@@ -75,21 +80,44 @@ public class RaidController {
     }
 
     @GetMapping("raid/list-raid")
-    public String getlistraid(String tags, Model model,
+    public String getlistraid(String tag, Model model,@CurrentAccount Account account,
                               @PageableDefault(size = 12, sort = "publishedDateTime", direction = Sort.Direction.DESC)
                               Pageable pageable) {
         Page<Raid> raids;
-        if(tags == null){
+        if(tag == null){
             raids = raidRepository.findAll(pageable);
         }else{
-            raids = raidRepository.findBytag(tags, pageable);
+            raids = raidRepository.findBytag(tag, pageable);
         }
 
+
+        if(tag == null || tag.equals("null") ){
+            model.addAttribute("tag", tag);
+            model.addAttribute("raids", raids);
+            model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+            return "/raid/list-raid2";
+        }else {
+            model.addAttribute("tag", tag);
+            model.addAttribute("raids", raids);
+            model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+            return "/raid/list-raid";
+        }
+
+    }
+
+    @GetMapping("raid/list-raid/me")
+    public String getlistraidme(String tag, Model model,@CurrentAccount Account account,
+                              @PageableDefault(size = 12, sort = "publishedDateTime", direction = Sort.Direction.DESC)
+                              Pageable pageable) {
+
+        Page<Raid> raids = raidRepository.findBymembers(account,pageable);
+
         model.addAttribute("raids", raids);
-        model.addAttribute("keyword", tags);
+        model.addAttribute("tag", tag);
         model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
         return "/raid/list-raid";
     }
+
 
     @GetMapping("raid/raid-hom/{id}")
     public String getraidhom(@PathVariable("id") Long id, Model model) {
@@ -97,7 +125,7 @@ public class RaidController {
         model.addAttribute("raid",raid);
         return "/raid/raid-hom";
     }
-    @GetMapping("raid/list-raid/{id}/add/{member}") // 참가
+    @GetMapping("raid/raid-hom/{id}/add/{member}") // 참가
     public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
 
         Raid raid = raidRepository.findById(id).get();
@@ -107,7 +135,7 @@ public class RaidController {
 
         return "redirect:/raid/raid-hom/"+id;
     }
-    @GetMapping("raid/list-raid/{id}/remove/{member}") // 탈퇴
+    @GetMapping("raid/raid-hom/{id}/remove/{member}") // 탈퇴
     public String postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
 
         Raid raid = raidRepository.findById(id).get();
@@ -117,7 +145,7 @@ public class RaidController {
         return  "redirect:/raid/raid-hom/"+id;
     }
 
-    @GetMapping("raid/list-raid/delete/{id}") // 레이드 삭제
+    @GetMapping("raid/raid-hom/delete/{id}") // 레이드 삭제
     public String raiddelete(@PathVariable("id") Long id, Model model) {
 
 
@@ -161,6 +189,17 @@ public class RaidController {
         return "/raid/raid-members";
     }
 
+    @GetMapping("raid/memberssetdelete/{raidid}/{id}")
+    public String getmemberssetdelete(@PathVariable("raidid") Long raidid,@PathVariable("id") Long id, Model model
+            ,RedirectAttributes attributes) {
+        Raid raid = raidRepository.findById(raidid).get();
+        Account account1 = accountRepository.findById(id).get();
+        raid.removeMember(account1);
+        raidRepository.save(raid);
+        model.addAttribute("raid",raid);
+        return "/raid/raid-members";
+    }
+
     @GetMapping("raid/raidset/{id}")
     public String getraidset(@PathVariable("id") Long id,@CurrentAccount Account account, Model model
             ,RedirectAttributes attributes) {
@@ -171,10 +210,25 @@ public class RaidController {
             return  "redirect:/raid/raid-hom/"+id;
         }
 
-
+        model.addAttribute(new RaidDto());
         model.addAttribute("raid",raid);
 
         return "/raid/raid-setting";
+    }
+
+
+    @PostMapping("raid/raidset/{id}")
+    public String postraidset(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
+
+        Raid raid = raidRepository.findById(id).get();
+        raid.setTitle(raidDto.getTitle());
+        raid.setShortDescription(raidDto.getShortDescription());
+        raid.setTag(raidDto.getTag());
+        raid.setMaximum(raidDto.getMaximum());
+
+        raidRepository.save(raid);
+
+        return "redirect:/raid/raid-hom/"+id;
     }
 
 

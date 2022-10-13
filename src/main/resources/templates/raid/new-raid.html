@@ -9,15 +9,16 @@
         <h2>레이드 개설</h2>
     </div>
     <div class="row justify-content-center">
-        <form class="needs-validation col-sm-10" th:action="@{/raid/new-raid}" th:object="${raidDto}" method="post" novalidate>
+        <form class="needs-validation col-sm-10"
+              th:action="@{/raid/new-raid}" th:object="${raidDto}" method="post" novalidate>
 
 
             <div class="form-group">
                 <label for="title">레이드 명</label>
                 <input id="title" type="text" th:field="*{title}" class="form-control"
-                       placeholder="아브14" aria-describedby="titleHelp" required max="50">
+                       placeholder="아브14" aria-describedby="titleHelp" required max="20">
                 <small id="titleHelp" class="form-text text-muted">
-                    50자 이내로 입력하세요.
+                    20자 이내로 입력하세요.
                 </small>
                 <small class="invalid-feedback">보스을 입력하세요.</small>
                 <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
@@ -28,11 +29,12 @@
                 <textarea id="shortDescription" type="textarea" th:field="*{shortDescription}" class="form-control"
                           placeholder="짧게 소개해 주세요." aria-describedby="shortDescriptionHelp" required maxlength="100"></textarea>
                 <small id="shortDescriptionHelp" class="form-text text-muted">
-                    100자 이내로 짧은 소개해 주세요.
+                    50자 이내로 짧은 소개해 주세요.
                 </small>
                 <small class="invalid-feedback">짧은 소개를 입력하세요.</small>
                 <small class="form-text text-danger" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}">ShortDescription Error</small>
             </div>
+
 
         <div class="form-group">
                 <label>레이드몹</label>
@@ -44,15 +46,19 @@
                 <option th:selected="${raidDto.tag}=='5'">일리</option>
                 <option th:selected="${raidDto.tag}=='6'">카멘</option>
             </select>
+
+            <label>인원</label>
+            <select name="maximum" id="maximum" th:value="${raidDto.maximum}" >
+                <option th:selected="${raidDto.maximum}=='1'">1</option>
+                <option th:selected="${raidDto.maximum}=='2'">2</option>
+                <option th:selected="${raidDto.maximum}=='3'">3</option>
+                <option th:selected="${raidDto.maximum}=='4'">4</option>
+                <option th:selected="${raidDto.maximum}=='5'">5</option>
+                <option th:selected="${raidDto.maximum}=='6'">6</option>
+                <option th:selected="${raidDto.maximum}=='7'">7</option>
+                <option th:selected="${raidDto.maximum}=='8'">8</option>
+            </select>
         </div>
-<!--            <div class="form-group">-->
-<!--                <label>레이드몹</label>-->
-<!--                <select  th:field="${raidDto.tag}" th:value="${raidDto.tag}">-->
-<!--                    <option selected>몬스터 선택</option>-->
-<!--                    <option th:value="'발탄'" th:text="발탄"></option>-->
-<!--                    <option th:value="'아브'" th:text="아브"></option>-->
-<!--                </select>-->
-<!--            </div>-->
 
 
             <div class="form-group">

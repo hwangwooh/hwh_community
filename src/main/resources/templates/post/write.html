@@ -10,13 +10,35 @@
     <div class="col-sm-12">
       <h2>글쓰기</h2>
       <form th:action="@{/post/write}" th:object="${writeUpForm}" method="post" novalidate>
+
+
+
+
+
         <div class="form-group">
-          <input id="title" type="text" th:field="*{title}" class="form-control"  name = "title">
+          <label for="title">제목</label>
+          <input id="title" type="text" th:field="*{title}" class="form-control"
+                  aria-describedby="titleHelp" required max="20">
+          <small id="titleHelp" class="form-text text-muted">
+            20자 이내로 입력하세요.
+          </small>
+          <small class="invalid-feedback">보스을 입력하세요.</small>
+          <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
         </div>
+
         <div class="form-group">
-          <textarea id="content" th:field="*{content}"  class="form-control" rows="5"  name = "content"></textarea>
+          <label for="content">내용</label>
+          <textarea id="content" type="textarea" th:field="*{content}" class="form-control" rows="8"
+                   aria-describedby="contentHelp" required maxlength="300"></textarea>
+          <small id="contentHelp" class="form-text text-muted">
+            300자 이내로 짧은 소개해 주세요.
+          </small>
+          <small class="invalid-feedback">짧은 소개를 입력하세요.</small>
+          <small class="form-text text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">ShortDescription Error</small>
         </div>
+
         <button type="submit" class="btn btn-primary">글쓰기</button>
+
       </form>
     </div>
   </div>

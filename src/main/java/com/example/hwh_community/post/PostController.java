@@ -1,6 +1,7 @@
 package com.example.hwh_community.post;
 
 import com.example.hwh_community.account.AccountRepository;
+import com.example.hwh_community.account.CurrentAccount;
 import com.example.hwh_community.comment.CommentDto;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.comment.CommentService;
@@ -45,7 +46,7 @@ public class PostController {
     }
 
     @PostMapping("post/write")
-    public String writeSubmit(@Valid WriteUpForm writeUpForm, Errors errors) {
+    public String writeSubmit( @Valid WriteUpForm writeUpForm, Errors errors) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
@@ -131,31 +132,18 @@ public class PostController {
     public String postedit(@PathVariable("id") Long id,@Valid PostDto postDto,Errors errors) {
 
         if (errors.hasErrors()) {
-            return "redirect:";
+            return "redirect:/post/edit/"+id;
         }
-
-
         postService.edit(id, postDto);
-
-
-        return "redirect:/post/getList";
+        return "redirect:/post/postContent/"+id;
     }
 
     @GetMapping("post/postdelete/{id}")
     public String postdelete(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
 
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        UserDetails userDetails = (UserDetails) principal;
-//        String username = userDetails.getUsername();
-//
-//
-//
-//        Post post = postRepository.findById(id).get();
-//        Account account = accountRepository.findByNickname(username);
-//        String nickname = post.getAccount().getNickname();
-
         postService.delete(id);
         return "redirect:/post/getList";
+
     }
 
 

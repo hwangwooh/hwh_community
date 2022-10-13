@@ -37,8 +37,8 @@
 
                     <div class="border border-dark p-2 mb-2 border-opacity-50" th:with="username=${#authentication.name}">
                         <h5> 참가자 </h5>
+                        <h5 th:text="' 최대 인원 : ' + ${raid.maximum}"></h5>
                         <ul>
-
                            <li class="media mt-3">
                                 <div class="media-body">
                                      <h5 class="mt-0 mb-1">
@@ -76,11 +76,11 @@
 
                     <div style="float:right;" th:with="username=${#authentication.name}" >
 <!--                        th:with="username=${#authentication.name}"-->
-                        <a type="button" class="btn btn-primary" th:href="@{/raid/list-raid/{id}/add/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">참가</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/{id}/add/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">참가</a>
 
 <!--                        th:href="@{/post/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}"-->
-                        <a type="button" class="btn btn-primary" th:href="@{/raid/list-raid/{id}/remove/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">탈퇴</a>
-                        <a type="button" class="btn btn-primary" th:href="@{/raid/list-raid/delete/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username)}">삭제</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/{id}/remove/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">탈퇴</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/delete/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username)}">삭제</a>
                     </div>
                 </div>
 
