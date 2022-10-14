@@ -18,7 +18,7 @@
 
                                     <h5 class="card-title context" th:text="${raid.title}"></h5>
                                 </a>
-                                <p class="card-text" th:text="${raid.shortDescription}">Short description</p>
+                                <p class="card-text"  th:utext="${raid.shortDescription}">Short description</p>
                                 <p class="card-text context">
                                     <span th:each="tag: ${raid.tag}"
                                           class="font-weight-light text-monospace badge badge-pill badge-info mr-3">

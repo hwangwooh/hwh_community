@@ -27,7 +27,7 @@ public class PostService {
         Account byNickname = accountRepository.findByNickname(username);
         Post post = Post.builder().title(postUpForm
                         .getTitle())
-                .content(postUpForm.getContent())
+                .content(postUpForm.getContent().replace("\r\n","<br>")) //
                 .dateTime(LocalDate.now())
                 .countVisit(0L)
                 .account(byNickname)
@@ -62,7 +62,7 @@ public class PostService {
     public void edit(Long id, PostDto postDto) {
         Post post = postRepository.findById(id).orElseThrow();
         post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent());
+        post.setContent(postDto.getContent().replace("\r\n","<br>"));
         postRepository.save(post);
 
 

@@ -69,7 +69,7 @@ public class RaidController {
         Raid raid = Raid.builder().account(account)
                 .members(new HashSet<>())
                 .title(raidDto.getTitle())
-                .shortDescription(raidDto.getShortDescription())
+                .shortDescription(raidDto.getShortDescription().replace("\r\n","<br>"))
                 .publishedDateTime(LocalDateTime.now())
                 .maximum(raidDto.getMaximum())
                 .tag(raidDto.getTag()).build();
@@ -156,21 +156,6 @@ public class RaidController {
         return "redirect:/raid/list-raid";
     }
 
-//    @GetMapping("raid/membersset/{id}/{account}")
-//    public String getmembersset(@PathVariable("id") Long id, @PathVariable("account") String account, Model model
-//            ,RedirectAttributes attributes) {
-//        Raid raid = raidRepository.findById(id).get();
-//        if(!raid.getAccount().getNickname().equals(account)){
-//            attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
-//            return  "redirect:/raid/raid-hom/"+id;
-//        }
-//
-//
-//        model.addAttribute("raid",raid);
-//
-//        return "redirect:/raid/raid-hom/"+id;
-//    }
-
 
     @GetMapping("raid/membersset/{id}")
     public String getmembersset(@PathVariable("id") Long id,@CurrentAccount Account account, Model model
@@ -209,6 +194,7 @@ public class RaidController {
             attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
             return  "redirect:/raid/raid-hom/"+id;
         }
+        raid.setShortDescription(raid.getShortDescription().replace("<br>","\r\n"));
 
         model.addAttribute(new RaidDto());
         model.addAttribute("raid",raid);
@@ -222,7 +208,7 @@ public class RaidController {
 
         Raid raid = raidRepository.findById(id).get();
         raid.setTitle(raidDto.getTitle());
-        raid.setShortDescription(raidDto.getShortDescription());
+        raid.setShortDescription(raidDto.getShortDescription().replace("\r\n","<br>"));
         raid.setTag(raidDto.getTag());
         raid.setMaximum(raidDto.getMaximum());
 

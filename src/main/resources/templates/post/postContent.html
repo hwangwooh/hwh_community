@@ -16,7 +16,7 @@
             <h5> 내용 </h5>
                 <div style="border:1px solid; padding:10px;">
                     <dl>
-                        <dd th:text="${post.content}"></dd>
+                        <td th:utext="${post.content}" ></td>
                     </dl>
                 </div>
             <div style="float:right;" th:with="username=${#authentication.name}">

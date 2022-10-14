@@ -12,13 +12,13 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-md-3" th:each="raid: ${raids.getContent()}">
-                        <div class="card mb-4 shadow-sm">
+                        <div class="card mb-4 shadow-sm" >
                             <div class="card-body">
                                 <a class="text-decoration-none" th:href="@{'/raid/raid-hom/' + ${raid.id}}">
 
                                     <h5 class="card-title context" th:text="${raid.title}"></h5>
                                 </a>
-                                <p class="card-text" th:text="${raid.shortDescription}">Short description</p>
+                                <p class="card-text" th:utext="${raid.shortDescription}">Short description</p>
                                 <p class="card-text context">
                                     <span th:each="tag: ${raid.tag}"
                                           class="font-weight-light text-monospace badge badge-pill badge-info mr-3">
