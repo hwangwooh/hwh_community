@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SettingsController {
     public static final String SETTINGS_PROFILE_URL = "settings/profile" ;
-    public static final String SETTINGS_PROFILE_VIEW_NAME = "/settings/profile";
+    public static final String SETTINGS_PROFILE_VIEW_NAME = "settings/profile";
 
-    public static final String SETTINGS_PASSWORD_VIEW_NAME = "/settings/password";
+    public static final String SETTINGS_PASSWORD_VIEW_NAME = "settings/password";
 
     static final String SETTINGS_ACCOUNT_VIEW_NAME = "settings/account";
 

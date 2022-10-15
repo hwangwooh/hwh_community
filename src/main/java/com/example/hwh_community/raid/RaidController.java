@@ -48,7 +48,7 @@ public class RaidController {
 
     private final AccountRepository accountRepository;
 
-
+    private final RaidService raidService;
 
 
     @GetMapping("raid/new-raid")
@@ -58,7 +58,7 @@ public class RaidController {
         model.addAttribute(account);
         model.addAttribute(new RaidDto());
 
-        return "/raid/new-raid";
+        return "raid/new-raid";
     }
 
     @PostMapping("raid/new-raid")
@@ -66,15 +66,8 @@ public class RaidController {
         if (errors.hasErrors()) {
             return "raid/new-raid";
         }
-        Raid raid = Raid.builder().account(account)
-                .members(new HashSet<>())
-                .title(raidDto.getTitle())
-                .shortDescription(raidDto.getShortDescription().replace("\r\n","<br>"))
-                .publishedDateTime(LocalDateTime.now())
-                .maximum(raidDto.getMaximum())
-                .tag(raidDto.getTag()).build();
-        raid.addMemeber(account);
-        raidRepository.save(raid);
+
+        Raid raid = raidService.newraid(account, raidDto);
 
         return "redirect:/raid/raid-hom/"+raid.getId();
     }
@@ -95,12 +88,12 @@ public class RaidController {
             model.addAttribute("tag", tag);
             model.addAttribute("raids", raids);
             model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-            return "/raid/list-raid2";
+            return "raid/list-raid2";
         }else {
             model.addAttribute("tag", tag);
             model.addAttribute("raids", raids);
             model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-            return "/raid/list-raid";
+            return "raid/list-raid";
         }
 
     }
@@ -115,7 +108,7 @@ public class RaidController {
         model.addAttribute("raids", raids);
         model.addAttribute("tag", tag);
         model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-        return "/raid/list-raid";
+        return "raid/list-raid";
     }
 
 
@@ -123,7 +116,7 @@ public class RaidController {
     public String getraidhom(@PathVariable("id") Long id, Model model) {
         Raid raid = raidRepository.findById(id).get();
         model.addAttribute("raid",raid);
-        return "/raid/raid-hom";
+        return "raid/raid-hom";
     }
     @GetMapping("raid/raid-hom/{id}/add/{member}") // 참가
     public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
@@ -171,7 +164,7 @@ public class RaidController {
 
         model.addAttribute("raid",raid);
 
-        return "/raid/raid-members";
+        return "raid/raid-members";
     }
 
     @GetMapping("raid/memberssetdelete/{raidid}/{id}")
@@ -182,7 +175,7 @@ public class RaidController {
         raid.removeMember(account1);
         raidRepository.save(raid);
         model.addAttribute("raid",raid);
-        return "/raid/raid-members";
+        return "raid/raid-members";
     }
 
     @GetMapping("raid/raidset/{id}")
@@ -199,20 +192,16 @@ public class RaidController {
         model.addAttribute(new RaidDto());
         model.addAttribute("raid",raid);
 
-        return "/raid/raid-setting";
+        return "raid/raid-setting";
     }
 
 
     @PostMapping("raid/raidset/{id}")
     public String postraidset(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
 
-        Raid raid = raidRepository.findById(id).get();
-        raid.setTitle(raidDto.getTitle());
-        raid.setShortDescription(raidDto.getShortDescription().replace("\r\n","<br>"));
-        raid.setTag(raidDto.getTag());
-        raid.setMaximum(raidDto.getMaximum());
 
-        raidRepository.save(raid);
+       raidService.raindset(id,raidDto);
+
 
         return "redirect:/raid/raid-hom/"+id;
     }

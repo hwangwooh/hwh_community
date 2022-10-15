@@ -74,17 +74,9 @@ public class PostController {
         model.addAttribute("boards", boards);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        return "/post/getList";
+        return "post/getList";
     }
 
-//    @GetMapping("post/getList")// 전채 조회
-//    public String getList(@ModelAttribute PostSearch postSearch,Model model) {
-//
-//        List<PostDto> boards = postService.getList2(postSearch);
-//
-//        model.addAttribute("boards", boards);
-//        return "/post/getList";
-//    }
 
     @GetMapping("post/postContent/{id}")
     public String postContent(@PathVariable("id") Long id, Model model) {
@@ -95,7 +87,7 @@ public class PostController {
         Post post = postService.Visit(post2);
         model.addAttribute(post);
         model.addAttribute("comments", comments);
-        return "/post/postContent";
+        return "post/postContent";
     }
 
     @PostMapping("post/postContent/{id}")
@@ -125,7 +117,7 @@ public class PostController {
 
         model.addAttribute(postDto);
 
-        return "/post/edit";
+        return "post/edit";
     }
 
     @PostMapping("post/edit/{id}")
