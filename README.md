@@ -1,12 +1,12 @@
 # 커뮤니티
+### 프로젝트 주소
+## [hwooh.shop](http://hwooh.shop:8088)
 
 <h2>프로젝트 설명</h2>
 <hr>
 <li>스프링부트를 이용하여 만든 게임 레이드 관리 커뮤니티 입니다.</li>
 <li>서버에 배포는 하였지만 사용은 한하고 기능 추가중 입니다.</li>
-<br><br>
-<h3>프로젝트 주소<h3>
-<h3><a href ="hwooh.shop:8088">hwooh.shop</a></h3>
+
 
 <br>
 <h3>Dependency</h3>
