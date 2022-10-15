@@ -6,7 +6,7 @@
 <li>서버에 배포는 하였지만 사용은 한하고 기능 추가중 입니다.</li>
 <br><br>
 <h3>프로젝트 주소<h3>
-<h3><a href ="https://hwooh.shop/">hwooh.shop</a></h3>
+<h3><a href ="http://hwooh.shop/">hwooh.shop</a></h3>
 
 <br>
 <h3>Dependency</h3>
