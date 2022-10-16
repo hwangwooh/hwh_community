@@ -53,7 +53,7 @@
                             <li class="media mt-3" th:each="member: ${raid.members}">
                                 <div class="media-body">
                                     <h5 class="mt-0 mb-1" th:if="${not#strings.equals(member.nickname,raid.account.nickname)}"  >
-                                        <svg data-jdenticon-value="testuser123" th:data-jdenticon-value="${member.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
+                                        <svg  th:data-jdenticon-value="${member.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
                                         <span th:text="${member.nickname}"></span>
                                         <span th:text="${member.occupation}"></span>
                                     </h5>
