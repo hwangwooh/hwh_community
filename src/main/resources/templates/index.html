@@ -5,13 +5,39 @@
 <body class="bg-light">
     <div th:replace="fragments.html :: main-nav"></div>
 
+    <div class="alert alert-warning" role="alert" th:if="${account != null && account.occupation == null}">
+        가입을 완료하려면 <a href="#" th:href="@{/settings/profile}" class="alert-link">프로필 변경</a>을 해주세요.
+    </div>
+
     <div class="container">
+
+        <h1 class="text-center">공지</h1>
+        <h5 class="text-center">현재 서비스 중인 사이트가 아닙니다. </h5>
+        <h5 class="text-center">이메일 주소는 존재 하지 않는 이메일로 가입 해주시면 됩니다. </h5>
+        <h3 class="text-center">로그인 하시면 기능 사용가능합니다.</h3>
+        <hr class="my-2">
         <div class="py-3">
-            <h2> </h2>
-            <h2>사용기술 : Spring boot, JPA, Bootstrap, mariaDB</h2>
-            <a href ="https://github.com/hwangwooh/hwh_community"><h2>git : https://github.com/hwangwooh/hwh_community</h2></a>
-
-
+            <h1 class="text-xl-start ">프로젝트 설명</h1>
+            <h6 class="text-xl-start">게임 로스트아크 레이드 사전약속을 잡기 위한 서비스 입니다.</h6>
+            <h6 class="text-xl-start">레이드 개설한 유저만 인원 강퇴 및 방 설정을 수정할수 있습니다.</h6>
+            <hr class="my-2">
+            <h4 class="text-xl-start">프로젝트 기술스택</h4>
+            <h6 class="text-xl-start">프론트엔드 : HTML, BootStrap, Thymeleaf</h6>
+            <h6 class="text-xl-start">백엔드 : Spring Boot, Spring Data JPA</h6>
+            <h6 class="text-xl-start">데이터베이스 : Hibernate, MariaDB</h6>
+            <h6 class="text-xl-start">배포 : AWS EC2</h6>
+            <hr class="my-2">
+            <h4 class="text-xl-start">추가 예정인 기능 </h4>
+            <h6 class="text-xl-start">사이트 관리자 기능</h6>
+            <h6 class="text-xl-start">다른 사람 프로필 클릭시 정보 보기 기능</h6>
+            <h6 class="text-xl-start">게시물 추천기능, 공지 기능</h6>
+            <hr class="my-2">
+            <h4 class="text-xl-start">확인된 버그</h4>
+            <h6 class="text-xl-start">프로필 가끔 안보임</h6>
+            <hr class="my-2">
+            <a href ="https://github.com/hwangwooh/hwh_community">
+                <h4>git : https://github.com/hwangwooh/hwh_community</h4>
+            </a>
         </div>
 
         <div th:replace="fragments.html :: footer"></div>
