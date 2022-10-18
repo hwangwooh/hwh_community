@@ -12,9 +12,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-
-
-
     @Override
     public List<Post> getList(PostSearch postSearch) {
         List<Post> fetch = jpaQueryFactory.selectFrom(QPost.post)

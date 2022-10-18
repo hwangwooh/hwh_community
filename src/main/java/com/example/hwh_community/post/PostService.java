@@ -23,7 +23,7 @@ public class PostService {
     public final PostRepository postRepository;
     public final AccountRepository accountRepository;
 
-    public void write(WriteUpForm postUpForm,String username) {
+    public Post write(WriteUpForm postUpForm,String username) {
         Account byNickname = accountRepository.findByNickname(username);
         Post post = Post.builder().title(postUpForm
                         .getTitle())
@@ -33,7 +33,8 @@ public class PostService {
                 .account(byNickname)
                 .build();
 
-        postRepository.save(post);
+        Post save = postRepository.save(post);
+        return save;
     }
 
 
@@ -73,7 +74,7 @@ public class PostService {
 
 
         Post post = postRepository.findById(id).orElseThrow();
-        postRepository.deleteById(post.getId());
+        postRepository.delete(post);
         //jpaQueryFactory.delete(comment).where(comment.post.id.eq(id)).execute();// c
 
 

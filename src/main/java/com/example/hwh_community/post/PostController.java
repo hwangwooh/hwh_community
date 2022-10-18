@@ -91,15 +91,10 @@ public class PostController {
     }
 
     @PostMapping("post/postContent/{id}")
-    public String addComment(@PathVariable("id") Long id, @Valid CommentDto commentDto, Model model) {
+    public String addComment(@CurrentAccount Account account,@PathVariable("id") Long id, @Valid CommentDto commentDto, Model model) {
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails) principal;
-        String username = userDetails.getUsername();
 
         Post post = postRepository.findById(id).get();
-        Account account = accountRepository.findByNickname(username);
-
 
         commentService.commentsvae(commentDto, post, account);
         List<Comment> comments = commentRepository.findCommentsBoardId(id);
