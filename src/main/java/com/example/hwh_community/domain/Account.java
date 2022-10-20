@@ -46,5 +46,8 @@ public class Account {
     private String profileImage;
 
 
+    @Enumerated(EnumType.STRING)
+    private ROLE role;
+
 
 }

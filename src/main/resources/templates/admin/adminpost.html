@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body>
+<div th:replace="fragments.html :: main-nav"></div>
+
+<div class="container">
+  <table class="table table-hover">
+
+    <h3>가입자</h3>
+    <thead>
+    <tr>
+      <th>번호(id)</th>
+      <th>제목</th>
+      <th>댓글수</th>
+      <th>삭제</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${posts}">
+
+      <td class="col-2" th:text="${post.id}"></td>
+      <td class="col-1" th:text="${post.title}"></td>
+      <td class="col-2" th:text="${post.commentList.size()}"></td>
+      <td> <a type="button" class="btn btn-primary">삭제</a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.example.hwh_community.account;
 
 import com.example.hwh_community.domain.Account;
 
+import com.example.hwh_community.domain.ROLE;
 import com.example.hwh_community.settings.Profile;
 import com.example.hwh_community.signup.SignUpForm;
 import lombok.RequiredArgsConstructor;
@@ -35,13 +36,14 @@ public class AccountService implements UserDetailsService {
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
                 .password(passwordEncoder.encode(signUpForm.getPassword()))
+                .role(ROLE.ROLE_USER)
                 .build();
         Account save = accountRepository.save(account);
         return save;
 
     }
-    public void login(Account Account) {
-        Account account = accountRepository.findByEmail(Account.getEmail());
+    public void login(Account account) {
+     //   Account account = accountRepository.findByEmail(Account.getEmail());
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 new UserAccount(account),
