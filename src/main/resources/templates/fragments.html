@@ -151,6 +151,13 @@
 
 </div>
 
+<div th:fragment="admin-settings-menu (currentMenu)" class="list-group">
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'account'}? active" href="#" th:href="@{/admin/admin_hom}" >가입자</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'post'}? active" href="#" th:href="@{/admin/admin_post}">게시물</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'raid'}? active" href="#" th:href="@{/admin/admin_raid}">레이드</a>
+
+</div>
+
 <script type="application/javascript" th:inline="javascript" th:fragment="ajax-csrf-header">
     $(function() {
         var csrfToken = /*[[${_csrf.token}]]*/ null;

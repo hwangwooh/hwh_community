@@ -4,35 +4,39 @@
 <head th:replace="fragments.html :: head"></head>
 <body>
 <div th:replace="fragments.html :: main-nav"></div>
+<div class="row mt-5 justify-content-center">
+  <div class="col-2">
+    <div th:replace="fragments.html :: admin-settings-menu(currentMenu='account')"></div>
+  </div>
+  <div class="container col-8">
+    <table class="table table-hover">
 
-<div class="container">
-  <table class="table table-hover">
+      <h3>가입자</h3>
+      <thead>
+      <tr>
+        <th>닉네임</th>
+        <th>이메일</th>
+        <th>비밀번호</th>
+        <th>삭제</th>
 
-    <h3>가입자</h3>
-    <thead>
-    <tr>
-      <th>닉네임</th>
-      <th>이메일</th>
-      <th>비밀번호</th>
-      <th>삭제</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="account : ${accounts}">
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="account : ${accounts}">
+        <td class="col-2" th:text="${account.nickname}"></td>
+        <td class="col-1" th:text="${account.email}"></td>
+        <td class="col-2" th:text="${account.password}"></td>
+        <td><a type="button" class="btn btn-primary">삭제</a>
+        </td>
 
-      <td class="col-2" th:text="${account.nickname}"></td>
-      <td class="col-1" th:text="${account.email}"></td>
-      <td class="col-2" th:text="${account.password}"></td>
-      <td> <a type="button" class="btn btn-primary">삭제</a>
-      </td>
+      </tr>
+      </tbody>
+    </table>
 
-    </tr>
-    </tbody>
-  </table>
+  </div>
+
 
 </div>
-
-
 </body>
 </html>
