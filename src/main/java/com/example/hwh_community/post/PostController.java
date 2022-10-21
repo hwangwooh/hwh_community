@@ -75,6 +75,7 @@ public class PostController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         return "post/getList";
+
     }
 
 

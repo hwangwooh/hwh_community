@@ -8,7 +8,9 @@
     <div class="alert alert-warning" role="alert" th:if="${account != null && account.occupation == null}">
         가입을 완료하려면 <a href="#" th:href="@{/settings/profile}" class="alert-link">프로필 변경</a>을 해주세요.
     </div>
-
+    <div class="alert alert-warning" role="alert" th:if="${account != null && account.role == T(com.example.hwh_community.domain.ROLE).ROLE_ADMIN}">
+        관리자 페이지 <a href="#" th:href="@{/admin/admin_hom}" class="alert-link">이동</a>눌려주세요
+    </div>
     <div class="container">
 
         <h1 class="text-center">공지</h1>
