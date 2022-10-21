@@ -5,6 +5,7 @@ import com.example.hwh_community.account.CurrentAccount;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Post;
+import com.example.hwh_community.domain.ROLE;
 import com.example.hwh_community.domain.Raid;
 import com.example.hwh_community.post.PostRepository;
 import com.example.hwh_community.raid.RaidDto;
@@ -39,16 +40,24 @@ public class AdminController {
     public String admin_hom(@CurrentAccount Account admin, Model model,
                             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
+        if(admin.getRole() == ROLE.ROLE_USER){
+            return "index";
+        }
 
         Page<Account> accounts = accountRepository.findAll(pageable);
         model.addAttribute("accounts",accounts);
         model.addAttribute("sortProperty", pageable.getSort().toString().contains("id") ? "id" : "id");
-        return "/admin/adminhom";
+        return "admin/adminhom";
     }
 
     @GetMapping("admin/admin_hom/{id}")
     public String Account_del(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
+        Account account = accountRepository.findById(id).get();
 
+        if(account.getRole() == ROLE.ROLE_ADMIN){
+            return "redirect:/admin/admin_hom";
+        }
+        
         accountRepository.deleteById(id);
         List<Account> accounts = accountRepository.findAll();
         model.addAttribute("accounts",accounts);
@@ -60,10 +69,14 @@ public class AdminController {
                              @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
                              ) {
 
+        if(admin.getRole() == ROLE.ROLE_USER){
+            return "index";
+        }
+
         Page<Post> posts = postRepository.findAll(pageable);
         model.addAttribute("posts",posts);
         model.addAttribute("sortProperty", pageable.getSort().toString().contains("id") ? "id" : "id");
-        return "/admin/adminpost";
+        return "admin/adminpost";
     }
 
     @GetMapping("admin/admin_post/{id}")
@@ -81,10 +94,13 @@ public class AdminController {
     public String admin_raid(@CurrentAccount Account admin, Model model,
                              @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
+        if(admin.getRole() == ROLE.ROLE_USER){
+            return "index";
+        }
         Page<Raid> raids = raidRepository.findAll(pageable);
         model.addAttribute("raids",raids);
         model.addAttribute("sortProperty", pageable.getSort().toString().contains("id") ? "id" : "id");
-        return "/admin/adminraid";
+        return "admin/adminraid";
     }
 
     @GetMapping("admin/admin_raid/{id}")

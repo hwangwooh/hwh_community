@@ -28,7 +28,7 @@
         <td class="col-1" th:text="${post.title}"></td>
         <td class="col-2" th:text="${post.commentList.size()}"></td>
         <td>
-            <a type="button" class="btn btn-danger"  th:href="@{/admin/admin_post/{id}(id = ${post.id})}">강퇴</a>
+            <a type="button" class="btn btn-danger"  th:href="@{/admin/admin_post/{id}(id = ${post.id})}">삭제</a>
         </td>
 
       </tr>

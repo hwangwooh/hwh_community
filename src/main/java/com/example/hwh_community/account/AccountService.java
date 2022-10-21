@@ -42,6 +42,7 @@ public class AccountService implements UserDetailsService {
         return save;
 
     }
+
     public void login(Account account) {
      //   Account account = accountRepository.findByEmail(Account.getEmail());
 
