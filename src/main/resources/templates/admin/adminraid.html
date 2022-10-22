@@ -24,10 +24,10 @@
       <tbody>
       <tr th:each="raid : ${raids}">
 
-        <td class="col-2" th:text="${raid.id}"></td>
-        <td class="col-1" th:text="${raid.title}"></td>
+        <td class="col-1" th:text="${raid.id}"></td>
+        <td class="col-5" th:text="${raid.title}"></td>
         <td class="col-2" th:text="${raid.members.size()}"></td>
-        <td>
+        <td class="col-2">
           <a type="button" class="btn btn-danger"  th:href="@{/admin/admin_raid/{id}(id = ${raid.id})}">삭제</a>
         </td>
 
