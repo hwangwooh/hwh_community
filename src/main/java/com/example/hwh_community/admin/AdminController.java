@@ -103,7 +103,7 @@ public class AdminController {
         return "admin/adminraid";
     }
 
-    @GetMapping("admin/admin_raid/{id}")
+    @GetMapping("admin/admin_raid/{id}")/
     public String raid_del(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
 
 
