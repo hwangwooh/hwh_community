@@ -41,13 +41,12 @@ public class PostService {
     public Page<Post> getList(String searchText, Pageable pageable)
     {
         Page<Post> posts = postRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
+
         return posts;
     }
 
 
-    public List<PostDto> getList2(PostSearch postSearch) {//?page=0&size=10
-        //return postRepository.findAll().stream().map(post -> new PostResponse(post)).collect(Collectors.toList());
-        // Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC,"id"));
+    public List<PostDto> getList2(PostSearch postSearch) {
 
         return postRepository.getList(postSearch).stream().map(post -> PostDto.builder()
                         .id(post.getId())

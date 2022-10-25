@@ -42,7 +42,19 @@
                            <li class="media mt-3">
                                 <div class="media-body">
                                      <h5 class="mt-0 mb-1">
-                                         <svg th:data-jdenticon-value="${raid.account.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
+
+                                         <svg width="32" height="32"  href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                                              aria-haspopup="true" aria-expanded="false" th:data-jdenticon-value="${raid.account.nickname}"
+                                              class="rounded border bg-light"></svg>
+
+                                         <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
+                                             <h6 class="dropdown-header">
+                                                 <span th:text="${raid.account.nickname}"></span>
+                                             </h6>
+                                             <div class="dropdown-divider"></div>
+                                             <a class="dropdown-item"th:href="@{/raid/profile/{nickname} (nickname = ${raid.account.nickname})}">프로필</a>
+                                         </div>
+
                                          <span th:text="${raid.account.nickname}"></span>
                                          <span th:text="${raid.account.occupation}"></span>
                                          <span class="badge badge-primary">공대장</span>
@@ -50,10 +62,23 @@
                                 </div>
                            </li>
 
+
+
+
                             <li class="media mt-3" th:each="member: ${raid.members}">
                                 <div class="media-body">
                                     <h5 class="mt-0 mb-1" th:if="${not#strings.equals(member.nickname,raid.account.nickname)}"  >
-                                        <svg  th:data-jdenticon-value="${member.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
+                                        <svg width="32" height="32"  href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                                             aria-haspopup="true" aria-expanded="false" th:data-jdenticon-value="${member.nickname}"
+                                             class="rounded border bg-light"></svg>
+
+                                        <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
+                                            <h6 class="dropdown-header">
+                                                <span th:text="${member.nickname}"></span>
+                                            </h6>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item"th:href="@{/raid/profile/{nickname} (nickname = ${member.nickname})}">프로필</a>
+                                        </div>
                                         <span th:text="${member.nickname}"></span>
                                         <span th:text="${member.occupation}"></span>
                                     </h5>
@@ -61,17 +86,6 @@
                             </li>
                         </ul>
                     </div>
-<!--                    <div class="row px-3 justify-content-center">-->
-<!--                        <ul class="list-unstyled col-10">-->
-<!--                            <li>-->
-<!--                                <div class="media-body" th:with="username=${#authentication.name}">-->
-<!--                                    <h5 class="mt-0 mb-1">   <svg th:data-jdenticon-value="${raid.account.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>-->
-<!--                                        <span th:text="${raid.account.nickname}"></span> <span th:if="${#strings.equals(raid.account.nickname, username)}" class="badge badge-primary">공대장</span></h5>-->
-<!--                                </div>-->
-<!--                            </li>-->
-
-<!--                        </ul>-->
-<!--                    </div>-->
 
 
                     <div style="float:right;" th:with="username=${#authentication.name}" >

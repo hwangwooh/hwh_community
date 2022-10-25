@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: main-nav"></div>
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-2">
+
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <h2 class="col-sm-12" th:text="${account.nickname}">test123</h2>
+            </div>
+            <div class="row mt-3">
+
+                    <div>
+                        <label>한 줄 소개</label>
+                        <dd th:text="${account.bio}"></dd>
+                        <label>링크</label>
+                        <dd th:text="${account.url}"></dd>
+                        <label>직업</label>
+                        <dd th:text="${account.occupation}"> </dd>
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="application/javascript">
+
+</script>
+</body>
+</html>

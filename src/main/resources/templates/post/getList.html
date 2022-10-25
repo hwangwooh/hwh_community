@@ -20,7 +20,11 @@
         <tbody>
         <tr th:each="post : ${boards}">
             <td class="col-1" th:text="${post.id}"></td>
-            <td><a th:href="@{'/post/postContent/' + ${post.id}}"><span class="col-4" th:text="${post.title}"></span></a></td>
+            <td>
+                <a th:href="@{'/post/postContent/' + ${post.id}}">
+                <span class="col-4" th:text="${post.title}"></span>
+                </a>
+            </td>
             <td class="col-2" th:text="${post.dateTime}"></td>
             <td class="col-2" th:text="${post.account.nickname}"></td>
             <td class="col-1" th:text="${post.countVisit}"></td>

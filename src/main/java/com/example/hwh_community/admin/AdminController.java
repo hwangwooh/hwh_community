@@ -11,11 +11,14 @@ import com.example.hwh_community.post.PostRepository;
 import com.example.hwh_community.raid.RaidDto;
 import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.signup.SignUpForm;
+import com.example.hwh_community.signup.WriteUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -103,7 +106,7 @@ public class AdminController {
         return "admin/adminraid";
     }
 
-    @GetMapping("admin/admin_raid/{id}")/
+    @GetMapping("admin/admin_raid/{id}")
     public String raid_del(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
 
 
@@ -114,5 +117,7 @@ public class AdminController {
 
         return "redirect:/admin/admin_raid";
     }
+
+
 
 }

@@ -66,8 +66,6 @@ public class PostController {
 
 
         Page<Post> boards = postService.getList(searchText, pageable);
-
-
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 1);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 3);
 
@@ -94,15 +92,14 @@ public class PostController {
     @PostMapping("post/postContent/{id}")
     public String addComment(@CurrentAccount Account account,@PathVariable("id") Long id, @Valid CommentDto commentDto, Model model) {
 
-
         Post post = postRepository.findById(id).get();
-
         commentService.commentsvae(commentDto, post, account);
         List<Comment> comments = commentRepository.findCommentsBoardId(id);
 
         model.addAttribute("comments", comments);
         model.addAttribute(post);
         return "redirect:"+id;
+
     }
 
     @GetMapping("post/edit/{id}")

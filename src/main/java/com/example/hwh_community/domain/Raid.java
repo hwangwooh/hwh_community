@@ -43,9 +43,9 @@ public class Raid {
 
     private LocalDateTime recruitingUpdatedDateTime;
 
-    private boolean recruiting;
+    private boolean recruiting = true;
 
-    private boolean published;
+    private boolean published = true;
 
     private boolean closed;
 
@@ -54,22 +54,6 @@ public class Raid {
     private String tag;
 
     private Long maximum;
-
-    public boolean isJoinable(UserAccount userAccount) {
-
-        Account account = userAccount.getAccount();
-        return this.isPublished() && this.isRecruiting()
-                && !this.members.contains(account) && this.account == account;
-
-    }
-    public boolean isMember(UserAccount userAccount) {
-        return this.members.contains(userAccount.getAccount());
-    }
-
-    public boolean isManager(UserAccount userAccount) {
-        return this.account == account;
-    }
-
 
     public void addMemeber(Account account) {
         this.members.add(account);

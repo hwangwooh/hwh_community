@@ -33,6 +33,7 @@ public class Post {
 
     private Long countVisit = 0L;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE) // cascade = CascadeType.REMOVE 연관 관계 코멘트도 같이 삭제할수 있음
     private List<Comment> commentList = new ArrayList<>();

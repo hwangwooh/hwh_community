@@ -20,17 +20,16 @@
                                 </a>
                                 <p class="card-text" th:utext="${raid.shortDescription}">Short description</p>
                                 <p class="card-text context">
-                                    <span th:each="tag: ${raid.tag}"
-                                          class="font-weight-light text-monospace badge badge-pill badge-info mr-3">
+                                    <span class="font-weight-light text-monospace badge badge-pill badge-info mr-3">
                                         <a class="text-decoration-none text-white">
-                                            <i class="fa fa-tag"></i> <span th:text="${tag}">Tag</span>
+                                            <i class="fa fa-tag"></i> <span th:text="${raid.tag}">Tag</span>
                                         </a>
                                     </span>
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">
                                         <i class="fa fa-user-circle"></i>
-                                        <span th:text="${raid.members.size()}"></span>명
+                                        <span th:text="${raid.members.size() + '/' + raid.maximum }"></span>명
                                     </small>
 
                                     <small class="text-muted date"

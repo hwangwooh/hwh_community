@@ -119,9 +119,13 @@ public class RaidController {
         return "raid/raid-hom";
     }
     @GetMapping("raid/raid-hom/{id}/add/{member}") // 참가
-    public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
+    public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).get();
+        if(raid.getMembers().size() <= raid.getMaximum()){
+            attributes.addFlashAttribute("message", "인원 초과 입니다.");
+            return  "redirect:/raid/raid-hom/"+id;
+        }
         Account byNickname = accountRepository.findByNickname(member);
         raid.addMemeber(byNickname);
         raidRepository.save(raid);
@@ -131,7 +135,9 @@ public class RaidController {
     @GetMapping("raid/raid-hom/{id}/remove/{member}") // 탈퇴
     public String postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
 
+
         Raid raid = raidRepository.findById(id).get();
+
         Account byNickname = accountRepository.findByNickname(member);
         raid.removeMember(byNickname);
         raidRepository.save(raid);
@@ -206,6 +212,17 @@ public class RaidController {
         return "redirect:/raid/raid-hom/"+id;
     }
 
+    @GetMapping("raid/profile/{nickname}")
+    public String getraidprofile(@PathVariable("nickname") String nickname, Model model
+            ,RedirectAttributes attributes) {
+
+        Account account = accountRepository.findByNickname(nickname);
+
+
+        model.addAttribute("account",account);
+
+        return "raid/profile";
+    }
 
 
 }
