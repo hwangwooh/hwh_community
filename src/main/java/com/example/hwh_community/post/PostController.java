@@ -64,11 +64,12 @@ public class PostController {
     public String getListUpForm(Model model, @PageableDefault(size = 10) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "") String searchText) {
 
-
+        List<Post> notice = postService.getnotice();
         Page<Post> boards = postService.getList(searchText, pageable);
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 1);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 3);
 
+        model.addAttribute("notice", notice);
         model.addAttribute("boards", boards);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);

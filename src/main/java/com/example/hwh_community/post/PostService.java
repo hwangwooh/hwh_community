@@ -37,12 +37,32 @@ public class PostService {
         return save;
     }
 
+    public Post write2(WriteUpForm postUpForm,Account username) {
+
+        Post post = Post.builder().title(postUpForm
+                        .getTitle())
+                .content(postUpForm.getContent().replace("\r\n","<br>")) //
+                .dateTime(LocalDate.now())
+                .notice(true)
+                .countVisit(0L)
+                .account(username)
+                .build();
+
+        Post save = postRepository.save(post);
+        return save;
+    }
+
 
     public Page<Post> getList(String searchText, Pageable pageable)
     {
         Page<Post> posts = postRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
 
         return posts;
+    }
+
+    public List<Post> getnotice() {
+        List<Post> post = postRepository.findnotice();
+        return post;
     }
 
 
@@ -84,4 +104,6 @@ public class PostService {
         Post save = postRepository.save(post);
         return save;
     }
+
+
 }

@@ -21,4 +21,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch();
         return fetch;
     }
+
+    @Override
+    public List<Post> findnotice() {
+        List<Post> post =  jpaQueryFactory.selectFrom(QPost.post).where(QPost.post.notice.eq(true)).orderBy(QPost.post.id.desc()).fetch();
+        return post;
+    }
 }

@@ -18,6 +18,19 @@
         </tr>
         </thead>
         <tbody>
+
+        <tr class="table-info" th:each="post2 : ${notice}">
+            <td class="col-1" th:text="${post2.id}"></td>
+            <td>
+                <a th:href="@{'/post/postContent/' + ${post2.id}}">
+                    <span class="col-4" th:text="'공지 : '+ ${post2.title}"></span>
+                </a>
+            </td>
+            <td class="col-2" th:text="${post2.dateTime}"></td>
+            <td class="col-2" th:text="${post2.account.nickname}"></td>
+            <td class="col-1" th:text="${post2.countVisit}"></td>
+        </tr>
+
         <tr th:each="post : ${boards}">
             <td class="col-1" th:text="${post.id}"></td>
             <td>

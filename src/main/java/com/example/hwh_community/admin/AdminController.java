@@ -8,6 +8,7 @@ import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.domain.ROLE;
 import com.example.hwh_community.domain.Raid;
 import com.example.hwh_community.post.PostRepository;
+import com.example.hwh_community.post.PostService;
 import com.example.hwh_community.raid.RaidDto;
 import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.signup.SignUpForm;
@@ -35,6 +36,7 @@ public class AdminController {
 
     private final AccountRepository accountRepository;
     private final PostRepository postRepository;
+    private final PostService postService;
     private final CommentRepository commentRepository;
     private final RaidRepository raidRepository;
 
@@ -85,6 +87,12 @@ public class AdminController {
     @GetMapping("admin/admin_post/{id}")
     public String post_del(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
 
+        Post post = postRepository.findById(id).get();
+        if(post.isNotice()){
+            postRepository.deleteById(id);
+
+            return "redirect:/admin/write";
+        }
 
         postRepository.deleteById(id);
 
@@ -116,6 +124,29 @@ public class AdminController {
         model.addAttribute("raids",raids);
 
         return "redirect:/admin/admin_raid";
+    }
+
+    @GetMapping("admin/write")
+    public String noticewriteUpForm(Model model) {
+
+        List<Post> notice = postService.getnotice();
+        model.addAttribute("writeUpForm", new WriteUpForm());//"WriteUpForm" 생약 가능
+        model.addAttribute("notice", notice);//"WriteUpForm" 생약 가능
+        return "admin/write";
+    }
+
+    @PostMapping("admin/write")
+    public String noticewriteSubmit(@CurrentAccount Account admin, @Valid WriteUpForm writeUpForm, Errors errors) {
+        if(admin.getRole() == ROLE.ROLE_USER){
+            return "index";
+        }
+
+        if (errors.hasErrors()) {
+            return "admin/write";
+        }
+        postService.write2(writeUpForm,admin);
+
+        return "redirect:/admin/write";
     }
 
 

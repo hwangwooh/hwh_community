@@ -122,7 +122,7 @@ public class RaidController {
     public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).get();
-        if(raid.getMembers().size() <= raid.getMaximum()){
+        if(raid.getMembers().size() >= raid.getMaximum()){
             attributes.addFlashAttribute("message", "인원 초과 입니다.");
             return  "redirect:/raid/raid-hom/"+id;
         }
