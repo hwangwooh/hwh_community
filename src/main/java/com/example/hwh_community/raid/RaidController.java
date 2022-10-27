@@ -126,6 +126,11 @@ public class RaidController {
             attributes.addFlashAttribute("message", "인원 초과 입니다.");
             return  "redirect:/raid/raid-hom/"+id;
         }
+
+        if(!raid.isPublished()){
+            attributes.addFlashAttribute("message", "모집완료 되었습니다.");
+            return  "redirect:/raid/raid-hom/"+id;
+        }
         Account byNickname = accountRepository.findByNickname(member);
         raid.addMemeber(byNickname);
         raidRepository.save(raid);
@@ -222,6 +227,26 @@ public class RaidController {
         model.addAttribute("account",account);
 
         return "raid/profile";
+    }
+
+    @GetMapping("raid/raid-hom/published/{id}")
+    public String getpublished(@PathVariable("id") Long id){
+
+        Raid raid = raidRepository.findById(id).get();
+
+        if(raid.isPublished()){
+            raid.setPublished(false);
+            raidRepository.save(raid);
+
+        }else{
+
+            raid.setPublished(true);
+            raidRepository.save(raid);
+        }
+
+
+
+        return "redirect:/raid/raid-hom/"+id;
     }
 
 

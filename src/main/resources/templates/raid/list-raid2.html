@@ -36,6 +36,10 @@
                                            th:text="${#temporals.format(raid.publishedDateTime, 'yyyy-MM-dd HH:mm:ss')}"></small>
                                 </div>
                             </div>
+
+                            <div class="card-footer"  th:if="${raid.published == false}">
+                               모집 완료
+                            </div>
                         </div>
                     </div>
                 </div>

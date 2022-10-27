@@ -1,12 +1,11 @@
 package com.example.hwh_community.domain;
 
 
-import com.example.hwh_community.account.UserAccount;
+import com.example.hwh_community.raid.Gametype;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,13 +46,16 @@ public class Raid {
 
     private boolean published = true;
 
-    private boolean closed;
+    private boolean closed = false;
 
     private boolean useBanner;
 
     private String tag;
 
     private Long maximum;
+
+    @Enumerated(EnumType.STRING)
+    private Gametype gametype;
 
     public void addMemeber(Account account) {
         this.members.add(account);

@@ -21,7 +21,7 @@ repositories {
 }
 
 bootJar{
-    archiveVersion = "0.0.6"
+    archiveVersion = "0.0.7"
 }
 
 dependencies {

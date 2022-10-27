@@ -89,12 +89,15 @@
 
 
                     <div style="float:right;" th:with="username=${#authentication.name}" >
+                        <a type="button" class="btn btn-warning" th:href="@{/raid/raid-hom/published/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username) && raid.published == true}">모집완료</a>
+                        <a type="button" class="btn btn-success" th:href="@{/raid/raid-hom/published/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username) && raid.published == false}">모집진행</a>
 <!--                        th:with="username=${#authentication.name}"-->
                         <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/{id}/add/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">참가</a>
 
 <!--                        th:href="@{/post/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}"-->
                         <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/{id}/remove/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">탈퇴</a>
                         <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/delete/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username)}">삭제</a>
+
                     </div>
                 </div>
 

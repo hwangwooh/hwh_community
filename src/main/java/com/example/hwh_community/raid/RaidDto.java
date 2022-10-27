@@ -46,4 +46,5 @@ public class RaidDto {
     private String tag;
 
     private Long maximum;
+
 }

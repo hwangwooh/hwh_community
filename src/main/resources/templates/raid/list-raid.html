@@ -13,6 +13,7 @@
                 <div class="row">
                     <div class="col-md-3" th:each="raid: ${raids.getContent()}">
                         <div class="card mb-4 shadow-sm">
+
                             <div class="card-body">
                                 <a class="text-decoration-none" th:href="@{'/raid/raid-hom/' + ${raid.id}}">
 
@@ -36,6 +37,9 @@
                                     <small class="text-muted date"
                                            th:text="${#temporals.format(raid.publishedDateTime, 'yyyy-MM-dd HH:mm:ss')}"></small>
                                 </div>
+                            </div>
+                            <div class="card-footer"  th:if="${raid.published == false}">
+                                모집 완료
                             </div>
                         </div>
                     </div>

@@ -22,12 +22,14 @@ public class RaidService {
 
 
     public Raid newraid(Account account, RaidDto raidDto) {
+
         Raid raid = Raid.builder().account(account)
                 .members(new HashSet<>())
                 .title(raidDto.getTitle())
-                .shortDescription(raidDto.getShortDescription().replace("\r\n","<br>"))
+                .shortDescription(raidDto.getShortDescription().replace("\r\n", "<br>"))
                 .publishedDateTime(LocalDateTime.now())
                 .maximum(raidDto.getMaximum())
+                .published(true)
                 .tag(raidDto.getTag()).build();
         raid.addMemeber(account);
         Raid save = raidRepository.save(raid);
