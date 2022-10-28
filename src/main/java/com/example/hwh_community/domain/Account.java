@@ -49,5 +49,13 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private ROLE role;
 
+    @JsonIgnore
+    @OneToMany
+    private List<Post> postList = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany
+    private List<Raid> raidList = new ArrayList<>();
+
 
 }

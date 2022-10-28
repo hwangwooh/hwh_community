@@ -24,7 +24,9 @@
       <tbody>
       <tr th:each="account : ${accounts}">
 
-        <td class="col-2" th:text="${account.nickname}"></td>
+        <td class="col-2" >
+          <a href="#" th:text="${account.nickname}" class="alert-link"></a>
+        </td>
         <td class="col-2" th:text="${account.email}"></td>
         <td class="col-4" th:text="${account.password}"></td>
         <td class="col-2">
