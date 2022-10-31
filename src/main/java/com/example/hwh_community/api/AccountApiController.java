@@ -20,10 +20,14 @@ public class AccountApiController {
     private AccountService accountService;
 
 
-    @PostMapping("/sign-up")
+    @PostMapping("/api/sign-up")
     public void signUpSubmit(@RequestBody @Valid SignUpForm signUpForm) {
 
         Account account = accountService.saveNewAccount(signUpForm);
         accountService.login(account);
     }
+
+
+
+
 }
