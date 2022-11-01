@@ -1,5 +1,8 @@
 package com.example.hwh_community.post;
 
+import com.example.hwh_community.api.AccountApiController;
+import com.example.hwh_community.api.Dto.AccontApiDto;
+import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Post;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -17,10 +20,10 @@ public class PostDto {
     private Long id;
 
     @NotBlank
-    @Length(min = 2,max = 20)
+    @Length(min = 3,max = 20)
     public String title;
     @NotBlank
-    @Length(min = 2,max = 300)
+    @Length(min = 3,max = 300)
     public String content;
 
 
@@ -29,6 +32,5 @@ public class PostDto {
     private String nickname;
 
     private Long countVisit;
-
 
 }

@@ -29,6 +29,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return fetch;
     }
 
+
+
     @Override
     public List<Post> findnotice() {
         List<Post> post =  jpaQueryFactory.selectFrom(QPost.post)
@@ -41,9 +43,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public List<Post> findbyidapi(Long id) {
         List<Post> fetch = jpaQueryFactory.selectFrom(post)
-                .join(comment1.post,post).fetchJoin()
-               // .join(account.postList,post).fetchJoin()
+                .join(post.account,account).fetchJoin()
+                .join(post.commentList,comment1).fetchJoin()
                 .where(post.id.eq(id))
+                .distinct()
                 .fetch();
         return fetch;
     }

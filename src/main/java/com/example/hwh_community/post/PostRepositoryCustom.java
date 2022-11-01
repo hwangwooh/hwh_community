@@ -11,6 +11,7 @@ public interface PostRepositoryCustom {
 
     List<Post> getList(PostSearch postSearch);
 
+
     List<Post> findnotice();
 
     List<Post> findbyidapi(Long id);

@@ -69,23 +69,19 @@ public class PostService {
     }
 
 
-    public List<PostDto> getnotice2() {
+    public List<PostApiDto> getnotice2() {
         List<Post> post = postRepository.findnotice();
-        List<PostDto> postDtos = new ArrayList<>();
-        modelMapper.map(post,postDtos);
-        return postDtos;
+        List<PostApiDto> postApiDtos = post.stream().map(p -> new PostApiDto(p)).collect(Collectors.toList());
+        return postApiDtos;
     }
 
 
-    public List<PostDto> getList2(PostSearch postSearch) {
+    public List<PostApiDto> getList2(PostSearch postSearch) {
 
-        return postRepository.getList(postSearch).stream().map(post -> PostDto.builder()
-                        .id(post.getId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .dateTime(post.getDateTime())
-                        .build())
-                .collect(Collectors.toList());
+
+     return postRepository.getList(postSearch).stream().map(post -> new PostApiDto(post)).collect(Collectors.toList());
+
+
     }
 
 
@@ -120,10 +116,18 @@ public class PostService {
     public List<PostApiDto> getListapi(Long id) {
 
         List<Post> findbyidapi = postRepository.findbyidapi(id);
-        List<PostApiDto> postApiDto = new ArrayList<>();
-        modelMapper.map(findbyidapi, postApiDto);
-        return postApiDto;
+
+        List<PostApiDto> postApiDtos = findbyidapi.stream().map(p -> new PostApiDto(p)).collect(Collectors.toList());
+
+        return postApiDtos;
     }
 
 
+    public PostDto getedit(Long id) {
+
+        Post post = postRepository.findById(id).get();
+        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent().replace("<br>","\r\n"),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());
+
+        return postDto;
+    }
 }

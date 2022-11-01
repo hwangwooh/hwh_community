@@ -1,5 +1,7 @@
 package com.example.hwh_community.api.Dto;
 
+import com.example.hwh_community.domain.Account;
+import com.example.hwh_community.domain.Comment;
 import lombok.Data;
 
 import javax.persistence.Lob;
@@ -11,5 +13,11 @@ public class CommentApiDto {
 
     private String comment;
 
-    private List<AccontApiDto> accontApiDtos;
+    private AccontApiDto account;
+
+    public CommentApiDto(Comment c) {
+        this.id = c.getId();
+        this.comment = c.getComment();
+        this.account = new AccontApiDto(c.getAccount());
+    }
 }

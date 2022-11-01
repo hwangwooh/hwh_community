@@ -106,9 +106,9 @@ public class PostController {
     @GetMapping("post/edit/{id}")
     public String getedit(@PathVariable("id") Long id, Model model) {
 
-        Post post = postRepository.findById(id).get();
-        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent().replace("<br>","\r\n"),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());
 
+
+        PostDto postDto = postService.getedit(id);
         model.addAttribute(postDto);
 
         return "post/edit";
