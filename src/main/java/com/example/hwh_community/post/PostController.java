@@ -125,9 +125,9 @@ public class PostController {
     }
 
     @GetMapping("post/postdelete/{id}")
-    public String postdelete(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+    public String postdelete(@CurrentAccount Account account,@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
 
-        postService.delete(id);
+        postService.delete(account, id);
         return "redirect:/post/getList";
 
     }

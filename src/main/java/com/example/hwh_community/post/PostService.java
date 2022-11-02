@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,11 +94,14 @@ public class PostService {
     }
 
 
-    public void delete(Long id) {
+    public void delete(Account account, Long id) {
 
 
         Post post = postRepository.findById(id).orElseThrow();
-        postRepository.delete(post);
+        if(post.getAccount() == account){
+            postRepository.delete(post);
+        }
+
         //jpaQueryFactory.delete(comment).where(comment.post.id.eq(id)).execute();// c
 
 

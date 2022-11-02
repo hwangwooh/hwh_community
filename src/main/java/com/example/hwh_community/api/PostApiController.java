@@ -85,7 +85,7 @@ public class PostApiController {
 
     }
 
-    @PostMapping("post/api/edit/{id}")
+    @PatchMapping("post/api/edit/{id}")
     public void postedit(@PathVariable("id") Long id,@RequestBody @Valid PostDto postDto) {
 
         postService.edit(id, postDto);
@@ -97,8 +97,9 @@ public class PostApiController {
      * 수정예정 다른 사림도 지울수 잇음
      */
     @DeleteMapping("post/postdelete/{id}")
-    public void postdelete(@PathVariable("id") Long id) {
-        postService.delete(id);
+    public void postdelete(@CurrentAccount Account account,@PathVariable("id") Long id) {
+
+        postService.delete(account,id);
     }
 
 
