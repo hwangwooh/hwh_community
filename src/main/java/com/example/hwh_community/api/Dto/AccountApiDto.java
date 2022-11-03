@@ -4,7 +4,7 @@ import com.example.hwh_community.domain.Account;
 import lombok.Data;
 
 @Data
-public class AccontApiDto {
+public class AccountApiDto {
 
     private String nickname;
 
@@ -18,7 +18,7 @@ public class AccontApiDto {
 
     private String profileImage;
 
-    public AccontApiDto(Account account) {
+    public AccountApiDto(Account account) {
         this.nickname = account.getNickname();
         this.bio = account.getBio();
         this.url = account.getUrl();

@@ -1,5 +1,6 @@
 package com.example.hwh_community.raid;
 
+import com.example.hwh_community.api.Dto.RaidApiDto;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Raid;
 
@@ -10,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +47,21 @@ public class RaidService {
         raid.setShortDescription(raidDto.getShortDescription().replace("\r\n","<br>"));
         raid.setTag(raidDto.getTag());
         raid.setMaximum(raidDto.getMaximum());
+
+    }
+
+    public List<RaidApiDto> raidlist(RaidSearch raidSearch) {
+
+      return raidRepository.getList(raidSearch).stream().map(raid -> new RaidApiDto(raid)).collect(Collectors.toList());
+    }
+
+    public List<RaidApiDto> raidlisttag(RaidSearch raidSearch,String tag) {
+
+        return raidRepository.getListtag(raidSearch,tag).stream().map(raid -> new RaidApiDto(raid)).collect(Collectors.toList());
+    }
+
+    public List<RaidApiDto> raidlistme(Account account, RaidSearch raidSearch) {
+        return raidRepository.getListme(raidSearch, account).stream().map(raid -> new RaidApiDto(raid)).collect(Collectors.toList());
 
     }
 }

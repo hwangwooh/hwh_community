@@ -2,6 +2,7 @@ package com.example.hwh_community.api;
 
 import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.account.CurrentAccount;
+import com.example.hwh_community.api.Dto.RaidApiDto;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Raid;
 import com.example.hwh_community.post.PostSearch;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,62 +45,66 @@ public class raidApiController {
 
     }
 
-    @GetMapping("raid/api/list-raid")
-    public String getlistraid2(@PathVariable("tag") String tag, Model model, @CurrentAccount Account account,@ModelAttribute RaidSearch raidSearch)
+    @GetMapping("raid/api/list-raid/{tag}")
+    public List<RaidApiDto> getlistraid2(@PathVariable("tag") String tag, Model model, @CurrentAccount Account account,@ModelAttribute RaidSearch raidSearch)
     {
-
-        return "null";
+        List<RaidApiDto> raidApiDtoList = raidService.raidlist(raidSearch);
+        return raidApiDtoList;
     }
 
-    @GetMapping("raid/api/list-raid")
-    public String getlistraid(@PathVariable("tag") String tag, Model model, @CurrentAccount Account account
-            , @ModelAttribute RaidSearch raidSearch) {
-
-        return "null";
-
+    @GetMapping("raid/api/list-raid/{tag}")
+    public List<RaidApiDto> getlistraid(@PathVariable("tag") String tag
+            ,@CurrentAccount Account account
+            ,@ModelAttribute RaidSearch raidSearch)
+    {
+        List<RaidApiDto> raidApiDtoList = raidService.raidlisttag(raidSearch,tag);
+        return raidApiDtoList;
     }
 
     @GetMapping("raid/api/list-raid/me")
-    public String getlistraidme(String tag, Model model,@CurrentAccount Account account,
-                                @PageableDefault(size = 12, sort = "publishedDateTime", direction = Sort.Direction.DESC)
-                                Pageable pageable) {
-
-        Page<Raid> raids = raidRepository.findBymembers(account,pageable);
-
-        model.addAttribute("raids", raids);
-        model.addAttribute("tag", tag);
-        model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-        return "raid/list-raid";
+    public List<RaidApiDto> getlistraidme(String tag, Model model
+            ,@CurrentAccount Account account
+            , @ModelAttribute RaidSearch raidSearch)
+    {
+        List<RaidApiDto> raidApiDtoList = raidService.raidlistme(account,raidSearch);
+        return raidApiDtoList;
     }
 
 
     @GetMapping("raid/api/raid-hom/{id}")
-    public String getraidhom(@PathVariable("id") Long id, Model model) {
+    public RaidApiDto getraidhom(@PathVariable("id") Long id, Model model)
+    {
         Raid raid = raidRepository.findById(id).get();
-        model.addAttribute("raid",raid);
-        return "raid/raid-hom";
+        return new RaidApiDto(raid);
     }
     @GetMapping("raid/api/raid-hom/{id}/add/{member}") // 참가
-    public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, RedirectAttributes attributes) {
+    public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member,@CurrentAccount Account account, RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).get();
+
         if(raid.getMembers().size() >= raid.getMaximum()){
+            //메시지 전달
             attributes.addFlashAttribute("message", "인원 초과 입니다.");
-            return  "redirect:/raid/raid-hom/"+id;
+
         }
 
         if(!raid.isPublished()){
             attributes.addFlashAttribute("message", "모집완료 되었습니다.");
-            return  "redirect:/raid/raid-hom/"+id;
+
         }
+
         Account byNickname = accountRepository.findByNickname(member);
-        raid.addMemeber(byNickname);
+        if(account == byNickname){
+            raid.addMemeber(byNickname);
+        }else // 메시지 ?
+
+
         raidRepository.save(raid);
 
         return "redirect:/raid/raid-hom/"+id;
     }
     @GetMapping("raid/api/raid-hom/{id}/remove/{member}") // 탈퇴
-    public String postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
+    public String postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member,@CurrentAccount Account account, Model model) {
 
 
         Raid raid = raidRepository.findById(id).get();

@@ -1,8 +1,5 @@
 package com.example.hwh_community.api.Dto;
 
-import com.example.hwh_community.api.AccountApiController;
-import com.example.hwh_community.domain.Account;
-import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +29,7 @@ public class PostApiDto {
 
     private List<CommentApiDto> commentList;
 
-    private AccontApiDto account;
+    private AccountApiDto account;
 
 
     public PostApiDto(Post p) {
@@ -45,7 +42,7 @@ public class PostApiDto {
         this.commentList = p.getCommentList().stream()
                 .map(c ->new CommentApiDto(c)).collect(Collectors.toList());
 //        this.commentList = p.getCommentList();
-        this.account = new AccontApiDto(p.getAccount());
+        this.account = new AccountApiDto(p.getAccount());
     }
 
 }

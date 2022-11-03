@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RaidRepository extends JpaRepository<Raid,Long> {
+public interface RaidRepository extends JpaRepository<Raid,Long> ,RaidRepositoryCustom{
 
     Page<Raid> findBytag(String tag, Pageable pageable);
 
