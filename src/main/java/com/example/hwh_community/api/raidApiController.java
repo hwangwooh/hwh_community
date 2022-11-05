@@ -2,6 +2,7 @@ package com.example.hwh_community.api;
 
 import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.account.CurrentAccount;
+import com.example.hwh_community.api.Dto.AccountApiDto;
 import com.example.hwh_community.api.Dto.RaidApiDto;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Raid;
@@ -39,14 +40,13 @@ public class raidApiController {
 
     @PostMapping("raid/api/new-raid")
     public void postraid(@CurrentAccount Account account, @RequestBody @Valid RaidDto raidDto) {
-
-
         Raid raid = raidService.newraid(account, raidDto);
-
     }
 
     @GetMapping("raid/api/list-raid/{tag}")
-    public List<RaidApiDto> getlistraid2(@PathVariable("tag") String tag, Model model, @CurrentAccount Account account,@ModelAttribute RaidSearch raidSearch)
+    public List<RaidApiDto> getlistraid2(@PathVariable("tag") String tag
+            ,@CurrentAccount Account account
+            ,@ModelAttribute RaidSearch raidSearch)
     {
         List<RaidApiDto> raidApiDtoList = raidService.raidlist(raidSearch);
         return raidApiDtoList;
@@ -77,8 +77,10 @@ public class raidApiController {
         Raid raid = raidRepository.findById(id).get();
         return new RaidApiDto(raid);
     }
-    @GetMapping("raid/api/raid-hom/{id}/add/{member}") // 참가
-    public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member,@CurrentAccount Account account, RedirectAttributes attributes) {
+    @PostMapping("raid/api/raid-hom/{id}/add/{member}") // 참가
+    public void postaddmembers(@PathVariable("id") Long id,
+                                 @PathVariable("member") String member
+            ,@CurrentAccount Account account, RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).get();
 
@@ -100,103 +102,102 @@ public class raidApiController {
 
 
         raidRepository.save(raid);
-
-        return "redirect:/raid/raid-hom/"+id;
     }
-    @GetMapping("raid/api/raid-hom/{id}/remove/{member}") // 탈퇴
-    public String postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member,@CurrentAccount Account account, Model model) {
+    @PostMapping("raid/api/raid-hom/{id}/remove/{member}") // 탈퇴
+    public void postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member,@CurrentAccount Account account, Model model) {
 
 
         Raid raid = raidRepository.findById(id).get();
 
         Account byNickname = accountRepository.findByNickname(member);
-        raid.removeMember(byNickname);
-        raidRepository.save(raid);
-        return  "redirect:/raid/raid-hom/"+id;
+        if(account == byNickname){
+            raid.removeMember(byNickname);
+            raidRepository.save(raid);
+        }
+        else{
+
+        }
+
+
     }
 
-    @GetMapping("raid/api/raid-hom/delete/{id}") // 레이드 삭제
-    public String raiddelete(@PathVariable("id") Long id, Model model) {
+    @PostMapping("raid/api/raid-hom/delete/{id}") // 레이드 삭제
+    public void raiddelete(@PathVariable("id") Long id,@CurrentAccount Account account) {
 
 
         Raid raid = raidRepository.findById(id).get();
+        if (raid.getAccount() == account) {
+            raidRepository.delete(raid);
+        } else {
+            // 예정
+        }
 
-        raidRepository.delete(raid);
 
-        return "redirect:/raid/list-raid";
     }
 
 
     @GetMapping("raid/api/membersset/{id}")
-    public String getmembersset(@PathVariable("id") Long id,@CurrentAccount Account account, Model model
+    public RaidApiDto getmembersset(@PathVariable("id") Long id,@CurrentAccount Account account
             ,RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).orElseThrow();
 
+
         if(!raid.getAccount().getNickname().equals(account.getNickname())){
             attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
-            return  "redirect:/raid/raid-hom/"+id;
+
         }
 
-
-        model.addAttribute("raid",raid);
-
-        return "raid/raid-members";
+        return new RaidApiDto(raid);
     }
 
-    @GetMapping("raid/api/memberssetdelete/{raidid}/{id}")
-    public String getmemberssetdelete(@PathVariable("raidid") Long raidid,@PathVariable("id") Long id, Model model
+    @PostMapping ("raid/api/memberssetdelete/{raidid}/{id}")// 레이드 강퇴
+    public RaidApiDto getmemberssetdelete(@PathVariable("raidid") Long raidid,@PathVariable("id") Long id
             ,RedirectAttributes attributes) {
         Raid raid = raidRepository.findById(raidid).get();
         Account account1 = accountRepository.findById(id).get();
         raid.removeMember(account1);
         raidRepository.save(raid);
-        model.addAttribute("raid",raid);
-        return "raid/raid-members";
+        return new RaidApiDto(raid);
     }
 
-    @GetMapping("raid/api/raidset/{id}")
-    public String getraidset(@PathVariable("id") Long id,@CurrentAccount Account account, Model model
+    @GetMapping("raid/api/raidset/{id}")// 레이드 수정
+    public RaidApiDto getraidset(@PathVariable("id") Long id,@CurrentAccount Account account
             ,RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).orElseThrow();
         if(!raid.getAccount().getNickname().equals(account.getNickname())){
             attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
-            return  "redirect:/raid/raid-hom/"+id;
         }
         raid.setShortDescription(raid.getShortDescription().replace("<br>","\r\n"));
 
-        model.addAttribute(new RaidDto());
-        model.addAttribute("raid",raid);
-
-        return "raid/raid-setting";
+        return new RaidApiDto(raid);
     }
 
 
-    @PostMapping("raid/api/raidset/{id}")
-    public String postraidset(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
+    @PostMapping("raid/api/raidset/{id}")//레이드 수정
+    public void postraidset(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
 
 
         raidService.raindset(id,raidDto);
 
 
-        return "redirect:/raid/raid-hom/"+id;
     }
 
-    @GetMapping("raid/api/profile/{nickname}")
-    public String getraidprofile(@PathVariable("nickname") String nickname, Model model
-            ,RedirectAttributes attributes) {
+    @GetMapping("raid/api/profile/{nickname}")// 프로필 조회
+    public AccountApiDto getraidprofile(@PathVariable("nickname") String nickname, Model model
+            , RedirectAttributes attributes) {
 
         Account account = accountRepository.findByNickname(nickname);
 
 
         model.addAttribute("account",account);
 
-        return "raid/profile";
+        return new AccountApiDto(account);
     }
 
-    @GetMapping("raid/api/raid-hom/published/{id}")
-    public String getpublished(@PathVariable("id") Long id){
+    @PostMapping ("raid/api/raid-hom/published/{id}") // 모집 활성
+    public void getpublished(@PathVariable("id") Long id){
 
         Raid raid = raidRepository.findById(id).get();
 
@@ -210,9 +211,6 @@ public class raidApiController {
             raidRepository.save(raid);
         }
 
-
-
-        return "redirect:/raid/raid-hom/"+id;
     }
 
 }
