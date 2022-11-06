@@ -6,7 +6,6 @@ import com.example.hwh_community.comment.CommentDto;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.comment.CommentService;
 import com.example.hwh_community.domain.Account;
-import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.post.PostDto;
 import com.example.hwh_community.post.PostRepository;
@@ -14,15 +13,8 @@ import com.example.hwh_community.post.PostSearch;
 import com.example.hwh_community.post.PostService;
 import com.example.hwh_community.signup.WriteUpForm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -86,9 +78,9 @@ public class PostApiController {
     }
 
     @PatchMapping("post/api/edit/{id}")
-    public void postedit(@PathVariable("id") Long id,@RequestBody @Valid PostDto postDto) {
+    public void postedit(@CurrentAccount Account account,@PathVariable("id") Long id,@RequestBody @Valid PostDto postDto) {
 
-        postService.edit(id, postDto);
+        postService.edit(id, postDto, account);
 
     }
 

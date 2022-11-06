@@ -84,24 +84,28 @@ public class PostService {
 
 
 
-    public void edit(Long id, PostDto postDto) {
+    public boolean edit(Long id, PostDto postDto, Account account) {
+
         Post post = postRepository.findById(id).orElseThrow();
-        post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent().replace("\r\n","<br>"));
-        postRepository.save(post);
+        if(account == post.getAccount()){
+            post.setTitle(postDto.getTitle());
+            post.setContent(postDto.getContent().replace("\r\n","<br>"));
+            postRepository.save(post);
+            return true;
+        }else return false;
 
 
     }
 
 
-    public void delete(Account account, Long id) {
+    public boolean delete(Account account, Long id) {
 
 
         Post post = postRepository.findById(id).orElseThrow();
         if(post.getAccount() == account){
             postRepository.delete(post);
-        }
-
+            return true;
+        } else return false;
         //jpaQueryFactory.delete(comment).where(comment.post.id.eq(id)).execute();// c
 
 
@@ -125,6 +129,7 @@ public class PostService {
 
 
     public PostDto getedit(Long id) {
+
 
         Post post = postRepository.findById(id).get();
         PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent().replace("<br>","\r\n"),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());

@@ -131,6 +131,7 @@ public class RaidController {
             attributes.addFlashAttribute("message", "모집완료 되었습니다.");
             return  "redirect:/raid/raid-hom/"+id;
         }
+
         Account byNickname = accountRepository.findByNickname(member);
         raid.addMemeber(byNickname);
         raidRepository.save(raid);
@@ -140,22 +141,17 @@ public class RaidController {
     @GetMapping("raid/raid-hom/{id}/remove/{member}") // 탈퇴
     public String postremovemembers(@PathVariable("id") Long id, @PathVariable("member") String member, Model model) {
 
-
-        Raid raid = raidRepository.findById(id).get();
-
-        Account byNickname = accountRepository.findByNickname(member);
-        raid.removeMember(byNickname);
-        raidRepository.save(raid);
+        raidService.removemember(id, member);
         return  "redirect:/raid/raid-hom/"+id;
     }
 
     @GetMapping("raid/raid-hom/delete/{id}") // 레이드 삭제
-    public String raiddelete(@PathVariable("id") Long id, Model model) {
+    public String raiddelete(@CurrentAccount Account account,@PathVariable("id") Long id, Model model) {
 
-
-        Raid raid = raidRepository.findById(id).get();
-
-        raidRepository.delete(raid);
+        boolean raiddelete = raidService.raiddelete(id, account);
+        if (!raiddelete){
+            return "index";
+        }
 
         return "redirect:/raid/list-raid";
     }
@@ -179,12 +175,11 @@ public class RaidController {
     }
 
     @GetMapping("raid/memberssetdelete/{raidid}/{id}")
-    public String getmemberssetdelete(@PathVariable("raidid") Long raidid,@PathVariable("id") Long id, Model model
+    public String getmemberssetdelete(@CurrentAccount Account account,@PathVariable("raidid") Long raidid,@PathVariable("id") Long memderid, Model model
             ,RedirectAttributes attributes) {
-        Raid raid = raidRepository.findById(raidid).get();
-        Account account1 = accountRepository.findById(id).get();
-        raid.removeMember(account1);
-        raidRepository.save(raid);
+
+        Raid raid = raidService.memberdelete(account, raidid, memderid);
+
         model.addAttribute("raid",raid);
         return "raid/raid-members";
     }

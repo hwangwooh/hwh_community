@@ -1,5 +1,6 @@
 package com.example.hwh_community.raid;
 
+import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.api.Dto.RaidApiDto;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Raid;
@@ -12,17 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RaidService {
 
     private final RaidRepository raidRepository;
 
     private final ModelMapper modelMapper;
-
+    private final AccountRepository accountRepository;
 
     public Raid newraid(Account account, RaidDto raidDto) {
 
@@ -63,5 +64,32 @@ public class RaidService {
     public List<RaidApiDto> raidlistme(Account account, RaidSearch raidSearch) {
         return raidRepository.getListme(raidSearch, account).stream().map(raid -> new RaidApiDto(raid)).collect(Collectors.toList());
 
+    }
+
+    public void removemember(Long id, String member) {
+
+        Raid raid = raidRepository.findById(id).get();
+        Account byNickname = accountRepository.findByNickname(member);
+        raid.removeMember(byNickname);
+       // raidRepository.save(raid);
+    }
+
+    public boolean raiddelete(Long id, Account account) {
+
+        Raid raid = raidRepository.findById(id).get();
+        if(raid.getAccount() == account){
+            raidRepository.delete(raid);
+            return true;
+        } else return false;
+
+    }
+
+    public Raid memberdelete(Account account, Long raidid, Long memderid) {
+
+        Raid raid = raidRepository.findById(raidid).get();
+        Account account1 = accountRepository.findById(memderid).get();
+        raid.removeMember(account1);
+
+        return raid; // 수정 예정
     }
 }

@@ -43,7 +43,7 @@ public class raidApiController {
         Raid raid = raidService.newraid(account, raidDto);
     }
 
-    @GetMapping("raid/api/list-raid/{tag}")
+    @GetMapping("raid/api/list-raid1/{tag}")
     public List<RaidApiDto> getlistraid2(@PathVariable("tag") String tag
             ,@CurrentAccount Account account
             ,@ModelAttribute RaidSearch raidSearch)
@@ -52,7 +52,7 @@ public class raidApiController {
         return raidApiDtoList;
     }
 
-    @GetMapping("raid/api/list-raid/{tag}")
+    @GetMapping("raid/api/list-raid2/{tag}")
     public List<RaidApiDto> getlistraid(@PathVariable("tag") String tag
             ,@CurrentAccount Account account
             ,@ModelAttribute RaidSearch raidSearch)

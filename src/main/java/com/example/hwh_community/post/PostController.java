@@ -83,8 +83,10 @@ public class PostController {
 
 
         Post post2 = postRepository.findById(id).get();
-        List<Comment> comments = commentRepository.findCommentsBoardId(id);
         Post post = postService.Visit(post2);
+        List<Comment> comments = commentRepository.findCommentsBoardId(id);
+
+
         model.addAttribute(post);
         model.addAttribute("comments", comments);
         return "post/postContent";
@@ -92,6 +94,8 @@ public class PostController {
 
     @PostMapping("post/postContent/{id}")
     public String addComment(@CurrentAccount Account account,@PathVariable("id") Long id, @Valid CommentDto commentDto, Model model) {
+
+
 
         Post post = postRepository.findById(id).get();
         commentService.commentsvae(commentDto, post, account);
@@ -104,9 +108,7 @@ public class PostController {
     }
 
     @GetMapping("post/edit/{id}")
-    public String getedit(@PathVariable("id") Long id, Model model) {
-
-
+    public String getedit(@CurrentAccount Account account,@PathVariable("id") Long id, Model model) {
 
         PostDto postDto = postService.getedit(id);
         model.addAttribute(postDto);
@@ -115,19 +117,28 @@ public class PostController {
     }
 
     @PostMapping("post/edit/{id}")
-    public String postedit(@PathVariable("id") Long id,@Valid PostDto postDto,Errors errors) {
+    public String postedit(@CurrentAccount Account account,@PathVariable("id") Long id,@Valid PostDto postDto,Errors errors) {
 
-        if (errors.hasErrors()) {
+        boolean edit = postService.edit(id, postDto, account);
+        if(!edit){// 다른 사람이 글을 수정 하려고 할때
+            return "index";
+        }
+        if (errors.hasErrors())
+        {
             return "redirect:/post/edit/"+id;
         }
-        postService.edit(id, postDto);
+
         return "redirect:/post/postContent/"+id;
     }
 
     @GetMapping("post/postdelete/{id}")
     public String postdelete(@CurrentAccount Account account,@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
 
-        postService.delete(account, id);
+        boolean delete = postService.delete(account, id);
+
+        if(!delete){
+            return "index";
+        }
         return "redirect:/post/getList";
 
     }
