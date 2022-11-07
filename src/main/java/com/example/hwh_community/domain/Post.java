@@ -40,7 +40,7 @@ public class Post {
     private List<Comment> commentList = new ArrayList<>();
 
     @JoinColumn(name = "account_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Account account;
 
     public void Visitcount(){

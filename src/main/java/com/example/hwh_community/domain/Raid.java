@@ -19,11 +19,11 @@ public class Raid {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Account> members = new HashSet<>();
 
     @Column(unique = true)

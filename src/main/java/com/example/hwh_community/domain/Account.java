@@ -58,4 +58,6 @@ public class Account {
     private List<Raid> raidList = new ArrayList<>();
 
 
+
+
 }

@@ -25,12 +25,12 @@ public class Comment {
     private LocalDate dateTime;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
     @JoinColumn(name = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Account account;
 
 }

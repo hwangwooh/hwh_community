@@ -122,6 +122,7 @@ public class RaidController {
     public String postaddmembers(@PathVariable("id") Long id, @PathVariable("member") String member, RedirectAttributes attributes) {
 
         Raid raid = raidRepository.findById(id).get();
+
         if(raid.getMembers().size() >= raid.getMaximum()){
             attributes.addFlashAttribute("message", "인원 초과 입니다.");
             return  "redirect:/raid/raid-hom/"+id;
@@ -132,9 +133,9 @@ public class RaidController {
             return  "redirect:/raid/raid-hom/"+id;
         }
 
-        Account byNickname = accountRepository.findByNickname(member);
-        raid.addMemeber(byNickname);
-        raidRepository.save(raid);
+        raidService.addmember(raid, member);
+
+
 
         return "redirect:/raid/raid-hom/"+id;
     }
@@ -144,6 +145,8 @@ public class RaidController {
         raidService.removemember(id, member);
         return  "redirect:/raid/raid-hom/"+id;
     }
+
+
 
     @GetMapping("raid/raid-hom/delete/{id}") // 레이드 삭제
     public String raiddelete(@CurrentAccount Account account,@PathVariable("id") Long id, Model model) {

@@ -87,7 +87,7 @@ public class PostService {
     public boolean edit(Long id, PostDto postDto, Account account) {
 
         Post post = postRepository.findById(id).orElseThrow();
-        if(account == post.getAccount()){
+        if(account.equals(post.getAccount())){
             post.setTitle(postDto.getTitle());
             post.setContent(postDto.getContent().replace("\r\n","<br>"));
             postRepository.save(post);
@@ -102,7 +102,7 @@ public class PostService {
 
 
         Post post = postRepository.findById(id).orElseThrow();
-        if(post.getAccount() == account){
+        if(account.equals(post.getAccount())){
             postRepository.delete(post);
             return true;
         } else return false;

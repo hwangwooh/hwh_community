@@ -40,7 +40,6 @@ public class RaidService {
         return save;
     }
 
-    @Transactional
     public void raindset(Long id,RaidDto raidDto) {
 
         Raid raid = raidRepository.findById(id).get();
@@ -91,5 +90,10 @@ public class RaidService {
         raid.removeMember(account1);
 
         return raid; // 수정 예정
+    }
+
+    public void addmember(Raid raid, String member) {
+        Account byNickname = accountRepository.findByNickname(member);
+        raid.addMemeber(byNickname);
     }
 }
