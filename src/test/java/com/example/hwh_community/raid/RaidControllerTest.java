@@ -14,10 +14,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 class RaidControllerTest {
@@ -170,7 +177,7 @@ class RaidControllerTest {
                 .andExpect(view().name("redirect:/raid/raid-hom/"+newraid.getId()))
                 .andExpect(status().is3xxRedirection());
 
-
+        assertTrue(newraid.getMembers().contains(account));
     }
 
     @Test
@@ -196,7 +203,7 @@ class RaidControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(flash().attributeExists("message"));
 
-
+        assertFalse(newraid.getMembers().contains(account));
     }
 
     @Test
@@ -221,6 +228,177 @@ class RaidControllerTest {
                 .andExpect(view().name("redirect:/raid/raid-hom/" + newraid.getId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
+
+        assertFalse(newraid.getMembers().contains(account));
+
+    }
+
+    @Test
+    @DisplayName("레이드삭제")
+    void 레이드삭제() throws Exception
+    {
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        accountService.login(zaq8077);
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+
+
+        mockMvc.perform(get("/raid/raid-hom/delete/" + newraid.getId())
+                        .with(csrf()))
+                .andExpect(view().name("redirect:/raid/list-raid"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
+
+
+    }
+
+    @Test
+    @DisplayName("레이드삭제 다른 사용자가 삭제 시도시")
+    void 레이드삭제다른() throws Exception
+    {
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        accountService.login(zaq8077);
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+        Account account = accountRepository.findByNickname("zaq8077");
+        accountService.login(account);
+
+
+        mockMvc.perform(get("/raid/raid-hom/delete/" + newraid.getId())
+                        .with(csrf()))
+                .andExpect(view().name("index"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+
+    }
+
+    @Test
+    @DisplayName("레이드 셋팅")
+    void 레이드셋팅() throws Exception
+    {
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        accountService.login(zaq8077);
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+
+        mockMvc.perform(get("/raid/membersset/"+newraid.getId())
+                        .with(csrf())).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("raid/raid-members"))
+                .andExpect(model().attributeExists("raid"));
+
+
+    }
+
+    @DisplayName("레이드 인원 추방")
+    @Test
+    void 추방() throws Exception {
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        accountService.login(zaq8077);
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+        Account account = accountRepository.findByNickname("zaq8077");
+        accountService.login(account);
+        raidService.addmember(newraid, account.getNickname());
+
+        accountService.login(zaq8077);
+
+        mockMvc.perform(get("/raid/memberssetdelete/"+newraid.getId()+"/"+account.getId())
+                        .with(csrf())).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("raid/raid-members"))
+                .andExpect(model().attributeExists("raid"));
+
+        assertFalse(newraid.getMembers().contains(account));
+
+    }
+
+
+    @DisplayName("레이드 수정 get")
+    @Test
+    void 레이드수정() throws Exception {
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        accountService.login(zaq8077);
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+        mockMvc.perform(get("/raid/raidset/"+newraid.getId())
+                        .with(csrf())).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("raid/raid-setting"))
+                .andExpect(model().attributeExists("raid"))
+                .andExpect(model().attributeExists("raidDto"));
+
+    }
+
+    @Test
+    @DisplayName("레이드 수정 psot")
+    void 레이드수정post() throws Exception {
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        accountService.login(zaq8077);
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+        mockMvc.perform(post("/raid/raidset/"+newraid.getId())
+                        .param("title", "title2333")
+                        .param("shortDescription", "shortDescription2333")
+                        .param("tag", "qwe")
+                        .param("maximum", "5")
+                        .with(csrf())).andDo(print())
+                .andExpect(status().is3xxRedirection());
+
+        assertEquals(newraid.getTitle(), "title2333");
+        assertEquals(newraid.getShortDescription(), "shortDescription2333");
+
+    }
+
+    @DisplayName("프로필 보기")
+    @Test
+    void 프로필() throws Exception {
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        accountService.login(zaq8077);
+        Account zaq80771 = accountRepository.findByNickname("zaq8077");
+        RaidDto raidDto = new RaidDto();
+        raidDto.setTitle("124124");
+        raidDto.setShortDescription("124124");
+        raidDto.setTag("qqq");
+        raidDto.setMaximum(1L);
+        Raid newraid = raidService.newraid(zaq8077, raidDto);
+
+        mockMvc.perform(get("/raid/profile/"+zaq80771.getNickname())
+                        .with(csrf())).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("raid/profile"))
+                .andExpect(model().attributeExists("account"));
 
     }
 

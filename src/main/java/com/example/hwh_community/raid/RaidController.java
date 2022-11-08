@@ -149,9 +149,11 @@ public class RaidController {
 
 
     @GetMapping("raid/raid-hom/delete/{id}") // 레이드 삭제
-    public String raiddelete(@CurrentAccount Account account,@PathVariable("id") Long id, Model model) {
+    public String raiddelete(@CurrentAccount Account account,@PathVariable("id") Long id) {
 
         boolean raiddelete = raidService.raiddelete(id, account);
+        Raid raid = raidRepository.findById(id).get();
+
         if (!raiddelete){
             return "index";
         }

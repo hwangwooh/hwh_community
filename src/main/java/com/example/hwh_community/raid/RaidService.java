@@ -76,7 +76,7 @@ public class RaidService {
     public boolean raiddelete(Long id, Account account) {
 
         Raid raid = raidRepository.findById(id).get();
-        if(raid.getAccount() == account){
+        if(raid.getAccount().equals(account)){
             raidRepository.delete(raid);
             return true;
         } else return false;
