@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,12 +34,17 @@ public class PostService {
                 .dateTime(LocalDate.now())
                 .countVisit(0L)
                 .account(byNickname)
+                .commentList(new ArrayList<>())
                 .build();
 
         Post save = postRepository.save(post);
         return save;
     }
 
+    /**
+     *
+     * 공지 사함
+     */
     public Post write2(WriteUpForm postUpForm,Account username) {
 
         Post post = Post.builder().title(postUpForm
@@ -118,13 +125,14 @@ public class PostService {
     }
 
 
-    public List<PostApiDto> getListapi(Long id) {
+    public PostApiDto getpost(Long id) {
 
-        List<Post> findbyidapi = postRepository.findbyidapi(id);
+        Post post = postRepository.findById(id).get();
 
-        List<PostApiDto> postApiDtos = findbyidapi.stream().map(p -> new PostApiDto(p)).collect(Collectors.toList());
 
-        return postApiDtos;
+        PostApiDto postApiDto = new PostApiDto(post);
+
+        return postApiDto;
     }
 
 

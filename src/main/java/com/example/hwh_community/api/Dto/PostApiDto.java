@@ -4,7 +4,9 @@ import com.example.hwh_community.domain.Post;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,12 +16,10 @@ public class PostApiDto {
 
 
     private Long id;
-
+    @NotBlank(message = "title 입력해주세요")
     private String title;
-
+    @NotBlank(message = "content 입력해주세요")
     private String content;
-
-
 
     private LocalDate dateTime;
 
@@ -40,8 +40,9 @@ public class PostApiDto {
         this.countVisit = p.getCountVisit();
         this.notice = p.isNotice();
         this.commentList = p.getCommentList().stream()
-                .map(c ->new CommentApiDto(c)).collect(Collectors.toList());
-//        this.commentList = p.getCommentList();
+                    .map(c ->new CommentApiDto(c)).collect(Collectors.toList());
+
+
         this.account = new AccountApiDto(p.getAccount());
     }
 

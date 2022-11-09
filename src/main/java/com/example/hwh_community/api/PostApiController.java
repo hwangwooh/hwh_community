@@ -1,6 +1,7 @@
 package com.example.hwh_community.api;
 
 import com.example.hwh_community.account.CurrentAccount;
+import com.example.hwh_community.api.Dto.CommentEditor;
 import com.example.hwh_community.api.Dto.PostApiDto;
 import com.example.hwh_community.comment.CommentDto;
 import com.example.hwh_community.comment.CommentRepository;
@@ -49,27 +50,27 @@ public class PostApiController {
         return postDtos;
     }
     @GetMapping("post/api/postContent/{id}")
-    public List<PostApiDto> postContent(@PathVariable("id") Long id) {
+    public PostApiDto postContent(@PathVariable("id") Long id) {
 
-        List<PostApiDto> postApiDtos =  postService.getListapi(id);
-
+        PostApiDto postApiDtos = postService.getpost(id);
+        if (postApiDtos.getContent() == ""){
+            return postApiDtos;}
         return postApiDtos;
     }
 
-    @PostMapping("post/api/postContent/{id}") // 코멘트 쓰기
-    public void addComment(@CurrentAccount Account account, @PathVariable("id") Long id,@RequestBody @Valid CommentDto commentDto) {
+    @PostMapping("post/api/comment/{id}") // 코멘트 쓰기
+    public PostApiDto addComment(@PathVariable("id") Long id,@RequestBody @Valid CommentEditor commentEditor,@CurrentAccount Account account) {
 
         Post post = postRepository.findById(id).get();
-        commentService.commentsvae(commentDto, post, account);
+        commentService.commentsvae2(commentEditor, post, account);
 
+        return new PostApiDto(post);
     }
 
     @GetMapping("post/api/edit/{id}")
     public PostDto getedit(@PathVariable("id") Long id, Model model) {
 
         Post post = postRepository.findById(id).get();
-//        PostDto postDto2 = new PostDto(post);
-//        postDto2.setContent(postDto2.getContent().replace("<br>","\r\n"));
        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent().replace("<br>","\r\n"),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());
 
         return postDto;
