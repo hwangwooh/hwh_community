@@ -7,6 +7,7 @@ import com.example.hwh_community.comment.CommentDto;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.comment.CommentService;
 import com.example.hwh_community.domain.Account;
+import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.post.PostDto;
 import com.example.hwh_community.post.PostRepository;
@@ -26,9 +27,9 @@ public class PostApiController {
     private final PostRepository postRepository;
     private final PostService postService;
 
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @PostMapping("post/api/write")
     public void writeSubmit(@CurrentAccount Account account,@RequestBody @Valid WriteUpForm writeUpForm) {
@@ -58,17 +59,19 @@ public class PostApiController {
         return postApiDtos;
     }
 
-    @PostMapping("post/api/comment/{id}") // 코멘트 쓰기
-    public PostApiDto addComment(@PathVariable("id") Long id,@RequestBody @Valid CommentEditor commentEditor,@CurrentAccount Account account) {
+    @PostMapping("/post/api/comment/{id}") // 코멘트 쓰기
+    public PostApiDto addComment(@PathVariable("id") Long id,@RequestBody @Valid CommentDto dto,@CurrentAccount Account account) {
 
-        Post post = postRepository.findById(id).get();
-        commentService.commentsvae2(commentEditor, post, account);
+        Post post1 = postRepository.findById(id).get();
+
+        Post post = commentService.commentsvae(dto, post1, account);
+        List<Comment> comments = commentRepository.findCommentsBoardId(id);
 
         return new PostApiDto(post);
     }
 
     @GetMapping("post/api/edit/{id}")
-    public PostDto getedit(@PathVariable("id") Long id, Model model) {
+    public PostDto getedit(@PathVariable("id") Long id) {
 
         Post post = postRepository.findById(id).get();
        PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent().replace("<br>","\r\n"),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());
@@ -79,9 +82,9 @@ public class PostApiController {
     }
 
     @PatchMapping("post/api/edit/{id}")
-    public void postedit(@CurrentAccount Account account,@PathVariable("id") Long id,@RequestBody @Valid PostDto postDto) {
+    public void postedit(@CurrentAccount Account account,@PathVariable("id") Long id,@RequestBody @Valid WriteUpForm writeUpForm) {
 
-        postService.edit(id, postDto, account);
+        postService.edit2(id, writeUpForm, account);
 
     }
 

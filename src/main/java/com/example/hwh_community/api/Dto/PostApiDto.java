@@ -41,8 +41,6 @@ public class PostApiDto {
         this.notice = p.isNotice();
         this.commentList = p.getCommentList().stream()
                     .map(c ->new CommentApiDto(c)).collect(Collectors.toList());
-
-
         this.account = new AccountApiDto(p.getAccount());
     }
 

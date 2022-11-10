@@ -57,7 +57,7 @@ public class Raid {
     @Enumerated(EnumType.STRING)
     private Gametype gametype;
 
-    public void addMemeber(Account account) {
+    public void inMemeber(Account account) {
         this.members.add(account);
     }
 

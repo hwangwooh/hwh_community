@@ -97,7 +97,6 @@ public class PostService {
         if(account.equals(post.getAccount())){
             post.setTitle(postDto.getTitle());
             post.setContent(postDto.getContent().replace("\r\n","<br>"));
-            postRepository.save(post);
             return true;
         }else return false;
 
@@ -143,5 +142,17 @@ public class PostService {
         PostDto postDto = new PostDto(post.getId(),post.getTitle(),post.getContent().replace("<br>","\r\n"),post.getDateTime(),post.getAccount().getNickname(),post.getCountVisit());
 
         return postDto;
+    }
+
+    public boolean edit2(Long id, WriteUpForm writeUpForm, Account account) {
+
+        Post post = postRepository.findById(id).orElseThrow();
+
+        if(account.equals(post.getAccount())){
+            post.setTitle(writeUpForm.getTitle());
+            post.setContent(writeUpForm.getContent().replace("\r\n","<br>"));
+            return true;
+        }else return false;
+
     }
 }

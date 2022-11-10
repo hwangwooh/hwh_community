@@ -5,6 +5,7 @@ import com.example.hwh_community.account.AccountService;
 import com.example.hwh_community.api.Dto.CommentApiDto;
 import com.example.hwh_community.api.Dto.CommentEditor;
 import com.example.hwh_community.api.Dto.PostApiDto;
+import com.example.hwh_community.comment.CommentDto;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.post.PostRepository;
@@ -24,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -142,11 +145,68 @@ class PostApiControllerTest {
         writeUpForm.setTitle("내용입니당11");
         Post post = postService.write(writeUpForm, zaq8077.getNickname());
 
-        CommentEditor commentEditor = CommentEditor.builder().comment("코콬메네트트").build();
+        CommentDto dto = new CommentDto();
+        dto.setComment("asdsssssssss");
+        CommentEditor commentEditor = new CommentEditor();
+        commentEditor.setComment("asdasdasd");
 
-        String Json = objectMapper.writeValueAsString(commentEditor);
+        mockMvc.perform(post("/post/api/comment/{id}", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+                        .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
 
-        mockMvc.perform(post("/post/api/comment/{id}",post.getId())
+        assertNotEquals(post.getCommentList().size(), "1");
+
+
+    }
+    @Test
+    @DisplayName("수정조회")
+    public void 수정조회() throws Exception {
+
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        accountService.login(zaq8077);
+
+        WriteUpForm writeUpForm = new WriteUpForm();
+        writeUpForm.setContent("내용입니당111");
+        writeUpForm.setTitle("내용입니당11");
+        Post post = postService.write(writeUpForm, zaq8077.getNickname());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/post/api/edit/{id}",post.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(post.getId()))
+                .andExpect(jsonPath("$.title").value(post.getTitle()))
+                .andExpect(jsonPath("$.content").value(post.getContent()))
+                .andDo(print());
+    }
+
+
+    @Test
+    @DisplayName("게시물 수정")
+    public void 게시물수정() throws Exception {
+
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        accountService.login(zaq8077);
+
+        WriteUpForm writeUpForm = new WriteUpForm();
+        writeUpForm.setContent("내용입니당111");
+        writeUpForm.setTitle("내용입니당11");
+        Post post = postService.write(writeUpForm, zaq8077.getNickname());
+
+        WriteUpForm writeUpForm2 = new WriteUpForm();
+        writeUpForm2.setContent("내용입니당2");
+        writeUpForm2.setTitle("내용입니당2");
+        String Json = objectMapper.writeValueAsString(writeUpForm2);
+
+
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/post/api/edit/{id}",post.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(Json)
                         .with(csrf())
@@ -154,9 +214,33 @@ class PostApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
 
-      //  assertNotEquals(post.getCommentList().size(), 1);
+
 
     }
+
+    @Test
+    @DisplayName("게시물삭제")
+    public void 게시물삭제() throws Exception {
+
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        accountService.login(zaq8077);
+
+        WriteUpForm writeUpForm = new WriteUpForm();
+        writeUpForm.setContent("내용입니당111");
+        writeUpForm.setTitle("내용입니당11");
+        Post post = postService.write(writeUpForm, zaq8077.getNickname());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/post/postdelete/{id}",post.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
+
 
 
 

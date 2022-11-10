@@ -4,27 +4,21 @@ import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.account.CurrentAccount;
 import com.example.hwh_community.api.Dto.AccountApiDto;
 import com.example.hwh_community.api.Dto.RaidApiDto;
+import com.example.hwh_community.api.Dto.RaidEditer;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Raid;
-import com.example.hwh_community.post.PostSearch;
 import com.example.hwh_community.raid.RaidDto;
 import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.raid.RaidSearch;
 import com.example.hwh_community.raid.RaidService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,8 +33,9 @@ public class raidApiController {
 
 
     @PostMapping("raid/api/new-raid")
-    public void postraid(@CurrentAccount Account account, @RequestBody @Valid RaidDto raidDto) {
-        Raid raid = raidService.newraid(account, raidDto);
+    public void postraid(@CurrentAccount Account account, @RequestBody @Valid RaidEditer raidEditer) {
+        raidService.apinewraid(account, raidEditer);
+
     }
 
     @GetMapping("raid/api/list-raid1/{tag}")
@@ -62,8 +57,7 @@ public class raidApiController {
     }
 
     @GetMapping("raid/api/list-raid/me")
-    public List<RaidApiDto> getlistraidme(String tag, Model model
-            ,@CurrentAccount Account account
+    public List<RaidApiDto> getlistraidme(@CurrentAccount Account account
             , @ModelAttribute RaidSearch raidSearch)
     {
         List<RaidApiDto> raidApiDtoList = raidService.raidlistme(account,raidSearch);
@@ -72,7 +66,7 @@ public class raidApiController {
 
 
     @GetMapping("raid/api/raid-hom/{id}")
-    public RaidApiDto getraidhom(@PathVariable("id") Long id, Model model)
+    public RaidApiDto getraidhom(@PathVariable("id") Long id)
     {
         Raid raid = raidRepository.findById(id).get();
         return new RaidApiDto(raid);
@@ -96,8 +90,8 @@ public class raidApiController {
         }
 
         Account byNickname = accountRepository.findByNickname(member);
-        if(account == byNickname){
-            raid.addMemeber(byNickname);
+        if(account.equals(byNickname)){
+            raid.inMemeber(byNickname);
         }else // 메시지 ?
 
 
@@ -110,7 +104,7 @@ public class raidApiController {
         Raid raid = raidRepository.findById(id).get();
 
         Account byNickname = accountRepository.findByNickname(member);
-        if(account == byNickname){
+        if(account.equals(byNickname)){
             raid.removeMember(byNickname);
             raidRepository.save(raid);
         }
@@ -121,12 +115,12 @@ public class raidApiController {
 
     }
 
-    @PostMapping("raid/api/raid-hom/delete/{id}") // 레이드 삭제
+    @DeleteMapping ("raid/api/raid-hom/delete/{id}") // 레이드 삭제
     public void raiddelete(@PathVariable("id") Long id,@CurrentAccount Account account) {
 
 
         Raid raid = raidRepository.findById(id).get();
-        if (raid.getAccount() == account) {
+        if (raid.getAccount().equals(account)) {
             raidRepository.delete(raid);
         } else {
             // 예정

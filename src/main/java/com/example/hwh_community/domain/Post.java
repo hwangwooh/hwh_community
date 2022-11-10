@@ -35,13 +35,18 @@ public class Post {
 
     private boolean notice = false;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "post") //  ,cascade = CascadeType.REMOVE cascade = CascadeType.REMOVE 연관 관계 코멘트도 같이 삭제할수 있음
+
+    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE) //   cascade = CascadeType.REMOVE 연관 관계 코멘트도 같이 삭제할수 있음
     private List<Comment> commentList = new ArrayList<>();
 
     @JoinColumn(name = "account_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
+
+    public void addcomment(Comment comment) {
+        comment.setPost(this);
+        this.commentList.add(comment);
+    }
 
     public void Visitcount(){
         this.countVisit = this.countVisit + 1L;

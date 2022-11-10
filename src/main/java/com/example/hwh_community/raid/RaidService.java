@@ -2,6 +2,7 @@ package com.example.hwh_community.raid;
 
 import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.api.Dto.RaidApiDto;
+import com.example.hwh_community.api.Dto.RaidEditer;
 import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Raid;
 
@@ -35,7 +36,22 @@ public class RaidService {
                 .maximum(raidDto.getMaximum())
                 .published(true)
                 .tag(raidDto.getTag()).build();
-        raid.addMemeber(account);
+        raid.inMemeber(account);
+        Raid save = raidRepository.save(raid);
+        return save;
+    }
+
+    public Raid apinewraid(Account account, RaidEditer raidEditer) {
+
+        Raid raid = Raid.builder().account(account)
+                .members(new HashSet<>())
+                .title(raidEditer.getTitle())
+                .shortDescription(raidEditer.getShortDescription().replace("\r\n", "<br>"))
+                .publishedDateTime(LocalDateTime.now())
+                .maximum(raidEditer.getMaximum())
+                .published(true)
+                .tag(raidEditer.getTag()).build();
+        raid.inMemeber(account);
         Raid save = raidRepository.save(raid);
         return save;
     }
@@ -94,6 +110,6 @@ public class RaidService {
 
     public void addmember(Raid raid, String member) {
         Account byNickname = accountRepository.findByNickname(member);
-        raid.addMemeber(byNickname);
+        raid.inMemeber(byNickname);
     }
 }
