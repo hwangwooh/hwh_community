@@ -4,11 +4,9 @@ import com.example.hwh_community.account.AccountRepository;
 import com.example.hwh_community.account.AccountService;
 import com.example.hwh_community.api.Dto.RaidEditer;
 import com.example.hwh_community.domain.Account;
-import com.example.hwh_community.domain.Post;
 import com.example.hwh_community.domain.Raid;
 import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.raid.RaidService;
-import com.example.hwh_community.signup.WriteUpForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -182,8 +180,75 @@ class raidApiControllerTest {
 
 
     @Test
-    @DisplayName("삭제")
-    public void 레이드삭제() throws Exception {
+    @DisplayName("강퇴")
+    public void 레이드추방() throws Exception {
+
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        accountService.login(zaq8077);
+
+        RaidEditer raidEditer = new RaidEditer();
+        raidEditer.setTag("t");
+        raidEditer.setMaximum(4L);
+        raidEditer.setShortDescription("21333333333");
+        raidEditer.setTitle("제곰ㄱ");
+        Raid raid = raidService.apinewraid(zaq8077, raidEditer);
+
+        Account test1 = accountRepository.findByNickname("test1");
+        accountService.login(test1);
+        raid.inMemeber(test1);
+
+
+        String Json = objectMapper.writeValueAsString(raidEditer);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/raid/api/memberssetdelete/{raidid}/{id}",raid.getId(),test1.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+
+    }
+
+
+    @Test
+    @DisplayName("레이드수정")
+    public void 레이드수정() throws Exception {
+
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        accountService.login(zaq8077);
+
+        RaidEditer raidEditer = new RaidEditer();
+        raidEditer.setTag("t");
+        raidEditer.setMaximum(4L);
+        raidEditer.setShortDescription("21333333333");
+        raidEditer.setTitle("제곰ㄱ");
+        Raid raid = raidService.apinewraid(zaq8077, raidEditer);
+        RaidEditer raidEditer1 = new RaidEditer();
+        raidEditer1.setTag("444");
+        raidEditer1.setMaximum(3L);
+        raidEditer1.setShortDescription("111");
+        raidEditer1.setTitle("444");
+
+        String Json = objectMapper.writeValueAsString(raidEditer1);
+
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/raid/api/raidset/{id}",raid.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(Json)
+                        .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
+
+    @Test
+    @DisplayName("모집설정")
+    public void 모집설정() throws Exception {
 
         Account zaq8077 = accountRepository.findByNickname("zaq8077");
         accountService.login(zaq8077);
@@ -197,10 +262,10 @@ class raidApiControllerTest {
 
 
 
-        String Json = objectMapper.writeValueAsString(raidEditer);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/raid/api/raid-hom/delete/{id}",raid.getId())
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/raid/api/raid-hom/published/{id}",raid.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf())
                 )
@@ -208,7 +273,13 @@ class raidApiControllerTest {
                 .andDo(print());
 
 
+        assertEquals(raid.isPublished(), false);
+
     }
+
+
+
+
 
 
 

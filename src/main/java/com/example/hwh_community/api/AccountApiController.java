@@ -17,10 +17,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AccountApiController {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
 
-    @PostMapping("/api/sign-up")
+    @PostMapping("api/sign-up")
     public void signUpSubmit(@RequestBody @Valid SignUpForm signUpForm) {
 
         Account account = accountService.saveNewAccount(signUpForm);

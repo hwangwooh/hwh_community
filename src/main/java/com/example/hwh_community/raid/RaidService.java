@@ -66,6 +66,17 @@ public class RaidService {
 
     }
 
+
+    public Raid apiraindset(Long id,RaidEditer RaidEditer) {
+
+        Raid raid = raidRepository.findById(id).get();
+        raid.setTitle(RaidEditer.getTitle());
+        raid.setShortDescription(RaidEditer.getShortDescription().replace("\r\n","<br>"));
+        raid.setTag(RaidEditer.getTag());
+        raid.setMaximum(RaidEditer.getMaximum());
+        return raid;
+
+    }
     public List<RaidApiDto> raidlist(RaidSearch raidSearch) {
 
       return raidRepository.getList(raidSearch).stream().map(raid -> new RaidApiDto(raid)).collect(Collectors.toList());

@@ -145,7 +145,7 @@ public class raidApiController {
         return new RaidApiDto(raid);
     }
 
-    @PostMapping ("raid/api/memberssetdelete/{raidid}/{id}")// 레이드 강퇴
+    @PatchMapping("raid/api/memberssetdelete/{raidid}/{id}")// 레이드 강퇴
     public RaidApiDto getmemberssetdelete(@PathVariable("raidid") Long raidid,@PathVariable("id") Long id
             ,RedirectAttributes attributes) {
         Raid raid = raidRepository.findById(raidid).get();
@@ -170,12 +170,9 @@ public class raidApiController {
 
 
     @PostMapping("raid/api/raidset/{id}")//레이드 수정
-    public void postraidset(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
-
-
-        raidService.raindset(id,raidDto);
-
-
+    public RaidApiDto postraidset(@PathVariable("id") Long id, @RequestBody @Valid RaidEditer raidEditer) {
+        Raid raid = raidService.apiraindset(id, raidEditer);
+        return new RaidApiDto(raid);
     }
 
     @GetMapping("raid/api/profile/{nickname}")// 프로필 조회
@@ -190,7 +187,7 @@ public class raidApiController {
         return new AccountApiDto(account);
     }
 
-    @PostMapping ("raid/api/raid-hom/published/{id}") // 모집 활성
+    @PatchMapping("raid/api/raid-hom/published/{id}") // 모집 활성
     public void getpublished(@PathVariable("id") Long id){
 
         Raid raid = raidRepository.findById(id).get();
