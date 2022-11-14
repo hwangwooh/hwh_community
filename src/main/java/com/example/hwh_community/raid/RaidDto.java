@@ -47,4 +47,6 @@ public class RaidDto {
 
     private Long maximum;
 
+    private Gametype gametype;
+
 }

@@ -158,6 +158,18 @@
     <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'write'}? active" href="#" th:href="@{/admin/write}">공지사항 작성</a>
 </div>
 
+
+<div th:fragment="raid-new-game" class="list-group">
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/new-raid}" >로아</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/new-raid/map}" >메이플</a>
+</div>
+
+<div th:fragment="raid-list-game" class="list-group">
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/list-raid}" >로아</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/new-raid/map}" >메이플</a>
+</div>
+
+
 <script type="application/javascript" th:inline="javascript" th:fragment="ajax-csrf-header">
     $(function() {
         var csrfToken = /*[[${_csrf.token}]]*/ null;

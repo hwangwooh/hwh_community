@@ -35,12 +35,30 @@ public class RaidService {
                 .publishedDateTime(LocalDateTime.now())
                 .maximum(raidDto.getMaximum())
                 .published(true)
-                .tag(raidDto.getTag()).build();
+                .tag(raidDto.getTag())
+                .gametype(Gametype.LOST)
+                .build();
         raid.inMemeber(account);
         Raid save = raidRepository.save(raid);
         return save;
     }
+    public Raid newraidmap(Account account, RaidDto raidDto) {
 
+        Raid raid = Raid.builder().account(account)
+                .members(new HashSet<>())
+                .title(raidDto.getTitle())
+                .shortDescription(raidDto.getShortDescription().replace("\r\n", "<br>"))
+                .publishedDateTime(LocalDateTime.now())
+                .maximum(raidDto.getMaximum())
+                .published(true)
+                .tag(raidDto.getTag())
+                .gametype(Gametype.MAP)
+                .build();
+        raid.inMemeber(account);
+        Raid save = raidRepository.save(raid);
+        return save;
+
+    }
     public Raid apinewraid(Account account, RaidEditer raidEditer) {
 
         Raid raid = Raid.builder().account(account)
@@ -123,4 +141,6 @@ public class RaidService {
         Account byNickname = accountRepository.findByNickname(member);
         raid.inMemeber(byNickname);
     }
+
+
 }
