@@ -13,7 +13,8 @@ public interface RaidRepository extends JpaRepository<Raid,Long> ,RaidRepository
     Page<Raid> findBytag(String tag, Pageable pageable);
 
     Page<Raid> findBymembers(Account account, Pageable pageable);
-
+    Page<Raid> findAllBymembers(Account account, Pageable pageable);
+    Page<Raid> findAllBymembersAndGametype(Account account,Gametype gametype,Pageable pageable);
     Page<Raid> findAllByGametypeAndTag(Gametype gametype, String tag, Pageable pageable);
 
 

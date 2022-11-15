@@ -5,13 +5,13 @@
 <div th:replace="fragments.html :: main-nav"></div>
 <div class="row mt-5 justify-content-center">
     <div class="col-2">
-        <div th:replace="fragments.html :: raid-new-game"></div>
+        <div th:replace="fragments.html :: raid-new-game(currentMenu='lost')"></div>
     </div>
     <div class="container col-8">
 
 
         <div class="py-5 text-center">
-            <h2>레이드 개설</h2>
+            <h2>로아 레이드 개설</h2>
         </div>
         <div class="row justify-content-center">
             <form class="needs-validation col-sm-10"

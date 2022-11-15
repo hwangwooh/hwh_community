@@ -92,6 +92,9 @@ public class RaidController {
 
         return "redirect:/raid/raid-hom/"+raid.getId();
     }
+
+
+
     @GetMapping("raid/list-raid/new")///raid/list-raid/new?tag=발탄&gametype=map
     public String getlistraid2(String tag,String gametype, Model model,@CurrentAccount Account account,
                               @PageableDefault(size = 12, sort = "publishedDateTime", direction = Sort.Direction.DESC)
@@ -103,22 +106,39 @@ public class RaidController {
             gametype1 = Gametype.MAP;
         }
 
-        if(tag == null){
+        if(tag.equals("null")){
             raids = raidRepository.findAllByGametype(gametype1,pageable);
         }else{
             raids = raidRepository.findAllByGametypeAndTag(gametype1,tag, pageable);
         }
 
-        if(tag == null || tag.equals("null") ){
-            model.addAttribute("tag", tag);
-            model.addAttribute("raids", raids);
-            model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-            return "raid/list-raid2";
-        }else {
-            model.addAttribute("tag", tag);
-            model.addAttribute("raids", raids);
-            model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-            return "raid/list-raid";
+        if (gametype1.equals(Gametype.MAP)) {
+
+            if(tag == null || tag.equals("null") ){
+                model.addAttribute("tag", tag);
+                model.addAttribute("raids", raids);
+                model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+                return "raid/list-raid2-map";
+            }else {
+                model.addAttribute("tag", tag);
+                model.addAttribute("raids", raids);
+                model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+                return "raid/list-raid-map";
+            }
+        }else{
+
+            if(tag == null || tag.equals("null") ){
+                model.addAttribute("tag", tag);
+                model.addAttribute("raids", raids);
+                model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+                return "raid/list-raid2";
+            }else {
+                model.addAttribute("tag", tag);
+                model.addAttribute("raids", raids);
+                model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+                return "raid/list-raid";
+            }
+
         }
 
     }
@@ -149,15 +169,28 @@ public class RaidController {
     }
 
     @GetMapping("raid/list-raid/me")
-    public String getlistraidme(String tag, Model model,@CurrentAccount Account account,
+    public String getlistraidme(String gametype,Model model,@CurrentAccount Account account,
                               @PageableDefault(size = 12, sort = "publishedDateTime", direction = Sort.Direction.DESC)
                               Pageable pageable) {
+        Gametype gametype1 = Gametype.LOST;
 
-        Page<Raid> raids = raidRepository.findBymembers(account,pageable);
+        if(gametype.equals("map")){
+            gametype1 = Gametype.MAP;
+        }
 
-        model.addAttribute("raids", raids);
-        model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
-        return "raid/list-raid";
+        Page<Raid> raids = raidRepository.findAllBymembersAndGametype(account,gametype1,pageable);
+
+        if (gametype1.equals(Gametype.MAP)) {
+
+            model.addAttribute("raids", raids);
+            model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+            return "raid/list-raid-me-map";
+        } else {
+            model.addAttribute("raids", raids);
+            model.addAttribute("sortProperty", pageable.getSort().toString().contains("publishedDateTime") ? "publishedDateTime" : "memberCount");
+            return "raid/list-raid-me";
+        }
+
     }
 
 

@@ -6,23 +6,21 @@
 <div class="container">
     <div class="row mt-5 justify-content-center">
         <div class="col-2">
-            <div th:replace="fragments.html :: raid-menu"></div>
+            <div th:replace="fragments.html :: raid-menu-map"></div>
         </div>
-        <div class="container col-9">
+        <div class="container col-8">
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-md-3" th:each="raid: ${raids.getContent()}">
-                        <div class="card mb-4 shadow-sm">
-
+                        <div class="card mb-4 shadow-sm" >
                             <div class="card-body">
                                 <a class="text-decoration-none" th:href="@{'/raid/raid-hom/' + ${raid.id}}">
 
                                     <h5 class="card-title context" th:text="${raid.title}"></h5>
                                 </a>
-                                <p class="card-text"  th:utext="${raid.shortDescription}">Short description</p>
+                                <p class="card-text" th:utext="${raid.shortDescription}">Short description</p>
                                 <p class="card-text context">
-                                    <span
-                                          class="font-weight-light text-monospace badge badge-pill badge-info mr-3">
+                                    <span class="font-weight-light text-monospace badge badge-pill badge-info mr-3">
                                         <a class="text-decoration-none text-white">
                                             <i class="fa fa-tag"></i> <span th:text="${raid.tag}">Tag</span>
                                         </a>
@@ -38,9 +36,11 @@
                                            th:text="${#temporals.format(raid.publishedDateTime, 'yyyy-MM-dd HH:mm:ss')}"></small>
                                 </div>
                             </div>
+
                             <div class="card-footer"  th:if="${raid.published == false}">
-                                모집 완료
+                               모집 완료
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     <nav>
                         <ul class="pagination justify-content-center">
                             <li class="page-item" th:classappend="${!raids.hasPrevious()}? disabled">
-                                <a th:href="@{'/raid/list-raid?tag=' + ${tag} + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
+                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
                                    class="page-link" tabindex="-1" aria-disabled="true">
                                     이전
                                 </a>
@@ -58,11 +58,11 @@
 
                             <li class="page-item" th:classappend="${i == raids.getNumber()}? active"
                                 th:each="i: ${#numbers.sequence(0, raids.getTotalPages() - 1)}">
-                                <a th:href="@{'/raid/list-raid?tag=' + ${tag} + '&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
+                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
                                    class="page-link" href="#" th:text="${i + 1}">1</a>
                             </li>
                             <li class="page-item" th:classappend="${!raids.hasNext()}? disabled">
-                                <a th:href="@{'/raid/list-raid?tag=' + ${tag} + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
+                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
                                    class="page-link">
                                     다음
                                 </a>
@@ -74,14 +74,12 @@
             </div>
         </div>
         <div class="col-1">
-            <div th:replace="fragments.html :: raid-list-game(currentMenu='lost')"></div>
+            <div th:replace="fragments.html :: raid-list-game(currentMenu='map')"></div>
         </div>
-
     </div>
 
 
-
-    </div>
+</div>
 
     <div th:replace="fragments.html :: footer"></div>
 

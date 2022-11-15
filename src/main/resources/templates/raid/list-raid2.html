@@ -44,37 +44,41 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-        <div class="row justify-content-center">
-            <div class="col-sm-10">
-                <nav>
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item" th:classappend="${!raids.hasPrevious()}? disabled">
-                            <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
-                               class="page-link" tabindex="-1" aria-disabled="true">
-                                이전
-                            </a>
-                        </li>
+            <div class="row justify-content-center">
+                <div class="col-sm-10">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${!raids.hasPrevious()}? disabled">
+                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
+                                   class="page-link" tabindex="-1" aria-disabled="true">
+                                    이전
+                                </a>
+                            </li>
 
-                        <li class="page-item" th:classappend="${i == raids.getNumber()}? active"
-                            th:each="i: ${#numbers.sequence(0, raids.getTotalPages() - 1)}">
-                            <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
-                               class="page-link" href="#" th:text="${i + 1}">1</a>
-                        </li>
-                        <li class="page-item" th:classappend="${!raids.hasNext()}? disabled">
-                            <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
-                               class="page-link">
-                                다음
-                            </a>
-                        </li>
-                    </ul>
+                            <li class="page-item" th:classappend="${i == raids.getNumber()}? active"
+                                th:each="i: ${#numbers.sequence(0, raids.getTotalPages() - 1)}">
+                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
+                                   class="page-link" href="#" th:text="${i + 1}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${!raids.hasNext()}? disabled">
+                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
+                                   class="page-link">
+                                    다음
+                                </a>
+                            </li>
+                        </ul>
 
-                </nav>
+                    </nav>
+                </div>
             </div>
         </div>
-
+        <div class="col-1">
+            <div th:replace="fragments.html :: raid-list-game(currentMenu='lost')"></div>
+        </div>
     </div>
+
+
+</div>
 
     <div th:replace="fragments.html :: footer"></div>
 

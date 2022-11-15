@@ -5,17 +5,17 @@
 <div th:replace="fragments.html :: main-nav"></div>
 <div class="row mt-5 justify-content-center">
     <div class="col-2">
-        <div th:replace="fragments.html :: raid-new-game"></div>
+        <div th:replace="fragments.html :: raid-new-game(currentMenu='map')"></div>
     </div>
     <div class="container col-8">
 
 
         <div class="py-5 text-center">
-            <h2>레이드 개설</h2>
+            <h2>메이플 레이드 개설</h2>
         </div>
         <div class="row justify-content-center">
             <form class="needs-validation col-sm-10"
-                  th:action="@{/raid/new-raid}" th:object="${raidDto}" method="post" novalidate>
+                  th:action="@{/raid/new-raid/map}" th:object="${raidDto}" method="post" novalidate>
 
 
                 <div class="form-group">
@@ -47,12 +47,14 @@
                 <div class="form-group">
                     <label>레이드몹</label>
                     <select name="tag" id="tag" th:value="${raidDto.tag}">
-                        <option th:selected="${raidDto.tag}=='1'">발탄</option>
-                        <option th:selected="${raidDto.tag}=='2'">아브</option>
-                        <option th:selected="${raidDto.tag}=='3'">쿠크</option>
-                        <option th:selected="${raidDto.tag}=='4'">비아</option>
-                        <option th:selected="${raidDto.tag}=='5'">일리</option>
-                        <option th:selected="${raidDto.tag}=='6'">카멘</option>
+                        <option th:selected="${raidDto.tag}=='1'">스우</option>
+                        <option th:selected="${raidDto.tag}=='2'">데미안</option>
+                        <option th:selected="${raidDto.tag}=='3'">가엔슬</option>
+                        <option th:selected="${raidDto.tag}=='4'">루시드</option>
+                        <option th:selected="${raidDto.tag}=='5'">윌</option>
+                        <option th:selected="${raidDto.tag}=='6'">더스크</option>
+                        <option th:selected="${raidDto.tag}=='7'">듄켈</option>
+                        <option th:selected="${raidDto.tag}=='8'">진힐라</option>
                     </select>
 
                     <label>인원</label>
@@ -63,8 +65,6 @@
                         <option th:selected="${raidDto.maximum}=='4'">4</option>
                         <option th:selected="${raidDto.maximum}=='5'">5</option>
                         <option th:selected="${raidDto.maximum}=='6'">6</option>
-                        <option th:selected="${raidDto.maximum}=='7'">7</option>
-                        <option th:selected="${raidDto.maximum}=='8'">8</option>
                     </select>
                 </div>
 
