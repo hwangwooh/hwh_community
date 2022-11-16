@@ -16,10 +16,6 @@
 
 
 
-
-<!--    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
-    <!--    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">-->
-<!--    <script src="/node_modules/jquery/dist/jquery.min.js"></script>-->
     <style>
         .container {
             max-width: 100%;
@@ -57,7 +53,7 @@
                 <a class="nav-link" th:href="@{/sign-up}">가입</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/raid/list-raid}">레이드</a>
+                <a class="nav-link" th:href="@{/raid/list-raid-tag}">레이드</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" th:href="@{/raid/new-raid}">레이드 개설</a>
@@ -140,28 +136,28 @@
 
 
 <div th:fragment="raid-menu" class="list-group">
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=null&gametype=lost'}" >홈</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/me?gametype=lost'}" >참가중인 레이드</a>
-    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid/new?tag=발탄&gametype=lost'}">발탄</a>
-    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid/new?tag=아브&gametype=lost'}">아브</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=쿠크&gametype=lost'}" >쿠크</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=비아&gametype=lost'}" >비아</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=&gametype=lost'}" >일리</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=카멘&gametype=lost'}" >카멘</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/list-raid}" >홈</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/list-raid/me}" >참가중인 레이드</a>
+    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid-tag?tag=발탄'}">발탄</a>
+    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid-tag?tag=아브'}">아브</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag?tag=쿠크'}" >쿠크</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag?tag=비아'}" >비아</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag?tag='}" >일리</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag?tag=카멘'}" >카멘</a>
 
 </div>
 
 <div th:fragment="raid-menu-map" class="list-group">
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=null&gametype=map'}" >홈</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/me?gametype=map'}" >참가중인 레이드</a>
-    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid/new?tag=스우&gametype=map'}">스우</a>
-    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid/new?tag=데미안&gametype=map'}">데미안</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=가엔슬&gametype=map'}" >가엔슬</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=루시드&gametype=map'}" >루시드</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=윌&gametype=map'}" >윌</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=더스크&gametype=map'}" >더스크</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=듄켈&gametype=map'}" >듄켈</a>
-    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid/new?tag=진힐라&gametype=map'}" >진힐라</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/list-raid-map}" >홈</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/list-raid/me-map}" >참가중인 레이드</a>
+    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid-tag-map?tag=스우'}">스우</a>
+    <a class="list-group-item list-group-item-action"  href="#"  th:href="@{'/raid/list-raid-tag-map?tag=데미안'}">데미안</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag-map?tag=가엔슬'}" >가엔슬</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag-map?tag=루시드'}" >루시드</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag-map?tag=윌'}" >윌</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag-map?tag=더스크'}" >더스크</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag-map?tag=듄켈'}" >듄켈</a>
+    <a class="list-group-item list-group-item-action"  href="#" th:href="@{'/raid/list-raid-tag-map?tag=진힐라'}" >진힐라</a>
 </div>
 
 <div th:fragment="admin-settings-menu (currentMenu)" class="list-group">
@@ -178,8 +174,8 @@
 </div>
 
 <div th:fragment="raid-list-game (currentMenu)" class="list-group">
-    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'lost'}? active" th:href="@{'/raid/list-raid/new?tag=null&gametype=lost'}" >로아</a>
-    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'map'}? active"  th:href="@{'/raid/list-raid/new?tag=null&gametype=map'}" >메이플</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'lost'}? active" th:href="@{/raid/list-raid}" >로아</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'map'}? active"  th:href="@{/raid/list-raid-map}" >메이플</a>
 </div>
 
 

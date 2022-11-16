@@ -49,7 +49,7 @@
                     <nav>
                         <ul class="pagination justify-content-center">
                             <li class="page-item" th:classappend="${!raids.hasPrevious()}? disabled">
-                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
+                                <a th:href="@{'/raid/list-raid?' + '&gametype=lost&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() - 1}}"
                                    class="page-link" tabindex="-1" aria-disabled="true">
                                     이전
                                 </a>
@@ -57,11 +57,11 @@
 
                             <li class="page-item" th:classappend="${i == raids.getNumber()}? active"
                                 th:each="i: ${#numbers.sequence(0, raids.getTotalPages() - 1)}">
-                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
+                                <a th:href="@{'/raid/list-raid?' + '&gametype=lost&sort=' + ${sortProperty} + ',desc&page=' + ${i}}"
                                    class="page-link" href="#" th:text="${i + 1}">1</a>
                             </li>
                             <li class="page-item" th:classappend="${!raids.hasNext()}? disabled">
-                                <a th:href="@{'/raid/list-raid?' + '&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
+                                <a th:href="@{'/raid/list-raid?' + '&gametype=lost&sort=' + ${sortProperty} + ',desc&page=' + ${raids.getNumber() + 1}}"
                                    class="page-link">
                                     다음
                                 </a>
