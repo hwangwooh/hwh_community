@@ -9,6 +9,7 @@ import com.example.hwh_community.domain.ROLE;
 import com.example.hwh_community.domain.Raid;
 import com.example.hwh_community.post.PostRepository;
 import com.example.hwh_community.post.PostService;
+import com.example.hwh_community.raid.Gametype;
 import com.example.hwh_community.raid.RaidDto;
 import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.signup.SignUpForm;
@@ -147,6 +148,20 @@ public class AdminController {
         postService.write2(writeUpForm,admin);
 
         return "redirect:/admin/write";
+    }
+
+    @GetMapping("admin/write222") //
+    public void asd(Model model) {
+
+        List<Raid> all = raidRepository.findAll();
+        for (Raid raid : all) {
+            if (raid.getGametype() == null) {
+                raid.setGametype(Gametype.LOST);
+            }
+            raidRepository.save(raid);
+        }
+
+
     }
 
 

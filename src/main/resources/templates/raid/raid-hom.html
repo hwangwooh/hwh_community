@@ -96,7 +96,8 @@
 
 <!--                        th:href="@{/post/edit/{id}(id = ${post.id})}" th:if="${#strings.equals(post.account.nickname, username)}"-->
                         <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/{id}/remove/{member}(id = ${raid.id},member = ${#authentication.name})}" th:if="${not#strings.equals(raid.account.nickname, username)}">탈퇴</a>
-                        <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/delete/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username)}">삭제</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/delete/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username) && raid.gametype == raid.gametype.LOST}">삭제</a>
+                        <a type="button" class="btn btn-primary" th:href="@{/raid/raid-hom/delete-map/{id}(id = ${raid.id})}"  th:if="${#strings.equals(raid.account.nickname, username) && raid.gametype == raid.gametype.MAP }">삭제2</a>
 
                     </div>
                 </div>

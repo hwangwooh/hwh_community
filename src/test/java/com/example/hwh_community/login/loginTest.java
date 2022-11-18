@@ -43,7 +43,7 @@ public class loginTest {
     @Test
     void 회원가입() throws Exception {
         mockMvc.perform(post("/sign-up")
-                        .param("nickname", "akskfjh22")
+                        .param("nickname", "akskfjh223")
                         .param("email", "ghk@email.com")
                         .param("password", "1233333333")
                         .with(csrf()))

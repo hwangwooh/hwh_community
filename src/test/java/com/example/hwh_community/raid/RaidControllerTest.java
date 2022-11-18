@@ -95,7 +95,7 @@ class RaidControllerTest {
         accountService.login(zaq8077);
 
 
-        mockMvc.perform(get("/raid/list-raid?tag=발탄")
+        mockMvc.perform(get("/raid/list-raid-tag?tag=발탄")
                         .with(csrf())).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("raid/list-raid"))
@@ -111,11 +111,10 @@ class RaidControllerTest {
         accountService.login(zaq8077);
 
 
-        mockMvc.perform(get("/raid/list-raid?tag=null")
+        mockMvc.perform(get("/raid/list-raid")
                         .with(csrf())).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("raid/list-raid2"))
-                .andExpect(model().attributeExists("tag"))
                 .andExpect(model().attributeExists("raids"))
                 .andExpect(model().attributeExists("sortProperty"));
 
@@ -127,11 +126,10 @@ class RaidControllerTest {
         accountService.login(zaq8077);
 
 
-        mockMvc.perform(get("/raid/list-raid/me?tag=null")
+        mockMvc.perform(get("/raid/list-raid/me")
                         .with(csrf())).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("raid/list-raid"))
-                .andExpect(model().attributeExists("tag"))
+                .andExpect(view().name("raid/list-raid-me"))
                 .andExpect(model().attributeExists("raids"))
                 .andExpect(model().attributeExists("sortProperty"));
 
