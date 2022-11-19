@@ -130,10 +130,9 @@
     <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'home'}? active" href="#" th:href="@{/raid/raid-hom/{id}(id = ${raid.id})}" >홈</a>
     <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'members'}? active" href="#" th:href="@{/raid/membersset/{id}(id = ${raid.id})}">참가자 설정</a>
 <!--    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'members'}? active" href="#" th:href="@{/raid/membersset/{id}/{account}(id = ${raid.id},account = ${#authentication.name})}">참가자 설정</a>-->
-    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'set'}? active" href="#" th:href="@{/raid/raidset/{id}(id = ${raid.id})}">설정</a>
-
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'set'}? active" href="#" th:href="@{/raid/raidset/{id}(id = ${raid.id})}" th:if="${raid.gametype == raid.gametype.LOST }">설정</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'set'}? active" href="#" th:href="@{/raid/raidset-map/{id}(id = ${raid.id})}" th:if="${raid.gametype == raid.gametype.MAP }">설정</a>
 </div>
-
 
 <div th:fragment="raid-menu" class="list-group">
     <a class="list-group-item list-group-item-action"  href="#" th:href="@{/raid/list-raid}" >홈</a>

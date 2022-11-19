@@ -278,10 +278,31 @@ public class RaidController {
         return "raid/raid-setting";
     }
 
+    @GetMapping("raid/raidset-map/{id}")
+    public String getraidset_map(@PathVariable("id") Long id,@CurrentAccount Account account, Model model,RedirectAttributes attributes) {
+
+        Raid raid = raidRepository.findById(id).orElseThrow();
+        if(!raid.getAccount().getNickname().equals(account.getNickname())){
+            attributes.addFlashAttribute("message", "해당 레이드에 공대장이 아닙니다.");
+            return  "redirect:/raid/raid-hom/"+id;
+        }
+        raid.setShortDescription(raid.getShortDescription().replace("<br>","\r\n"));
+
+        model.addAttribute(new RaidDto());
+        model.addAttribute("raid",raid);
+
+        return "raid/raid-setting-map";
+    }
+
 
     @PostMapping("raid/raidset/{id}")
     public String postraidset(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
        raidService.raindset(id,raidDto);
+        return "redirect:/raid/raid-hom/"+id;
+    }
+    @PostMapping("raid/raidset-map/{id}")
+    public String postraidset_map(@PathVariable("id") Long id, @Valid RaidDto raidDto) {
+        raidService.raindset(id,raidDto);
         return "redirect:/raid/raid-hom/"+id;
     }
 
