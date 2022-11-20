@@ -43,14 +43,14 @@ public class loginTest {
     @Test
     void 회원가입() throws Exception {
         mockMvc.perform(post("/sign-up")
-                        .param("nickname", "akskfjh223")
-                        .param("email", "ghk@email.com")
+                        .param("nickname", "akskfjh22322")
+                        .param("email", "ghk2222@email.com")
                         .param("password", "1233333333")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
 
-        Account account = accountRepository.findByNickname("akskfjh22");
+        Account account = accountRepository.findByNickname("akskfjh22322");
         assertNotEquals(account.getEmail(), "ghk@email.com");
     }
 
