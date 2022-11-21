@@ -56,7 +56,8 @@
                                          </div>
 
                                          <span th:text="${raid.account.nickname}"></span>
-                                         <span th:text="${raid.account.occupation}"></span>
+                                         <span th:text="${raid.account.occupation}" th:if="${raid.gametype == raid.gametype.LOST }"></span>
+                                         <span th:text="${raid.account.occupation_map}" th:if="${raid.gametype == raid.gametype.MAP }"></span>
                                          <span class="badge badge-primary">공대장</span>
                                      </h5>
                                 </div>
@@ -80,7 +81,8 @@
                                             <a class="dropdown-item"th:href="@{/raid/profile/{nickname} (nickname = ${member.nickname})}">프로필</a>
                                         </div>
                                         <span th:text="${member.nickname}"></span>
-                                        <span th:text="${member.occupation}"></span>
+                                        <span th:text="${member.occupation_map}" th:if="${raid.gametype == raid.gametype.MAP }"></span>
+                                        <span th:text="${member.occupation}" th:if="${raid.gametype == raid.gametype.LOST }"></span>
                                     </h5>
                                 </div>
                             </li>

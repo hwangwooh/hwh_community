@@ -40,6 +40,8 @@ public class Account {
 
     private String occupation;
 
+    private String occupation_map;
+
     private String location;
 
     @Lob @Basic(fetch =  FetchType.EAGER)

@@ -150,19 +150,7 @@ public class AdminController {
         return "redirect:/admin/write";
     }
 
-    @GetMapping("admin/write222") //
-    public void asd(Model model) {
 
-        List<Raid> all = raidRepository.findAll();
-        for (Raid raid : all) {
-            if (raid.getGametype() == null) {
-                raid.setGametype(Gametype.LOST);
-            }
-            raidRepository.save(raid);
-        }
-
-
-    }
 
 
 

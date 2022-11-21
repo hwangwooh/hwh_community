@@ -26,7 +26,8 @@
                             <h5 class="mt-0 mb-1" th:if="${not#strings.equals(member.nickname,raid.account.nickname)}"  >
                                 <svg  th:data-jdenticon-value="${member.nickname}" width="32" height="32" class="rounded border bg-light mr-3"></svg>
                                 <span th:text="${member.nickname}"></span>
-                                <span th:text="${member.occupation}"></span>
+                                <span th:text="${member.occupation}" th:if="${raid.gametype == raid.gametype.LOST }"></span>
+                                <span th:text="${member.occupation_map}" th:if="${raid.gametype == raid.gametype.MAP}"></span>
                                 <a type="button" class="btn btn-danger"  th:href="@{/raid/memberssetdelete/{raidid}/{id}(raidid = ${raid.id},id = ${member.id})}">강퇴</a>
                             </h5>
                         </div>

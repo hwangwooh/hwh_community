@@ -13,5 +13,7 @@ public class Profile {
     @Length(max = 50)
     private String occupation;
     @Length(max = 50)
+    private String occupation_map;
+    @Length(max = 50)
     private String location;
 }

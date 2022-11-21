@@ -47,11 +47,21 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="company">직업</label>
+                        <label for="company">로아 직업</label>
                         <input id="company" type="text" th:field="*{occupation}" class="form-control"
-                               placeholder="어떤 일을 하고 계신가요?" aria-describedby="occupationHelp" required>
+                               placeholder="로아 게임직업이 뭔가요?" aria-describedby="occupationHelp" required>
                         <small id="occupationHelp" class="form-text text-muted">
                             ex) 1450 바드
+                        </small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="company2"> 메이플 직업</label>
+                        <input id="company2" type="text" th:field="*{occupation_map}" class="form-control"
+                               placeholder="메이플 게임직업이 뭔가요?" aria-describedby="occupationHelp2" required>
+                        <small id="occupationHelp2" class="form-text text-muted">
+                            ex) 250 팔라딘 66층
                         </small>
                     </div>
 
