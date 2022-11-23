@@ -24,6 +24,7 @@ public class Raid {
     private Account account;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id")
     private Set<Account> members = new HashSet<>();
 
     @Column(unique = true)

@@ -59,6 +59,14 @@ public class Account {
     @OneToMany
     private List<Raid> raidList = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany
+    private List<Raid> accounts = new ArrayList<>();
+
 
 
 

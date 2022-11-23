@@ -70,6 +70,23 @@ public class AdminController {
         return "redirect:/admin/admin_hom";
     }
 
+    @GetMapping("admin/account/{id}")
+    public String Account_get(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
+        Account account = accountRepository.findById(id).get();
+
+        if(account.getRole() == ROLE.ROLE_ADMIN){
+            return "redirect:/admin/admin_hom";
+        }
+
+
+
+
+
+
+        return "redirect:/admin/admin_hom";
+    }
+
+
     @GetMapping("admin/admin_post")
     public String admin_post(@CurrentAccount Account admin, Model model,
                              @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable

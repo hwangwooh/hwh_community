@@ -26,7 +26,7 @@ public class AccountController {
     @InitBinder("signUpForm")
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(signUpFormValidator);
-    }
+    } // 아이디 중복 방지
 
     @GetMapping("/sign-up")
     public String signUpForm(Model model) {
