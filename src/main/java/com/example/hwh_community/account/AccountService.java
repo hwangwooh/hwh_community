@@ -88,4 +88,9 @@ public class AccountService implements UserDetailsService {
 
     }
 
+    public List<Account> getAccountalldata(Account account) {
+        List<Account> accountalldata = accountRepository.Accountalldata(account);
+        return accountalldata;
+    }
+
 }

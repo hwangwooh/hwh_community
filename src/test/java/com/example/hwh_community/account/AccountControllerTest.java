@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
@@ -113,6 +115,16 @@ class AccountControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"))
                 .andExpect(unauthenticated());
+    }
+
+    @DisplayName("tewst")
+    @Test
+    public void all() throws Exception {
+        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+        List<Account> accountalldata = accountService.getAccountalldata(zaq8077);
+        System.out.printf(accountalldata.toString());
+
+
     }
 
 }

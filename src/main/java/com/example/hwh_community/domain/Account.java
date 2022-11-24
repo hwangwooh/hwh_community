@@ -53,20 +53,39 @@ public class Account {
 
     @JsonIgnore
     @OneToMany
-    private List<Post> postList = new ArrayList<>();
+    private Set<Post> postList = new HashSet<>();
 
     @JsonIgnore
     @OneToMany
-    private List<Raid> raidList = new ArrayList<>();
+    private Set<Raid> raid_account = new HashSet<>();
 
     @JsonIgnore
     @OneToMany
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany
-    private List<Raid> accounts = new ArrayList<>();
+    private Set<Raid> raid_memders = new HashSet<>();
 
+
+    public void addpostList(Post post) {
+        post.setAccount(this);
+        this.postList.add(post);
+    }
+
+    public void addraid_account(Raid raid) {
+        raid.setAccount(this);
+        this.raid_account.add(raid);
+    }
+    public void addcomments(Comment comment) {
+        comment.setAccount(this);
+        this.comments.add(comment);
+    }
+
+    public void addraid_memders(Raid raid) {
+        raid.setAccount(this);
+        this.raid_memders.add(raid);
+    }
 
 
 
