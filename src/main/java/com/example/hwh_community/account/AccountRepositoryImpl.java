@@ -16,11 +16,11 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom{
     public  List<Account> Accountalldata(Account account) {
 
         List<Account> fetch = jpaQueryFactory.selectFrom(QAccount.account)
-                .join(QAccount.account.postList, QPost.post).fetchJoin().where(QPost.post.account.id.eq(account.getId()))
-                .join(QAccount.account.raid_account, QRaid.raid).fetchJoin().where(QRaid.raid.account.id.eq(account.getId()))
-                .join(QAccount.account.comments, QComment.comment1).fetchJoin().where(QComment.comment1.account.id.eq(account.getId()))
-                .join(QAccount.account.raid_memders, QRaid.raid).fetchJoin().where(QRaid.raid.account.id.eq(account.getId()))
-                .distinct().fetch();
+                .join(QAccount.account.postList, QPost.post).fetchJoin()
+                .join(QAccount.account.raid_account, QRaid.raid)
+                .join(QAccount.account.comments, QComment.comment1)
+                .join(QAccount.account.raid_memders, QRaid.raid).distinct().where(QAccount.account.id.eq(account.getId()))
+                .fetch();
 
         return fetch;
     }

@@ -19,4 +19,8 @@ public interface RaidRepository extends JpaRepository<Raid,Long> ,RaidRepository
 
 
     Page<Raid> findAllByGametype(Gametype gametype, Pageable pageable);
+
+     List<Raid> findAllByAccount(Account zaq8077);
+
+    List<Raid> findAllByMembers(Account account);
 }

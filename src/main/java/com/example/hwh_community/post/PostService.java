@@ -38,6 +38,7 @@ public class PostService {
                 .build();
 
         Post save = postRepository.save(post);
+        byNickname.addpostList(save);
         return save;
     }
 
@@ -57,6 +58,7 @@ public class PostService {
                 .build();
 
         Post save = postRepository.save(post);
+        username.addpostList(save);
         return save;
     }
 

@@ -1,6 +1,7 @@
 package com.example.hwh_community.post;
 
 import com.example.hwh_community.api.Dto.PostApiDto;
+import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,5 +18,5 @@ public interface PostRepository extends JpaRepository<Post,Long>,PostRepositoryC
     Post findByTitle(String title);
 
 
-
+    List<Post> findAllByAccount(Account account);
 }

@@ -1,5 +1,6 @@
 package com.example.hwh_community.comment;
 
+import com.example.hwh_community.domain.Account;
 import com.example.hwh_community.domain.Comment;
 import com.example.hwh_community.domain.Post;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,4 +18,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByPost(Post post);
 
+    List<Comment> findAllByAccount(Account account);
 }

@@ -1,6 +1,13 @@
 package com.example.hwh_community.account;
 
+import com.example.hwh_community.admin.AdminServic;
+import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.domain.Account;
+import com.example.hwh_community.domain.Comment;
+import com.example.hwh_community.domain.Post;
+import com.example.hwh_community.domain.Raid;
+import com.example.hwh_community.post.PostRepository;
+import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.signup.SignUpForm;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +41,17 @@ class AccountControllerTest {
     AccountRepository accountRepository;
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    RaidRepository raidRepository;
+    @Autowired
+    PostRepository postRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    AdminServic adminServic;
     @BeforeEach
     public void beforeEach() {
         // 회원 가입
@@ -120,9 +138,21 @@ class AccountControllerTest {
     @DisplayName("tewst")
     @Test
     public void all() throws Exception {
+//        Account zaq8077 = accountRepository.findByNickname("zaq8077");
+//        List<Raid> allByAccount = raidRepository.findAllByAccount(zaq8077);
+//        for (Raid raid : allByAccount) {
+//            zaq8077.addraid_account(raid);
+//        }
+//
+
+
+        //System.out.printf(accountalldata.toString());
         Account zaq8077 = accountRepository.findByNickname("zaq8077");
         List<Account> accountalldata = accountService.getAccountalldata(zaq8077);
-        System.out.printf(accountalldata.toString());
+        for (Account accountalldatum : accountalldata) {
+            System.out.printf(accountalldatum.getNickname());
+        }
+
 
 
     }

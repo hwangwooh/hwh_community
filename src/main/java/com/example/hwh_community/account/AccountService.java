@@ -1,12 +1,15 @@
 package com.example.hwh_community.account;
 
-import com.example.hwh_community.domain.Account;
+import com.example.hwh_community.comment.CommentRepository;
+import com.example.hwh_community.domain.*;
 
-import com.example.hwh_community.domain.ROLE;
+import com.example.hwh_community.post.PostRepository;
+import com.example.hwh_community.raid.RaidRepository;
 import com.example.hwh_community.settings.Profile;
 import com.example.hwh_community.signup.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -30,6 +33,9 @@ public class AccountService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
     private final ModelMapper modelMapper;
+
+
+
 
     public Account saveNewAccount(SignUpForm signUpForm) {
         Account account = Account.builder()
@@ -88,9 +94,13 @@ public class AccountService implements UserDetailsService {
 
     }
 
-    public List<Account> getAccountalldata(Account account) {
-        List<Account> accountalldata = accountRepository.Accountalldata(account);
+    public List<Account> getAccountalldata(Account account2) {
+        List<Account> accountalldata = accountRepository.Accountalldata(account2);
+
+
         return accountalldata;
     }
+
+
 
 }

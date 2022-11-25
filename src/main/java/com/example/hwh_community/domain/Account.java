@@ -69,22 +69,25 @@ public class Account {
 
 
     public void addpostList(Post post) {
-        post.setAccount(this);
         this.postList.add(post);
+        post.setAccount(this);
+
     }
 
     public void addraid_account(Raid raid) {
-        raid.setAccount(this);
         this.raid_account.add(raid);
+        raid.setAccount(this);
+
     }
     public void addcomments(Comment comment) {
-        comment.setAccount(this);
         this.comments.add(comment);
+        comment.setAccount(this);
+
     }
 
     public void addraid_memders(Raid raid) {
-        raid.setAccount(this);
         this.raid_memders.add(raid);
+        raid.setAccount(this);
     }
 
 

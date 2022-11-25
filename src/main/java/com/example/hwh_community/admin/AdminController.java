@@ -40,6 +40,7 @@ public class AdminController {
     private final PostService postService;
     private final CommentRepository commentRepository;
     private final RaidRepository raidRepository;
+    private final AdminServic adminServic;
 
 
     @GetMapping("admin/admin_hom")
@@ -49,7 +50,6 @@ public class AdminController {
         if(admin.getRole() == ROLE.ROLE_USER){
             return "index";
         }
-
         Page<Account> accounts = accountRepository.findAll(pageable);
         model.addAttribute("accounts",accounts);
         model.addAttribute("sortProperty", pageable.getSort().toString().contains("id") ? "id" : "id");
