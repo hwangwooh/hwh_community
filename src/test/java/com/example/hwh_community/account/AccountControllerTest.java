@@ -147,11 +147,9 @@ class AccountControllerTest {
 
 
         //System.out.printf(accountalldata.toString());
-        Account zaq8077 = accountRepository.findByNickname("zaq8077");
-        List<Account> accountalldata = accountService.getAccountalldata(zaq8077);
-        for (Account accountalldatum : accountalldata) {
-            System.out.printf(accountalldatum.getNickname());
-        }
+        Account zaq8077 = accountRepository.findByNickname("test1");
+        Account accountalldata = accountService.getAccountalldata(zaq8077.getId()).get(0);
+        accountalldata.getNickname();
 
 
 

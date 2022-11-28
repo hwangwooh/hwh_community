@@ -94,8 +94,9 @@ public class AccountService implements UserDetailsService {
 
     }
 
-    public List<Account> getAccountalldata(Account account2) {
-        List<Account> accountalldata = accountRepository.Accountalldata(account2);
+    public List<Account> getAccountalldata(Long accountid) {
+        Account account = accountRepository.findById(accountid).get();
+        List<Account> accountalldata = accountRepository.Accountalldata(account);
 
 
         return accountalldata;

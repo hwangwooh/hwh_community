@@ -1,6 +1,7 @@
 package com.example.hwh_community.admin;
 
 import com.example.hwh_community.account.AccountRepository;
+import com.example.hwh_community.account.AccountService;
 import com.example.hwh_community.account.CurrentAccount;
 import com.example.hwh_community.comment.CommentRepository;
 import com.example.hwh_community.domain.Account;
@@ -41,7 +42,7 @@ public class AdminController {
     private final CommentRepository commentRepository;
     private final RaidRepository raidRepository;
     private final AdminServic adminServic;
-
+    private final AccountService accountService;
 
     @GetMapping("admin/admin_hom")
     public String admin_hom(@CurrentAccount Account admin, Model model,
@@ -72,15 +73,14 @@ public class AdminController {
 
     @GetMapping("admin/account/{id}")
     public String Account_get(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
-        Account account = accountRepository.findById(id).get();
 
-        if(account.getRole() == ROLE.ROLE_ADMIN){
+        if(admin.getRole() == ROLE.ROLE_ADMIN){
             return "redirect:/admin/admin_hom";
         }
 
+        Account accountalldata = accountService.getAccountalldata(id).get(0);
 
-
-
+        model.addAttribute("accountalldata",accountalldata);
 
 
         return "redirect:/admin/admin_hom";
