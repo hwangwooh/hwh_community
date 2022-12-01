@@ -74,16 +74,14 @@ public class AdminController {
     @GetMapping("admin/account/{id}")
     public String Account_get(@CurrentAccount Account admin, @PathVariable("id") Long id, Model model){
 
-        if(admin.getRole() == ROLE.ROLE_ADMIN){
-            return "redirect:/admin/admin_hom";
-        }
+
 
         Account accountalldata = accountService.getAccountalldata(id).get(0);
 
         model.addAttribute("accountalldata",accountalldata);
 
 
-        return "redirect:/admin/admin_hom";
+        return "/admin/accountalldata";
     }
 
 
